@@ -101,31 +101,39 @@ void main() {
       expect(NetworkInspector.isEnabled, equals(!kReleaseMode));
     });
 
-    test('initialize stores configuration and sets isInitialized', () {
+    test('initialize stores configuration and sets isInitialized', () async {
       const customConfig = NetworkInspectorConfig(
         enabled: true,
         maxRecords: 1000,
         enableShakeDetection: false,
+        enableDatabase: false,
       );
 
-      NetworkInspector.initialize(config: customConfig);
+      await NetworkInspector.initialize(config: customConfig);
 
       expect(NetworkInspector.isInitialized, isTrue);
       expect(NetworkInspector.currentConfig, equals(customConfig));
       expect(NetworkInspector.isEnabled, isTrue);
       expect(NetworkInspector.currentConfig.maxRecords, equals(1000));
       expect(NetworkInspector.currentConfig.enableShakeDetection, isFalse);
+      expect(NetworkInspector.repository, isNotNull);
     });
 
-    test('resetForTesting restores initial state', () {
-      NetworkInspector.initialize(
-        config: const NetworkInspectorConfig(enabled: true, maxRecords: 999),
+    test('resetForTesting restores initial state', () async {
+      await NetworkInspector.initialize(
+        config: const NetworkInspectorConfig(
+          enabled: true,
+          maxRecords: 999,
+          enableDatabase: false,
+        ),
       );
       expect(NetworkInspector.isInitialized, isTrue);
+      expect(NetworkInspector.repository, isNotNull);
 
       NetworkInspector.resetForTesting();
 
       expect(NetworkInspector.isInitialized, isFalse);
+      expect(NetworkInspector.repository, isNull);
       expect(NetworkInspector.currentConfig.maxRecords, equals(500));
     });
   });

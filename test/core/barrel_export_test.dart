@@ -10,6 +10,15 @@ void main() {
       expect(NetworkInspector.isEnabled, isA<bool>());
       expect(NetworkInspectorConstants.defaultMaxRecords, equals(500));
 
+      // Repository & Storage
+      final inMemoryRepo = InMemoryNetworkInspectorRepository(maxRecords: 10);
+      expect(inMemoryRepo, isA<NetworkInspectorRepository>());
+
+      final sqliteRepo = SqliteNetworkInspectorRepository(maxRecords: 10);
+      expect(sqliteRepo, isA<NetworkInspectorRepository>());
+
+      expect(NetworkInspector.repository, isNull);
+
       // Domain Models & Enums
       expect(BodyType.values.length, equals(6));
       expect(NetworkStatus.values.length, equals(3));

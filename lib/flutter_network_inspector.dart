@@ -12,6 +12,11 @@ export 'src/config/network_inspector_config.dart';
 export 'src/core/constants.dart';
 export 'src/core/network_inspector.dart';
 
+// Repository & Storage
+export 'src/repository/in_memory_network_inspector_repository.dart';
+export 'src/repository/network_inspector_repository.dart';
+export 'src/repository/sqlite_network_inspector_repository.dart';
+
 // Domain Models
 export 'src/models/body_type.dart';
 export 'src/models/http_error_details.dart';

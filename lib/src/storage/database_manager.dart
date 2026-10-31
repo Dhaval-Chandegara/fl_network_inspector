@@ -9,8 +9,10 @@ typedef MigrationHandler = Future<void> Function(Database db);
 /// Manages the embedded SQLite database lifecycle, WAL pragma configuration,
 /// table creation, and incremental versioned schema migrations.
 class DatabaseManager {
+  final DatabaseFactory? _factory;
+
   /// The SQLite database factory used to open databases.
-  final DatabaseFactory factory;
+  DatabaseFactory get factory => _factory ?? databaseFactory;
 
   /// Optional custom path for the database file (e.g. inMemoryDatabasePath).
   final String? customPath;
@@ -27,7 +29,7 @@ class DatabaseManager {
     DatabaseFactory? factory,
     this.customPath,
     Map<int, MigrationHandler>? migrations,
-  })  : factory = factory ?? databaseFactory,
+  })  : _factory = factory,
         _migrations = Map<int, MigrationHandler>.from(migrations ?? const {});
 
   /// Returns the cached open [Database] instance, opening it if not already open.
