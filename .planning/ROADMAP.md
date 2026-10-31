@@ -47,7 +47,17 @@ Plans:
   3. Database records exceeding `maxRecords` (default 200) are automatically pruned using background FIFO cleanup transactions.
   4. Database schema version migrations and corruption recovery run cleanly across package updates without crashing host apps.
   5. The `NetworkInspectorRepository` abstraction provides clean data access decoupled from underlying SQLite implementation.
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+**Wave 1**
+- [ ] 02-01-PLAN.md — SQLite dependencies, DatabaseConstants schema definitions, DatabaseManager WAL configuration, and migration pipeline
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 02-02-PLAN.md — In-memory WriteBufferQueue debouncing, two-phase coalescing, and DatabasePruner threshold hysteresis FIFO pruning
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 02-03-PLAN.md — Abstract NetworkInspectorRepository, parameterized DatabaseQueryBuilder, Sqlite/InMemory repositories, and facade wiring
 
 ### Phase 3: Network Capture & Interceptors
 **Goal**: Intercept HTTP/HTTPS traffic across `dart:io`, `Dio`, and `package:http` transparently without breaking streams, clobbering pre-existing overrides, or duplicating records.

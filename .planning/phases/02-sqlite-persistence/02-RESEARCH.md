@@ -794,11 +794,12 @@ void main() {
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **How should `NetworkInspectorRepository` behave during extreme memory pressure before a flush?**
    - *What we know:* `WriteBufferQueue` has a high-water mark of 20 items (D-23) that forces an immediate flush.
    - *Recommendation:* If the queue exceeds 20 items, trigger an immediate unawaited asynchronous flush. If an explicit `flush()` is invoked (e.g., during app lifecycle pause), wait for the active batch commit to complete.
+   - *RESOLVED:* The 20-item burst threshold (`WriteBufferQueue` high-water mark) combined with in-flight request/response coalescing and the 1MB payload body truncation limit (enforced in Phase 1) caps in-memory buffer usage under 25MB even during aggressive load. If the buffer hits the 20-item high-water mark, an immediate asynchronous flush is triggered to SQLite without blocking the UI thread. Explicit `flush()` calls during lifecycle events (app pause/exit) await the active batch commit to ensure zero data loss.
 
 ---
 
