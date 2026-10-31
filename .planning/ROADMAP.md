@@ -47,11 +47,11 @@ Plans:
   3. Database records exceeding `maxRecords` (default 200) are automatically pruned using background FIFO cleanup transactions.
   4. Database schema version migrations and corruption recovery run cleanly across package updates without crashing host apps.
   5. The `NetworkInspectorRepository` abstraction provides clean data access decoupled from underlying SQLite implementation.
-**Plans:** 3 plans
+**Plans:** 1/3 plans executed
 
 Plans:
 **Wave 1**
-- [ ] 02-01-PLAN.md — SQLite dependencies, DatabaseConstants schema definitions, DatabaseManager WAL configuration, and migration pipeline
+- [x] 02-01-PLAN.md — SQLite dependencies, DatabaseConstants schema definitions, DatabaseManager WAL configuration, and migration pipeline
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 02-02-PLAN.md — In-memory WriteBufferQueue debouncing, two-phase coalescing, and DatabasePruner threshold hysteresis FIFO pruning
@@ -116,7 +116,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Models | 3/3 | Complete    | 2026-10-31 |
-| 2. SQLite Persistence | 0/TBD | Not started | - |
+| 2. SQLite Persistence | 1/3 | In Progress | - |
 | 3. Network Capture & Interceptors | 0/TBD | Not started | - |
 | 4. Inspector UI | 0/TBD | Not started | - |
 | 5. Shake & Developer Experience | 0/TBD | Not started | - |
