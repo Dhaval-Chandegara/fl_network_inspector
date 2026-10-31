@@ -3,11 +3,11 @@ gsd_state_version: "1.0"
 current_phase: 2
 current_phase_name: SQLite Persistence
 status: planning
-stopped_at: Phase 01 complete, ready to plan Phase 2
-last_updated: "2026-10-31T16:17:53.820Z"
+stopped_at: Completed discuss-phase 2
+last_updated: "2026-10-31T17:07:52.080Z"
 last_activity: 2026-10-31
 last_activity_desc: Phase 01 complete, transitioned to Phase 2
-state_head: 82b82931e1f6788fbf6a00df0b4c6b3c1d0d2b05
+state_head: 8bc064549643314e7418224e0228f925e92072eb
 progress:
   total_phases: 6
   completed_phases: 1
@@ -77,6 +77,10 @@ Recent decisions affecting current work:
 - [Architecture]: Enforce pre-persistence redaction and payload size limits in Phase 1 before records touch storage.
 - [Storage]: Dedicated SQLite WAL mode with micro-batch write buffer in Phase 2 to prevent UI thread frame drops during network bursts.
 - [Interception]: Implement non-destructive StreamTransformer proxies and synthetic header deduplication in Phase 3.
+- [Phase 02]: Single unified network_records table with dedicated indexed columns and JSON TEXT composite columns (D-17)
+- [Phase 02]: Debounced write buffer queue (200ms / 10 items) with memory coalescing and burst protection (D-21, D-22, D-23)
+- [Phase 02]: Threshold hysteresis FIFO pruning at maxRecords + 50 via indexed subquery (D-25, D-26)
+- [Phase 02]: Abstract NetworkInspectorRepository with DatabaseFactory injection for headless FFI testing (D-29, D-30)
 
 ### Pending Todos
 
@@ -96,6 +100,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-10-31T16:09:02.955Z
-Stopped at: Phase 01 complete, ready to plan Phase 2
-Resume file: None
+Last session: 2026-10-31T17:07:51.465Z
+Stopped at: Completed discuss-phase 2
+Resume file: .planning/phases/02-sqlite-persistence/02-CONTEXT.md
