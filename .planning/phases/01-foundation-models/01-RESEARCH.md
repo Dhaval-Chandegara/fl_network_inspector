@@ -864,12 +864,10 @@ class RedactionEngine {
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **How should `NetworkStatus` classify HTTP 4xx and 5xx responses?**
-   - What we know: `01-CONTEXT.md` § D-05 defines `NetworkStatus` enum with values `pending`, `success`, `failed`.
-   - What's unclear: In HTTP terms, an HTTP 404 or 500 response is a completed network transaction with an error status code, whereas a socket timeout or DNS failure is an aborted transaction with no response.
-   - Recommendation: Define `status` as: `pending` while awaiting response; `success` when response status code is `200..399`; `failed` when response status code is `>= 400` OR when an exception occurs (`error != null`). Provide helper getters `isSuccess`, `isFailed`, `isPending`, and `hasError` on `NetworkRecord` to cover both definitions cleanly.
+   - RESOLVED: Define `status` as: `pending` while awaiting response; `success` when response status code is `200..399`; `failed` when response status code is `>= 400` OR when an exception occurs (`error != null`). Provide helper getters `isSuccess`, `isFailed`, `isPending`, and `hasError` on `NetworkRecord` to cover both definitions cleanly.
 
 ---
 
