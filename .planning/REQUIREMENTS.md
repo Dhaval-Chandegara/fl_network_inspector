@@ -37,12 +37,12 @@
 
 ### Local SQLite Database Architecture (DB)
 
-- [ ] **DB-01**: Asynchronous non-blocking SQLite database implementation using `sqflite` (mobile) and `sqflite_common_ffi` (desktop & testing).
-- [ ] **DB-02**: Optimized schema with normalized tables, WAL journal mode, and indexes on `timestamp`, `status_code`, `method`, and `duration_ms`.
-- [ ] **DB-03**: Asynchronous write buffer queue to batch database operations during heavy network bursts.
-- [ ] **DB-04**: Automated FIFO database pruning and cleanup based on configurable `maxRecords` (default 200) or storage limits.
-- [ ] **DB-05**: Database schema versioning, automated migrations, and graceful error recovery.
-- [ ] **DB-06**: Abstracted `NetworkInspectorRepository` interface decoupling database implementation from business logic.
+- [x] **DB-01**: Asynchronous non-blocking SQLite database implementation using `sqflite` (mobile) and `sqflite_common_ffi` (desktop & testing).
+- [x] **DB-02**: Optimized schema with normalized tables, WAL journal mode, and indexes on `timestamp`, `status_code`, `method`, and `duration_ms`.
+- [x] **DB-03**: Asynchronous write buffer queue to batch database operations during heavy network bursts.
+- [x] **DB-04**: Automated FIFO database pruning and cleanup based on configurable `maxRecords` (default 200) or storage limits.
+- [x] **DB-05**: Database schema versioning, automated migrations, and graceful error recovery.
+- [x] **DB-06**: Abstracted `NetworkInspectorRepository` interface decoupling database implementation from business logic.
 
 ### Network Inspector UI (UI)
 
@@ -110,12 +110,12 @@ Which phases cover which requirements.
 | DATA-04 | Phase 1 | Complete |
 | DATA-05 | Phase 1 | Complete |
 | DATA-06 | Phase 1 | Complete |
-| DB-01 | Phase 2 | Pending |
-| DB-02 | Phase 2 | Pending |
-| DB-03 | Phase 2 | Pending |
-| DB-04 | Phase 2 | Pending |
-| DB-05 | Phase 2 | Pending |
-| DB-06 | Phase 2 | Pending |
+| DB-01 | Phase 2 | Complete |
+| DB-02 | Phase 2 | Complete |
+| DB-03 | Phase 2 | Complete |
+| DB-04 | Phase 2 | Complete |
+| DB-05 | Phase 2 | Complete |
+| DB-06 | Phase 2 | Complete |
 | INTC-01 | Phase 3 | Pending |
 | INTC-02 | Phase 3 | Pending |
 | INTC-03 | Phase 3 | Pending |

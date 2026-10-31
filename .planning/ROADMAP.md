@@ -13,7 +13,7 @@
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation & Models** - Establish core configuration, immutable domain models, payload limiting, and sensitive data redaction (completed 2026-10-31)
-- [ ] **Phase 2: SQLite Persistence** - Build asynchronous SQLite repository with WAL mode, write buffering, and FIFO pruning
+- [x] **Phase 2: SQLite Persistence** - Build asynchronous SQLite repository with WAL mode, write buffering, and FIFO pruning (completed 2026-11-01)
 - [ ] **Phase 3: Network Capture & Interceptors** - Implement non-destructive HttpOverrides, client adapters (Dio/http), deduplication, and manual logging
 - [ ] **Phase 4: Inspector UI** - Develop Material 3 inspector screens with pagination, search/filtering, formatted JSON viewer, cURL generation, and sharing
 - [ ] **Phase 5: Shake & Developer Experience** - Implement hardware shake detection, lifecycle handling, programmatic navigation, and root wrapper
@@ -47,7 +47,7 @@ Plans:
   3. Database records exceeding `maxRecords` (default 200) are automatically pruned using background FIFO cleanup transactions.
   4. Database schema version migrations and corruption recovery run cleanly across package updates without crashing host apps.
   5. The `NetworkInspectorRepository` abstraction provides clean data access decoupled from underlying SQLite implementation.
-**Plans:** 3/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 **Wave 1**
@@ -116,7 +116,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Models | 3/3 | Complete    | 2026-10-31 |
-| 2. SQLite Persistence | 3/3 | In Progress | - |
+| 2. SQLite Persistence | 3/3 | Complete    | 2026-11-01 |
 | 3. Network Capture & Interceptors | 0/TBD | Not started | - |
 | 4. Inspector UI | 0/TBD | Not started | - |
 | 5. Shake & Developer Experience | 0/TBD | Not started | - |
