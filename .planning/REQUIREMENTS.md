@@ -72,6 +72,10 @@
 - [ ] **TEST-02**: Interception integration tests verifying non-destructive streaming, HttpOverrides chaining, and client adapters.
 - [ ] **TEST-03**: UI widget tests for listing screen, search/filter interactions, detail tabs, and JSON formatting.
 
+### Documentation & Example App (DOC)
+
+- [ ] **DOC-01**: Complete documentation, architecture guide, API reference, and a fully functional example Flutter application.
+
 ## v2 Requirements
 
 ### Deferred to Future Releases
@@ -140,12 +144,13 @@ Which phases cover which requirements.
 | TEST-01 | Phase 6 | Pending |
 | TEST-02 | Phase 6 | Pending |
 | TEST-03 | Phase 6 | Pending |
+| DOC-01 | Phase 6 | Pending |
 
 **Coverage:**
-- v1 requirements: 42 total
-- Mapped to phases: 42
+- v1 requirements: 44 total
+- Mapped to phases: 44
 - Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-10-31*  
-*Last updated: 2026-10-31 after initial definition*
+*Last updated: 2026-10-31 after roadmap creation*
