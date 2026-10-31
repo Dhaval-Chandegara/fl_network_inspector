@@ -56,16 +56,16 @@ void main() {
     });
 
     test('fromMap handles bool, int, and string is_truncated variations', () {
-      final fromBool = PayloadData.fromMap({'is_truncated': true, 'byte_size': 100});
+      final fromBool = PayloadData.fromMap(const {'is_truncated': true, 'byte_size': 100});
       expect(fromBool.isTruncated, isTrue);
 
-      final fromInt = PayloadData.fromMap({'is_truncated': 1, 'byte_size': 100});
+      final fromInt = PayloadData.fromMap(const {'is_truncated': 1, 'byte_size': 100});
       expect(fromInt.isTruncated, isTrue);
 
-      final fromString = PayloadData.fromMap({'is_truncated': 'true', 'byte_size': 100});
+      final fromString = PayloadData.fromMap(const {'is_truncated': 'true', 'byte_size': 100});
       expect(fromString.isTruncated, isTrue);
 
-      final fromZero = PayloadData.fromMap({'is_truncated': 0, 'byte_size': 100});
+      final fromZero = PayloadData.fromMap(const {'is_truncated': 0, 'byte_size': 100});
       expect(fromZero.isTruncated, isFalse);
     });
 
