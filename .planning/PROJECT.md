@@ -1,0 +1,108 @@
+# Flutter Network Inspector Package (`flutter_network_inspector`)
+
+## What This Is
+
+A reusable, modular, lightweight, and production-safe Flutter/Dart package that captures, stores, manages, and displays all HTTP network requests and responses made by a Flutter application. It delivers a comprehensive in-app debugging and inspection experience similar to Chucker or Charles Proxy, entirely inside the host Flutter application without external proxy dependencies.
+
+## Core Value
+
+Reliably capture, persist, and inspect HTTP requests and responses directly inside a Flutter application without breaking or modifying existing network streams, degrading app performance, or leaking sensitive data.
+
+## Requirements
+
+### Validated
+
+(None yet — ship to validate)
+
+### Active
+
+- [ ] **CORE-01**: One-line package initialization with flag-based activation (`enabled`, `enableAutoCapture`, `enableShakeDetection`, `enableDatabase`, `maxRecords`) and safe no-op mode in production.
+- [ ] **CORE-02**: Clean modular architecture with independent modules (core, config, interception, manual logging, models, database, repository, services, inspector UI, sharing, shake detection).
+- [ ] **INTC-01**: Automatic HTTP interception via `HttpOverrides` and custom `HttpClient` / `HttpClientRequest` / `HttpClientResponse` wrappers without breaking original streams.
+- [ ] **INTC-02**: Safe `HttpOverrides` chaining that preserves pre-existing overrides without silently overriding or replacing them.
+- [ ] **INTC-03**: Dedicated client adapter for `Dio` (`NetworkInspectorDioInterceptor`).
+- [ ] **INTC-04**: Dedicated client adapter for `package:http` (`NetworkInspectorHttpClient`).
+- [ ] **INTC-05**: Duplicate request prevention across nested or chained interceptors.
+- [ ] **LOG-01**: Public static manual logging API (`NetworkInspector.logApi` and `NetworkInspector.logRequest`) supporting headers, query params, bodies, status code, timing, errors, and multipart metadata.
+- [ ] **DATA-01**: Complete request metadata capture (unique ID, HTTP method, full URL, base URL, path, query params, headers, body, content type, timestamp, size, duration, status).
+- [ ] **DATA-02**: Support for multiple request/response body types (JSON, plain text, form URL encoded, HTML, XML, binary, empty).
+- [ ] **DATA-03**: Safe multipart handling capturing metadata only (file name, parameter name, MIME type, file size, optional file path) without storing raw file bytes in SQLite.
+- [ ] **DATA-04**: Configurable request/response body capture size limits to prevent excessive memory and database consumption.
+- [ ] **DATA-05**: Configurable redaction rules for sensitive headers and body fields (e.g., Authorization, Cookie, tokens, passwords, API keys).
+- [ ] **DB-01**: Local SQLite database architecture using asynchronous non-blocking operations with indexed columns for search and filtering.
+- [ ] **DB-02**: Automatic database cleanup based on configurable maximum record counts and retention limits.
+- [ ] **DB-03**: Database schema versioning, automated migrations, and graceful error handling.
+- [ ] **DB-04**: Abstracted repository/database layer decoupling the storage engine from business logic.
+- [ ] **UI-01**: API listing screen displaying method, endpoint/URL, status code, duration, timestamp, size, and visual status indicators (success, failure, error).
+- [ ] **UI-02**: Efficient batch pagination / infinite scrolling on the listing screen avoiding full-table memory loading.
+- [ ] **UI-03**: Multi-parameter search (URL, endpoint, method, status code, payload content).
+- [ ] **UI-04**: Robust filtering by HTTP method, status code range, success/failure, date range, and duration range.
+- [ ] **UI-05**: Sorting by newest, oldest, duration (fastest/slowest), and status code.
+- [ ] **UI-06**: Clear-all captured records action with confirmation.
+- [ ] **UI-07**: API details screen with organized tabs: Overview, Request Headers, Query Parameters, Request Body, Response Headers, Response Body, Multipart Info, and Error Details.
+- [ ] **UI-08**: Formatted JSON visualization with pretty-printing, raw/formatted toggle, and syntax-friendly display.
+- [ ] **UI-09**: Copy actions for URL, headers, query parameters, request body, and response body.
+- [ ] **UI-10**: Report generation and export via native platform share sheet with sensitive data exclusion options.
+- [ ] **SHAKE-01**: Device shake detection to open the inspector with configurable sensitivity and independent toggle.
+- [ ] **NAV-01**: Global programmatic opening method (`NetworkInspector.open(context)`) and `NetworkInspectorWrapper` widget.
+- [ ] **TEST-01**: Comprehensive automated test suite including unit tests for models/redaction/database, interception integration tests, and UI widget tests.
+- [ ] **DOC-01**: Complete documentation, architecture guide, API reference, and a fully functional example Flutter application.
+
+### Out of Scope
+
+- **Raw multipart file binary storage in SQLite** — Excluded to prevent database bloat, disk exhaustion, and UI thread stutter. Only metadata is stored.
+- **Request / Response interception modification or mock server** — The package acts strictly as an inspector and logger; modifying live payloads or mocking responses (man-in-the-middle tampering) is out of scope for v1.
+- **External desktop proxy daemon / Charles Proxy emulation server** — The inspector is fully self-contained in-app; running a standalone desktop proxy server is excluded.
+- **Network bandwidth throttling / network simulation** — Out of scope; inspection and logging only.
+- **Remote cloud sync / telemetry export** — All data is local-first on the user device SQLite.
+
+## Context
+
+- Target ecosystem: Flutter and Dart applications running on mobile platforms (Android, iOS) with cross-platform capability (macOS, Windows, Linux, Web where supported by SQLite/sensors).
+- Target audience: Flutter mobile application developers, QA engineers, and mobile architects debugging network issues in development and staging environments.
+- Similar prior art: Chucker (Android/Flutter), Charles Proxy, Alice, Flipper Network Plugin, Talker Flutter.
+- Known pitfalls to address:
+  - Breaking Dart `Stream<List<int>>` when intercepting `HttpClientRequest` and `HttpClientResponse`.
+  - Overwriting other global `HttpOverrides`.
+  - Recording duplicate entries when Dio/http adapters and global HttpOverrides are both active.
+  - UI jank during heavy network bursts from unbuffered SQLite writes.
+  - Memory leaks or app crashes from capturing massive file downloads/uploads.
+
+## Constraints
+
+- **Tech Stack**: Dart >= 3.0.0, Flutter >= 3.10.0.
+- **Database**: SQLite via `sqflite` / `sqflite_common_ffi`.
+- **Sensors**: `sensors_plus` for shake detection with graceful degradation when sensors are unavailable.
+- **Sharing**: `share_plus` for native share sheet export.
+- **Performance**: Zero UI thread blocking; asynchronous I/O; bounded payload buffers (default limit e.g. 1MB per body).
+- **Security**: Complete no-op in release builds unless explicitly forced; configurable redaction of sensitive credentials.
+
+## Key Decisions
+
+| Decision | Rationale | Outcome |
+|----------|-----------|---------|
+| Dart `HttpOverrides` + wrapper streams | Captures all `dart:io` requests transparently without changing application business logic | — Pending |
+| Dedicated Dio Interceptor & Http Client Adapter | Provides explicit, rock-solid capture for popular HTTP clients and web-safe setups | — Pending |
+| Clean Architecture & Repository Pattern | Decouples database storage, network interception, and UI inspection | — Pending |
+| Metadata-only multipart capture | Prevents massive SQLite growth and out-of-memory errors on large uploads | — Pending |
+| SQLite with indexing and auto-cleanup | Ensures high-performance querying and bounded storage over long debugging sessions | — Pending |
+
+## Evolution
+
+This document evolves at phase transitions and milestone boundaries.
+
+**After each phase transition** (via `/gsd-transition`):
+1. Requirements invalidated? → Move to Out of Scope with reason
+2. Requirements validated? → Move to Validated with phase reference
+3. New requirements emerged? → Add to Active
+4. Decisions to log? → Add to Key Decisions
+5. "What This Is" still accurate? → Update if drifted
+
+**After each milestone** (via `/gsd-complete-milestone`):
+1. Full review of all sections
+2. Core Value check — still the right priority?
+3. Audit Out of Scope — reasons still valid?
+4. Update Context with current state
+
+---
+*Last updated: 2026-10-31 after initialization*
