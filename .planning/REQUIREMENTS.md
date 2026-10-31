@@ -7,9 +7,9 @@
 
 ### Core & Configuration (CORE)
 
-- [ ] **CORE-01**: One-line package initialization with flag-based activation (`enabled`, `enableAutoCapture`, `enableShakeDetection`, `enableDatabase`, `maxRecords`) and safe compile-time/runtime no-op mode in production.
-- [ ] **CORE-02**: Clean modular architecture isolating Core, Config, Interception, Manual Logging, Models, Storage, Repository, Presentation UI, Sharing, and Shake Detection.
-- [ ] **CORE-03**: Cross-platform runtime safety with conditional imports ensuring pure Dart and Flutter compatibility across Android, iOS, macOS, Windows, Linux, and graceful Web degradation.
+- [x] **CORE-01**: One-line package initialization with flag-based activation (`enabled`, `enableAutoCapture`, `enableShakeDetection`, `enableDatabase`, `maxRecords`) and safe compile-time/runtime no-op mode in production.
+- [x] **CORE-02**: Clean modular architecture isolating Core, Config, Interception, Manual Logging, Models, Storage, Repository, Presentation UI, Sharing, and Shake Detection.
+- [x] **CORE-03**: Cross-platform runtime safety with conditional imports ensuring pure Dart and Flutter compatibility across Android, iOS, macOS, Windows, Linux, and graceful Web degradation.
 
 ### Automatic Network Interception (INTC)
 
@@ -28,12 +28,12 @@
 
 ### Request & Response Data Management (DATA)
 
-- [ ] **DATA-01**: Capture complete request metadata (unique UUID v4 ID, HTTP method, full URL, base URL, path, query params, headers, body, content type, timestamp, size, duration, status).
-- [ ] **DATA-02**: Capture complete response metadata (status code, headers, body, content type, size, timestamp, duration, error/exception info).
-- [ ] **DATA-03**: Support diverse payload formats (JSON, plain text, form URL encoded, HTML, XML, binary, empty payloads).
-- [ ] **DATA-04**: Metadata-only multipart request handling (filename, field name, MIME type, size, configurable file path) strictly omitting raw binary file bytes in storage.
-- [ ] **DATA-05**: Configurable payload body size limits (default 1MB) with truncation indicators to prevent OOM.
-- [ ] **DATA-06**: Configurable sensitive data redaction for headers and body fields (Authorization, Cookie, tokens, passwords, API keys) applied before persistence or export.
+- [x] **DATA-01**: Capture complete request metadata (unique UUID v4 ID, HTTP method, full URL, base URL, path, query params, headers, body, content type, timestamp, size, duration, status).
+- [x] **DATA-02**: Capture complete response metadata (status code, headers, body, content type, size, timestamp, duration, error/exception info).
+- [x] **DATA-03**: Support diverse payload formats (JSON, plain text, form URL encoded, HTML, XML, binary, empty payloads).
+- [x] **DATA-04**: Metadata-only multipart request handling (filename, field name, MIME type, size, configurable file path) strictly omitting raw binary file bytes in storage.
+- [x] **DATA-05**: Configurable payload body size limits (default 1MB) with truncation indicators to prevent OOM.
+- [x] **DATA-06**: Configurable sensitive data redaction for headers and body fields (Authorization, Cookie, tokens, passwords, API keys) applied before persistence or export.
 
 ### Local SQLite Database Architecture (DB)
 
@@ -101,15 +101,15 @@ Which phases cover which requirements.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CORE-01 | Phase 1 | Pending |
-| CORE-02 | Phase 1 | Pending |
-| CORE-03 | Phase 1 | Pending |
-| DATA-01 | Phase 1 | Pending |
-| DATA-02 | Phase 1 | Pending |
-| DATA-03 | Phase 1 | Pending |
-| DATA-04 | Phase 1 | Pending |
-| DATA-05 | Phase 1 | Pending |
-| DATA-06 | Phase 1 | Pending |
+| CORE-01 | Phase 1 | Complete |
+| CORE-02 | Phase 1 | Complete |
+| CORE-03 | Phase 1 | Complete |
+| DATA-01 | Phase 1 | Complete |
+| DATA-02 | Phase 1 | Complete |
+| DATA-03 | Phase 1 | Complete |
+| DATA-04 | Phase 1 | Complete |
+| DATA-05 | Phase 1 | Complete |
+| DATA-06 | Phase 1 | Complete |
 | DB-01 | Phase 2 | Pending |
 | DB-02 | Phase 2 | Pending |
 | DB-03 | Phase 2 | Pending |

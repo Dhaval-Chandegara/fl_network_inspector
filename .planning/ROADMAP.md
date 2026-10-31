@@ -12,7 +12,7 @@
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation & Models** - Establish core configuration, immutable domain models, payload limiting, and sensitive data redaction
+- [x] **Phase 1: Foundation & Models** - Establish core configuration, immutable domain models, payload limiting, and sensitive data redaction (completed 2026-10-31)
 - [ ] **Phase 2: SQLite Persistence** - Build asynchronous SQLite repository with WAL mode, write buffering, and FIFO pruning
 - [ ] **Phase 3: Network Capture & Interceptors** - Implement non-destructive HttpOverrides, client adapters (Dio/http), deduplication, and manual logging
 - [ ] **Phase 4: Inspector UI** - Develop Material 3 inspector screens with pagination, search/filtering, formatted JSON viewer, cURL generation, and sharing
@@ -30,12 +30,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Core domain models (`NetworkRecord`, `MultipartEntry`, `RecordFilter`, `RecordSort`) represent complete HTTP request/response lifecycles, error details, and multipart metadata with pure Dart cross-platform compatibility.
   3. Payloads exceeding the configured size limit (default 1MB) are automatically truncated with a truncation indicator flag while preserving metadata without throwing OOM.
   4. Pre-persistence redaction engine automatically masks sensitive header and body fields (Authorization, Cookie, Bearer tokens, passwords, API keys) using case-insensitive matching.
-**Plans:** 3 plans
+**Plans:** 3/3 plans complete
 
 Plans:
-- [ ] 01-01-PLAN.md — Package setup, pubspec manifest, platform safety test, core configuration (NetworkInspectorConfig), and public facade
-- [ ] 01-02-PLAN.md — Pure Dart 3 immutable domain models (NetworkRecord, PayloadData, BodyType, NetworkStatus, MultipartEntry, HttpErrorDetails), query models, and UUID generator
-- [ ] 01-03-PLAN.md — BodyTypeDetector, memory-bounded PayloadTruncator, recursive RedactionEngine, public barrel export, and full test suite
+- [x] 01-01-PLAN.md — Package setup, pubspec manifest, platform safety test, core configuration (NetworkInspectorConfig), and public facade
+- [x] 01-02-PLAN.md — Pure Dart 3 immutable domain models (NetworkRecord, PayloadData, BodyType, NetworkStatus, MultipartEntry, HttpErrorDetails), query models, and UUID generator
+- [x] 01-03-PLAN.md — BodyTypeDetector, memory-bounded PayloadTruncator, recursive RedactionEngine, public barrel export, and full test suite
 
 ### Phase 2: SQLite Persistence
 **Goal**: Provide high-throughput, non-blocking local SQLite storage with indexed querying, batched write buffering, and automated FIFO database pruning.
@@ -105,7 +105,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Models | 0/3 | Not started | - |
+| 1. Foundation & Models | 3/3 | Complete    | 2026-10-31 |
 | 2. SQLite Persistence | 0/TBD | Not started | - |
 | 3. Network Capture & Interceptors | 0/TBD | Not started | - |
 | 4. Inspector UI | 0/TBD | Not started | - |
