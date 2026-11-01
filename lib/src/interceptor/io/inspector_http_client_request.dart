@@ -124,13 +124,27 @@ class InspectorHttpClientRequest implements HttpClientRequest {
     // 1. Deduplication check: look for synthetic tracking headers (INTC-06, D-33)
     final trackingHeader = NetworkInspectorConstants.internalTrackingHeader;
     final publicHeader = NetworkInspectorConstants.headerInspectorId;
-    final hasTrackingId =
-        _inner.headers[trackingHeader] != null || _inner.headers[publicHeader] != null;
+    bool hasTrackingId = false;
+    final headersToRemove = <String>[];
+    _inner.headers.forEach((name, values) {
+      final lower = name.toLowerCase();
+      if (lower == trackingHeader.toLowerCase() || lower == publicHeader.toLowerCase()) {
+        hasTrackingId = true;
+        headersToRemove.add(name);
+      }
+    });
+    if (!hasTrackingId) {
+      hasTrackingId = _inner.headers[trackingHeader] != null ||
+          _inner.headers[publicHeader] != null;
+    }
 
     if (hasTrackingId) {
-      // Strip synthetic header before wire transmission so server never sees it
+      // Strip synthetic headers before wire transmission so server never sees them
       _inner.headers.removeAll(trackingHeader);
       _inner.headers.removeAll(publicHeader);
+      for (final h in headersToRemove) {
+        _inner.headers.removeAll(h);
+      }
       _isSuppressed = true;
     }
 
