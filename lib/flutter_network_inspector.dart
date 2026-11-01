@@ -32,3 +32,6 @@ export 'src/utils/body_type_detector.dart';
 export 'src/utils/payload_truncator.dart';
 export 'src/utils/redaction_engine.dart';
 export 'src/utils/uuid_generator.dart';
+
+// Client Adapters
+export 'src/interceptor/dio/network_inspector_dio_interceptor.dart';
