@@ -31,6 +31,21 @@ void main() {
           request.response.statusCode = HttpStatus.created;
           request.response.write(jsonEncode({'echoed': requestBody}));
           await request.response.close();
+        } else if (request.uri.path == '/image.png') {
+          request.response.headers.contentType = ContentType('image', 'png');
+          request.response.statusCode = HttpStatus.ok;
+          request.response.add(List.generate(200, (i) => i % 256));
+          await request.response.close();
+        } else if (request.uri.path == '/events') {
+          request.response.headers.contentType = ContentType('text', 'event-stream');
+          request.response.statusCode = HttpStatus.ok;
+          request.response.write('event: ping\ndata: 123\n\n');
+          await Future<void>.delayed(const Duration(milliseconds: 150));
+          await request.response.close();
+        } else if (request.uri.path == '/analytics/ping') {
+          request.response.statusCode = HttpStatus.ok;
+          request.response.write('OK');
+          await request.response.close();
         } else if (request.uri.path == '/error') {
           request.response.statusCode = HttpStatus.internalServerError;
           request.response.write('Internal Server Error');
@@ -163,6 +178,92 @@ void main() {
 
       final records = await repository.getRecords();
       expect(records, isEmpty);
+    });
+
+    test('bypasses capture for blacklisted hosts and URLs (D-36)', () async {
+      NetworkInspector.resetForTesting();
+      await NetworkInspector.initialize(
+        config: NetworkInspectorConfig(
+          enabled: true,
+          ignoredHosts: [server.address.host],
+          ignoredUrls: const ['/analytics'],
+        ),
+        repository: repository,
+      );
+
+      final nativeClient = HttpClient();
+      final client = InspectorHttpClient(nativeClient, NetworkInspector.currentConfig);
+
+      // 1. Request matching ignoredUrls
+      final analyticsUrl = Uri.parse('http://${server.address.host}:${server.port}/analytics/ping');
+      final req1 = await client.getUrl(analyticsUrl);
+      final res1 = await req1.close();
+      final body1 = await res1.transform(utf8.decoder).join();
+      expect(body1, equals('OK'));
+
+      client.close();
+
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+
+      // Repository must receive ZERO records
+      final records = await repository.getRecords();
+      expect(records, isEmpty);
+    });
+
+    test('binary response streams bypass byte buffer memory and record summary (D-43)', () async {
+      final nativeClient = HttpClient();
+      final client = InspectorHttpClient(nativeClient, NetworkInspector.currentConfig);
+
+      final imageUrl = Uri.parse('http://${server.address.host}:${server.port}/image.png');
+      final request = await client.getUrl(imageUrl);
+      final response = await request.close();
+
+      // Host application consumes all binary bytes
+      final bytes = await response.fold<List<int>>([], (prev, elem) => prev..addAll(elem));
+      expect(bytes.length, equals(200));
+
+      client.close();
+
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+
+      final records = await repository.getRecords();
+      expect(records, isNotEmpty);
+
+      final record = records.first;
+      expect(record.responseStatusCode, equals(200));
+      expect(record.responseSize, equals(200));
+      expect(record.responseBody?.bodyType, equals(BodyType.binary));
+      expect(record.responseBody?.body, equals('[Binary data: image/png, 200 bytes]'));
+    });
+
+    test('Server-Sent Events (SSE) record headers and status immediately upon arrival (D-42)', () async {
+      final nativeClient = HttpClient();
+      final client = InspectorHttpClient(nativeClient, NetworkInspector.currentConfig);
+
+      final sseUrl = Uri.parse('http://${server.address.host}:${server.port}/events');
+      final request = await client.getUrl(sseUrl);
+      final response = await request.close();
+
+      // Immediately after close() returns the response stream,
+      // before the stream completes, check repository
+      await Future<void>.delayed(const Duration(milliseconds: 30));
+
+      final initialRecords = await repository.getRecords();
+      expect(initialRecords, isNotEmpty, reason: 'SSE headers and status should be recorded immediately');
+      final pendingRecord = initialRecords.first;
+      expect(pendingRecord.responseStatusCode, equals(200));
+      expect(pendingRecord.responseHeaders?['content-type'], contains('text/event-stream'));
+
+      // Now drain the stream
+      final events = await response.transform(utf8.decoder).join();
+      expect(events, contains('event: ping'));
+
+      client.close();
+
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+
+      final finalRecords = await repository.getRecords();
+      expect(finalRecords.first.status, equals(NetworkStatus.success));
     });
   });
 }
