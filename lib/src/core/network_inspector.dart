@@ -2,6 +2,10 @@ import 'package:flutter/foundation.dart';
 
 import '../config/network_inspector_config.dart';
 import '../interceptor/platform/http_capture_platform.dart';
+import '../logging/manual_logger.dart';
+import '../logging/network_request_tracker.dart';
+import '../logging/no_op_network_request_tracker.dart';
+import '../models/http_error_details.dart';
 import '../repository/in_memory_network_inspector_repository.dart';
 import '../repository/network_inspector_repository.dart';
 import '../repository/sqlite_network_inspector_repository.dart';
@@ -65,6 +69,84 @@ final class NetworkInspector {
   static R runZoned<R>(R Function() body) {
     if (!isEnabled || kIsWeb) return body();
     return runWithHttpOverrides(body, _currentConfig);
+  }
+
+  /// Public static one-shot manual logging API for completed HTTP calls (LOG-01, LOG-02, D-45).
+  static Future<void> logApi({
+    required String method,
+    required String url,
+    int? statusCode,
+    Map<String, dynamic>? requestHeaders,
+    Map<String, dynamic>? responseHeaders,
+    Object? requestBody,
+    Object? responseBody,
+    Duration? duration,
+    DateTime? timestamp,
+    HttpErrorDetails? error,
+  }) async {
+    if (!isEnabled || _repository == null) return;
+    await ManualLogger.logApi(
+      repository: _repository!,
+      config: _currentConfig,
+      method: method,
+      url: url,
+      statusCode: statusCode,
+      requestHeaders: requestHeaders,
+      responseHeaders: responseHeaders,
+      requestBody: requestBody,
+      responseBody: responseBody,
+      duration: duration,
+      timestamp: timestamp,
+      error: error,
+    );
+  }
+
+  /// Public two-phase request tracking API returning a [NetworkRequestTracker] (D-45, LOG-01).
+  static NetworkRequestTracker startRequest({
+    required String method,
+    required String url,
+    Map<String, dynamic>? headers,
+    Object? body,
+    DateTime? timestamp,
+  }) {
+    if (!isEnabled || _repository == null) {
+      return const NoOpNetworkRequestTracker();
+    }
+    return ManualLogger.startRequest(
+      repository: _repository!,
+      config: _currentConfig,
+      method: method,
+      url: url,
+      headers: headers,
+      body: body,
+      timestamp: timestamp,
+    );
+  }
+
+  /// Logs a standalone or linked network failure (D-47).
+  static Future<void> logError({
+    String? id,
+    required String method,
+    required String url,
+    required Object error,
+    StackTrace? stackTrace,
+    int? statusCode,
+    Map<String, dynamic>? headers,
+    Object? body,
+  }) async {
+    if (!isEnabled || _repository == null) return;
+    await ManualLogger.logError(
+      repository: _repository!,
+      config: _currentConfig,
+      id: id,
+      method: method,
+      url: url,
+      error: error,
+      stackTrace: stackTrace,
+      statusCode: statusCode,
+      headers: headers,
+      body: body,
+    );
   }
 
   /// Returns the active data access repository, or `null` if disabled.
