@@ -19,12 +19,12 @@
 - [x] **INTC-04**: Dedicated `Dio` client adapter (`NetworkInspectorDioInterceptor`) supporting request, response, and error hooks.
 - [x] **INTC-05**: Dedicated `package:http` client adapter (`NetworkInspectorHttpClient`) subclassing `http.BaseClient`.
 - [x] **INTC-06**: Cross-interceptor request deduplication using internal synthetic tracking header (`x-fl-net-inspector-tracked-id`) stripped before wire transmission.
-- [ ] **INTC-07**: Complete error, timeout, and socket failure interception ensuring aborted requests transition to failed status with stack traces.
+- [x] **INTC-07**: Complete error, timeout, and socket failure interception ensuring aborted requests transition to failed status with stack traces.
 
 ### Manual API Logging (LOG)
 
-- [ ] **LOG-01**: Public static manual logging API (`NetworkInspector.logApi` and `NetworkInspector.logRequest`) working independently of automatic interception.
-- [ ] **LOG-02**: Full parameter support for manual logging: method, URL, headers, query params, request/response bodies, status code, duration, timestamps, errors, and multipart metadata.
+- [x] **LOG-01**: Public static manual logging API (`NetworkInspector.logApi` and `NetworkInspector.logRequest`) working independently of automatic interception.
+- [x] **LOG-02**: Full parameter support for manual logging: method, URL, headers, query params, request/response bodies, status code, duration, timestamps, errors, and multipart metadata.
 
 ### Request & Response Data Management (DATA)
 
@@ -122,9 +122,9 @@ Which phases cover which requirements.
 | INTC-04 | Phase 3 | Complete |
 | INTC-05 | Phase 3 | Complete |
 | INTC-06 | Phase 3 | Complete |
-| INTC-07 | Phase 3 | Pending |
-| LOG-01 | Phase 3 | Pending |
-| LOG-02 | Phase 3 | Pending |
+| INTC-07 | Phase 3 | Complete |
+| LOG-01 | Phase 3 | Complete |
+| LOG-02 | Phase 3 | Complete |
 | UI-01 | Phase 4 | Pending |
 | UI-02 | Phase 4 | Pending |
 | UI-03 | Phase 4 | Pending |

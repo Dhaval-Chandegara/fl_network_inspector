@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation & Models** - Establish core configuration, immutable domain models, payload limiting, and sensitive data redaction (completed 2026-10-31)
 - [x] **Phase 2: SQLite Persistence** - Build asynchronous SQLite repository with WAL mode, write buffering, and FIFO pruning (completed 2026-11-01)
-- [ ] **Phase 3: Network Capture & Interceptors** - Implement non-destructive HttpOverrides, client adapters (Dio/http), deduplication, and manual logging
+- [x] **Phase 3: Network Capture & Interceptors** - Implement non-destructive HttpOverrides, client adapters (Dio/http), deduplication, and manual logging (completed 2026-11-01)
 - [ ] **Phase 4: Inspector UI** - Develop Material 3 inspector screens with pagination, search/filtering, formatted JSON viewer, cURL generation, and sharing
 - [ ] **Phase 5: Shake & Developer Experience** - Implement hardware shake detection, lifecycle handling, programmatic navigation, and root wrapper
 - [ ] **Phase 6: Quality, Testing & Release** - Deliver automated test suites (unit, integration, widget), comprehensive documentation, and reference example app
@@ -69,7 +69,7 @@ Plans:
   3. Outgoing requests tagged by client adapters are automatically deduplicated against `HttpOverrides` so each network call generates exactly one persisted record.
   4. Developers can manually log custom network events and multipart metadata via `NetworkInspector.logApi` / `logRequest` independently of automatic interception.
   5. Network timeouts, socket failures, and aborted requests are captured with full error descriptions and stack traces rather than hanging in a permanent pending state.
-**Plans:** 2/3 plans complete
+**Plans:** 3/3 plans complete
 
 Plans:
 **Wave 1**
@@ -79,7 +79,7 @@ Plans:
 - [x] 03-02-PLAN.md — Dedicated Dio and package:http client adapters with synthetic header deduplication
 
 **Wave 3** *(blocked on Wave 2 completion)*
-- [ ] 03-03-PLAN.md — Error, timeout, and socket failure interception, manual logging APIs, and public barrel exports
+- [x] 03-03-PLAN.md — Error, timeout, and socket failure interception, manual logging APIs, and public barrel exports
 
 ### Phase 4: Inspector UI
 **Goal**: Deliver an in-app Material 3 debugging interface for browsing, searching, filtering, inspecting, formatting, and exporting captured network traffic.
@@ -127,7 +127,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 |-------|----------------|--------|-----------|
 | 1. Foundation & Models | 3/3 | Complete    | 2026-10-31 |
 | 2. SQLite Persistence | 3/3 | Complete    | 2026-11-01 |
-| 3. Network Capture & Interceptors | 0/3 | Not started | - |
+| 3. Network Capture & Interceptors | 3/3 | Complete    | 2026-11-01 |
 | 4. Inspector UI | 0/TBD | Not started | - |
 | 5. Shake & Developer Experience | 0/TBD | Not started | - |
 | 6. Quality, Testing & Release | 0/TBD | Not started | - |
