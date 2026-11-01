@@ -238,21 +238,49 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
       final duration = DateTime.now().difference(startTimestamp);
       final engine = RedactionEngine(customKeys: config.customRedactionKeys);
       final rawHeaders = <String, String>{};
-      inner.headers.forEach((name, values) {
-        rawHeaders[name] = values.join(', ');
-      });
+      try {
+        inner.headers.forEach((name, values) {
+          rawHeaders[name] = values.join(', ');
+        });
+      } catch (_) {}
       final sanitizedResponseHeaders = engine
           .redactHeaders(rawHeaders)
           .map((k, v) => MapEntry(k, v.toString()));
 
+      int? statusCode;
+      try {
+        statusCode = inner.statusCode;
+      } catch (_) {}
+
+      String? contentType;
+      try {
+        contentType = inner.headers.contentType?.mimeType;
+      } catch (_) {}
+
       PayloadData? responsePayload;
-      if (partialBytes.isNotEmpty) {
-        final contentType = inner.headers.contentType?.mimeType;
+      if (_isBinaryMime(contentType)) {
+        if (totalBytes > 0) {
+          final summary = PayloadTruncator.formatBinarySummary(
+            contentType ?? 'application/octet-stream',
+            totalBytes,
+          );
+          responsePayload = PayloadData(
+            body: summary,
+            byteSize: totalBytes,
+            bodyType: BodyType.binary,
+            isTruncated: false,
+          );
+        }
+      } else if (partialBytes.isNotEmpty) {
         responsePayload = PayloadTruncator.truncateBytes(
           bytes: partialBytes,
           contentType: contentType,
           maxBytes: config.maxBodyBytes,
         );
+        final redactedBody = engine.redactBody(responsePayload.body, contentType);
+        if (redactedBody != responsePayload.body) {
+          responsePayload = responsePayload.copyWith(body: redactedBody);
+        }
       }
 
       final record = NetworkRecord(
@@ -261,7 +289,7 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
         baseUrl: '${url.scheme}://${url.authority}',
         path: url.path,
         method: method.toUpperCase(),
-        responseStatusCode: inner.statusCode,
+        responseStatusCode: statusCode,
         status: NetworkStatus.failed,
         requestHeaders: requestHeaders,
         requestQueryParams: requestQueryParams,
@@ -270,7 +298,7 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
         requestSize: requestSize,
         responseHeaders: sanitizedResponseHeaders,
         responseBody: responsePayload,
-        responseContentType: responsePayload != null ? inner.headers.contentType?.mimeType : null,
+        responseContentType: responsePayload != null ? contentType : null,
         responseSize: responsePayload?.byteSize,
         responseTimestamp: DateTime.now(),
         requestTimestamp: startTimestamp,
@@ -279,6 +307,7 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
           errorType: error.runtimeType.toString(),
           message: error.toString(),
           stackTrace: stackTrace.toString(),
+          statusCode: statusCode,
         ),
       );
 

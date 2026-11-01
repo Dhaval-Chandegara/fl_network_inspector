@@ -116,8 +116,71 @@ class InspectorHttpClientRequest implements HttpClientRequest {
   Future<void> flush() => _inner.flush();
 
   @override
-  void abort([Object? exception, StackTrace? stackTrace]) =>
-      _inner.abort(exception, stackTrace);
+  void abort([Object? exception, StackTrace? stackTrace]) {
+    if (!_isSuppressed && NetworkInspector.isEnabled) {
+      final engine = RedactionEngine(customKeys: _config.customRedactionKeys);
+      final rawHeaders = <String, String>{};
+      try {
+        _inner.headers.forEach((name, values) {
+          rawHeaders[name] = values.join(', ');
+        });
+      } catch (_) {}
+      final sanitizedHeaders =
+          engine.redactHeaders(rawHeaders).map((k, v) => MapEntry(k, v.toString()));
+      final sanitizedQueryParams = engine.redactQueryParams(_url.queryParameters);
+
+      PayloadData? requestPayload;
+      if (_bodyBytes.isNotEmpty) {
+        final bytes = _bodyBytes.toBytes();
+        String? contentType;
+        try {
+          contentType = _inner.headers.contentType?.mimeType;
+        } catch (_) {}
+        requestPayload = PayloadTruncator.truncateBytes(
+          bytes: bytes,
+          contentType: contentType,
+          maxBytes: _config.maxBodyBytes,
+        );
+        final redactedBody = engine.redactBody(requestPayload.body, contentType);
+        if (redactedBody != requestPayload.body) {
+          requestPayload = requestPayload.copyWith(body: redactedBody);
+        }
+      }
+
+      _transactionId ??= UuidGenerator.v4();
+      _startTimestamp ??= DateTime.now();
+      final duration = DateTime.now().difference(_startTimestamp!);
+      final ex = exception ?? const HttpException('Request aborted');
+
+      String? contentType;
+      try {
+        contentType = _inner.headers.contentType?.mimeType;
+      } catch (_) {}
+
+      final failedRecord = NetworkRecord(
+        id: _transactionId!,
+        url: engine.redactUrl(_url.toString()),
+        baseUrl: '${_url.scheme}://${_url.authority}',
+        path: _url.path,
+        method: _method.toUpperCase(),
+        requestHeaders: sanitizedHeaders,
+        requestQueryParams: sanitizedQueryParams,
+        requestBody: requestPayload,
+        requestContentType: contentType,
+        requestSize: requestPayload?.byteSize ?? _accumulatedBodyBytes,
+        requestTimestamp: _startTimestamp!,
+        durationMs: duration.inMilliseconds,
+        status: NetworkStatus.failed,
+        error: HttpErrorDetails(
+          errorType: ex.runtimeType.toString(),
+          message: ex.toString(),
+          stackTrace: (stackTrace ?? StackTrace.current).toString(),
+        ),
+      );
+      unawaited(NetworkInspector.repository?.save(failedRecord));
+    }
+    _inner.abort(exception, stackTrace);
+  }
 
   @override
   Future<HttpClientResponse> close() async {
