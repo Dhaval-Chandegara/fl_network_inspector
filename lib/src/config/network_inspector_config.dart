@@ -29,6 +29,12 @@ class NetworkInspectorConfig {
   /// Custom sensitive keys to redact from headers, query params, and JSON bodies.
   final List<String> customRedactionKeys;
 
+  /// Hostnames to bypass capture early without interceptor allocations (D-36).
+  final List<String> ignoredHosts;
+
+  /// URL substrings or patterns to bypass capture early (D-36).
+  final List<String> ignoredUrls;
+
   /// Creates a [NetworkInspectorConfig] with configurable parameters.
   ///
   /// When [enabled] is omitted, it evaluates dynamically to `!kReleaseMode` (D-03),
@@ -43,6 +49,8 @@ class NetworkInspectorConfig {
     this.enableDatabase = true,
     this.includeMultipartFilePaths = false,
     this.customRedactionKeys = const [],
+    this.ignoredHosts = const [],
+    this.ignoredUrls = const [],
   }) : _enabled = enabled;
 
   /// Evaluates whether the inspector is active.
@@ -64,6 +72,8 @@ class NetworkInspectorConfig {
     bool? enableDatabase,
     bool? includeMultipartFilePaths,
     List<String>? customRedactionKeys,
+    List<String>? ignoredHosts,
+    List<String>? ignoredUrls,
   }) {
     return NetworkInspectorConfig(
       enabled: enabled ?? _enabled,
@@ -75,6 +85,8 @@ class NetworkInspectorConfig {
       includeMultipartFilePaths:
           includeMultipartFilePaths ?? this.includeMultipartFilePaths,
       customRedactionKeys: customRedactionKeys ?? this.customRedactionKeys,
+      ignoredHosts: ignoredHosts ?? this.ignoredHosts,
+      ignoredUrls: ignoredUrls ?? this.ignoredUrls,
     );
   }
 
@@ -89,7 +101,9 @@ class NetworkInspectorConfig {
         other.enableShakeDetection == enableShakeDetection &&
         other.enableDatabase == enableDatabase &&
         other.includeMultipartFilePaths == includeMultipartFilePaths &&
-        listEquals(other.customRedactionKeys, customRedactionKeys);
+        listEquals(other.customRedactionKeys, customRedactionKeys) &&
+        listEquals(other.ignoredHosts, ignoredHosts) &&
+        listEquals(other.ignoredUrls, ignoredUrls);
   }
 
   @override
@@ -102,6 +116,8 @@ class NetworkInspectorConfig {
         enableDatabase,
         includeMultipartFilePaths,
         Object.hashAll(customRedactionKeys),
+        Object.hashAll(ignoredHosts),
+        Object.hashAll(ignoredUrls),
       );
 
   @override
@@ -110,6 +126,7 @@ class NetworkInspectorConfig {
         'maxBodyBytes: $maxBodyBytes, enableAutoCapture: $enableAutoCapture, '
         'enableShakeDetection: $enableShakeDetection, enableDatabase: $enableDatabase, '
         'includeMultipartFilePaths: $includeMultipartFilePaths, '
-        'customRedactionKeys: $customRedactionKeys)';
+        'customRedactionKeys: $customRedactionKeys, '
+        'ignoredHosts: $ignoredHosts, ignoredUrls: $ignoredUrls)';
   }
 }

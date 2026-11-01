@@ -25,6 +25,13 @@ void main() {
       final violations = <String>[];
 
       for (final file in dartFiles) {
+        // Platform-specific VM I/O implementations are isolated behind conditional exports (CORE-03)
+        final normalizedPath = file.path.replaceAll(r'\', '/');
+        if (normalizedPath.contains('lib/src/interceptor/io/') ||
+            normalizedPath.contains('lib/src/interceptor/platform/http_capture_io.dart')) {
+          continue;
+        }
+
         final content = file.readAsStringSync();
         if (forbiddenImportPattern.hasMatch(content)) {
           violations.add(file.path);

@@ -14,6 +14,9 @@ abstract final class NetworkInspectorConstants {
   /// Internal tracking header used to correlate request/response pairs across interceptors.
   static const String internalTrackingHeader = 'x-fl-net-inspector-tracked-id';
 
+  /// Public synthetic tracking header for cross-interceptor deduplication (D-33).
+  static const String headerInspectorId = 'x-network-inspector-id';
+
   /// Default blacklist of sensitive keys for headers, query params, and JSON bodies (D-09).
   static const List<String> defaultSensitiveKeys = [
     'authorization',
