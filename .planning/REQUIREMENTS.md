@@ -16,9 +16,9 @@
 - [x] **INTC-01**: Automatic `dart:io` HTTP interception via `HttpOverrides` and custom non-destructive wrappers (`HttpClient`, `HttpClientRequest`, `HttpClientResponse`).
 - [x] **INTC-02**: Safe `HttpOverrides` chaining preserving pre-existing overrides (proxies, custom SSL certificates, APM hooks) without clobbering.
 - [x] **INTC-03**: Non-destructive stream handling via dual-forwarding `StreamTransformer` ensuring zero single-subscription stream draining (`Bad state: Stream has already been listened to`).
-- [ ] **INTC-04**: Dedicated `Dio` client adapter (`NetworkInspectorDioInterceptor`) supporting request, response, and error hooks.
-- [ ] **INTC-05**: Dedicated `package:http` client adapter (`NetworkInspectorHttpClient`) subclassing `http.BaseClient`.
-- [ ] **INTC-06**: Cross-interceptor request deduplication using internal synthetic tracking header (`x-fl-net-inspector-tracked-id`) stripped before wire transmission.
+- [x] **INTC-04**: Dedicated `Dio` client adapter (`NetworkInspectorDioInterceptor`) supporting request, response, and error hooks.
+- [x] **INTC-05**: Dedicated `package:http` client adapter (`NetworkInspectorHttpClient`) subclassing `http.BaseClient`.
+- [x] **INTC-06**: Cross-interceptor request deduplication using internal synthetic tracking header (`x-fl-net-inspector-tracked-id`) stripped before wire transmission.
 - [ ] **INTC-07**: Complete error, timeout, and socket failure interception ensuring aborted requests transition to failed status with stack traces.
 
 ### Manual API Logging (LOG)
@@ -119,9 +119,9 @@ Which phases cover which requirements.
 | INTC-01 | Phase 3 | Complete |
 | INTC-02 | Phase 3 | Complete |
 | INTC-03 | Phase 3 | Complete |
-| INTC-04 | Phase 3 | Pending |
-| INTC-05 | Phase 3 | Pending |
-| INTC-06 | Phase 3 | Pending |
+| INTC-04 | Phase 3 | Complete |
+| INTC-05 | Phase 3 | Complete |
+| INTC-06 | Phase 3 | Complete |
 | INTC-07 | Phase 3 | Pending |
 | LOG-01 | Phase 3 | Pending |
 | LOG-02 | Phase 3 | Pending |

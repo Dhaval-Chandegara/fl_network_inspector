@@ -69,14 +69,14 @@ Plans:
   3. Outgoing requests tagged by client adapters are automatically deduplicated against `HttpOverrides` so each network call generates exactly one persisted record.
   4. Developers can manually log custom network events and multipart metadata via `NetworkInspector.logApi` / `logRequest` independently of automatic interception.
   5. Network timeouts, socket failures, and aborted requests are captured with full error descriptions and stack traces rather than hanging in a permanent pending state.
-**Plans:** 1/3 plans complete
+**Plans:** 2/3 plans complete
 
 Plans:
 **Wave 1**
 - [x] 03-01-PLAN.md — Transparent dart:io HTTP capture, non-destructive stream tap transformer, and safe HttpOverrides chaining
 
 **Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 03-02-PLAN.md — Dedicated Dio and package:http client adapters with synthetic header deduplication
+- [x] 03-02-PLAN.md — Dedicated Dio and package:http client adapters with synthetic header deduplication
 
 **Wave 3** *(blocked on Wave 2 completion)*
 - [ ] 03-03-PLAN.md — Error, timeout, and socket failure interception, manual logging APIs, and public barrel exports
