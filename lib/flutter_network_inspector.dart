@@ -35,3 +35,4 @@ export 'src/utils/uuid_generator.dart';
 
 // Client Adapters
 export 'src/interceptor/dio/network_inspector_dio_interceptor.dart';
+export 'src/interceptor/http/network_inspector_http_client.dart';
