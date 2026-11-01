@@ -69,7 +69,17 @@ Plans:
   3. Outgoing requests tagged by client adapters are automatically deduplicated against `HttpOverrides` so each network call generates exactly one persisted record.
   4. Developers can manually log custom network events and multipart metadata via `NetworkInspector.logApi` / `logRequest` independently of automatic interception.
   5. Network timeouts, socket failures, and aborted requests are captured with full error descriptions and stack traces rather than hanging in a permanent pending state.
-**Plans**: TBD
+**Plans:** 1/3 plans complete
+
+Plans:
+**Wave 1**
+- [x] 03-01-PLAN.md — Transparent dart:io HTTP capture, non-destructive stream tap transformer, and safe HttpOverrides chaining
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 03-02-PLAN.md — Dedicated Dio and package:http client adapters with synthetic header deduplication
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 03-03-PLAN.md — Error, timeout, and socket failure interception, manual logging APIs, and public barrel exports
 
 ### Phase 4: Inspector UI
 **Goal**: Deliver an in-app Material 3 debugging interface for browsing, searching, filtering, inspecting, formatting, and exporting captured network traffic.
@@ -117,7 +127,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 |-------|----------------|--------|-----------|
 | 1. Foundation & Models | 3/3 | Complete    | 2026-10-31 |
 | 2. SQLite Persistence | 3/3 | Complete    | 2026-11-01 |
-| 3. Network Capture & Interceptors | 0/TBD | Not started | - |
+| 3. Network Capture & Interceptors | 0/3 | Not started | - |
 | 4. Inspector UI | 0/TBD | Not started | - |
 | 5. Shake & Developer Experience | 0/TBD | Not started | - |
 | 6. Quality, Testing & Release | 0/TBD | Not started | - |
