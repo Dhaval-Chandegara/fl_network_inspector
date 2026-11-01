@@ -67,9 +67,10 @@ abstract final class ManualLogger {
     // 1. Raw byte buffer (Uint8List or List<int>)
     if (rawBody is Uint8List || rawBody is List<int>) {
       final bytes = rawBody is Uint8List ? rawBody : Uint8List.fromList(rawBody as List<int>);
+      final effectiveMime = contentType ?? 'application/octet-stream';
       return PayloadTruncator.truncateBytes(
         bytes: bytes,
-        contentType: contentType,
+        contentType: effectiveMime,
         maxBytes: config.maxBodyBytes,
       );
     }
@@ -248,10 +249,26 @@ abstract final class ManualLogger {
       if (id != null && id.isNotEmpty) {
         final existing = await repository.getById(id);
         if (existing != null) {
+          PayloadData? responsePayload;
+          if (body != null) {
+            responsePayload = processPayload(
+              rawBody: body,
+              contentType: findContentType(headers),
+              config: config,
+            );
+          }
+          final sanitizedRespHeaders = headers != null
+              ? engine.redactHeaders(headers).map((k, v) => MapEntry(k, v.toString()))
+              : null;
+
           final updated = existing.copyWith(
             status: NetworkStatus.failed,
             error: errorDetails,
             responseStatusCode: statusCode ?? existing.responseStatusCode,
+            responseHeaders: sanitizedRespHeaders ?? existing.responseHeaders,
+            responseBody: responsePayload ?? existing.responseBody,
+            responseContentType: findContentType(headers) ?? existing.responseContentType,
+            responseSize: responsePayload?.byteSize ?? existing.responseSize,
           );
           await repository.save(updated);
           return;
