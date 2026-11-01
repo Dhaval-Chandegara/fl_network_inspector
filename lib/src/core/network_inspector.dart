@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../config/network_inspector_config.dart';
+import '../interceptor/platform/http_capture_platform.dart';
 import '../repository/in_memory_network_inspector_repository.dart';
 import '../repository/network_inspector_repository.dart';
 import '../repository/sqlite_network_inspector_repository.dart';
@@ -35,10 +36,7 @@ final class NetworkInspector {
 
     if (repository != null) {
       _repository = repository;
-      return;
-    }
-
-    if (kIsWeb || !config.enableDatabase) {
+    } else if (kIsWeb || !config.enableDatabase) {
       _repository = InMemoryNetworkInspectorRepository(maxRecords: config.maxRecords);
     } else {
       initDesktopFfiIfRequired();
@@ -46,6 +44,27 @@ final class NetworkInspector {
       await sqliteRepo.initialize();
       _repository = sqliteRepo;
     }
+
+    if (config.enableAutoCapture && !kIsWeb) {
+      startAutoCapture();
+    }
+  }
+
+  /// Installs global [HttpOverrides] for transparent dart:io HTTP capture (D-37, D-38).
+  static void startAutoCapture() {
+    if (!isEnabled || kIsWeb) return;
+    installHttpOverrides(_currentConfig);
+  }
+
+  /// Restores pre-existing [HttpOverrides], cleanly detaching dart:io interception (D-40).
+  static void stopAutoCapture() {
+    restoreHttpOverrides();
+  }
+
+  /// Executes [body] within a Zone configured with [InspectorHttpOverrides] (D-37).
+  static R runZoned<R>(R Function() body) {
+    if (!isEnabled || kIsWeb) return body();
+    return runWithHttpOverrides(body, _currentConfig);
   }
 
   /// Returns the active data access repository, or `null` if disabled.
@@ -65,8 +84,9 @@ final class NetworkInspector {
     await _repository?.flush();
   }
 
-  /// Disposes the active repository and resets inspector state (D-24).
+  /// Disposes the active repository and resets inspector state (D-24, D-40).
   static Future<void> dispose() async {
+    stopAutoCapture();
     await _repository?.dispose();
     _repository = null;
     _isInitialized = false;
@@ -74,6 +94,7 @@ final class NetworkInspector {
 
   /// Resets configuration, repository, and state to uninitialized defaults (for testing purposes).
   static void resetForTesting() {
+    stopAutoCapture();
     _repository?.dispose();
     _repository = null;
     _currentConfig = const NetworkInspectorConfig();
