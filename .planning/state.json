@@ -1,0 +1,39 @@
+{
+  "contract": "1.0.0",
+  "flavor": "core",
+  "milestone": "1.0.0",
+  "phases": [
+    {
+      "number": "1",
+      "name": "Foundation & Models",
+      "status": "complete"
+    },
+    {
+      "number": "2",
+      "name": "SQLite Persistence",
+      "status": "complete"
+    },
+    {
+      "number": "3",
+      "name": "Network Capture & Interceptors",
+      "status": "complete"
+    },
+    {
+      "number": "4",
+      "name": "Inspector UI",
+      "status": "complete"
+    },
+    {
+      "number": "5",
+      "name": "Shake & Developer Experience",
+      "status": "complete"
+    },
+    {
+      "number": "6",
+      "name": "Quality, Testing & Release",
+      "status": "complete"
+    }
+  ],
+  "next": null,
+  "updated_at": "2026-11-02T22:38:00.000Z"
+}
