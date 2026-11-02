@@ -17,6 +17,12 @@ abstract final class NetworkInspectorConstants {
   /// Public synthetic tracking header for cross-interceptor deduplication (D-33).
   static const String headerInspectorId = 'x-network-inspector-id';
 
+  /// Default shake acceleration magnitude threshold in m/s² (SHAKE-01, SHAKE-02).
+  static const double defaultShakeThreshold = 15.0;
+
+  /// Default debounce cooldown window after a shake trigger in milliseconds (SHAKE-02).
+  static const int defaultShakeDebounceMs = 1500;
+
   /// Default blacklist of sensitive keys for headers, query params, and JSON bodies (D-09).
   static const List<String> defaultSensitiveKeys = [
     'authorization',

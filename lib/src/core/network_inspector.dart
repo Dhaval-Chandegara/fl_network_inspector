@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import '../config/network_inspector_config.dart';
 import '../interceptor/platform/http_capture_platform.dart';
@@ -9,7 +10,9 @@ import '../models/http_error_details.dart';
 import '../repository/in_memory_network_inspector_repository.dart';
 import '../repository/network_inspector_repository.dart';
 import '../repository/sqlite_network_inspector_repository.dart';
+import '../shake/shake_detector.dart';
 import '../storage/platform/ffi_init.dart';
+import '../ui/network_inspector_screen.dart';
 
 /// Public singleton facade for initializing and accessing the Flutter Network Inspector.
 final class NetworkInspector {
@@ -17,7 +20,24 @@ final class NetworkInspector {
 
   static NetworkInspectorConfig _currentConfig = const NetworkInspectorConfig();
   static bool _isInitialized = false;
+  static bool _isOpen = false;
   static NetworkInspectorRepository? _repository;
+  static GlobalKey<NavigatorState>? _wrapperNavigatorKey;
+  static ShakeDetector? _standaloneShakeDetector;
+
+  /// Internal registration for wrapper-provided navigator key (DEV-01, DEV-02).
+  @visibleForTesting
+  static void registerWrapperNavigatorKey(GlobalKey<NavigatorState>? key) {
+    _wrapperNavigatorKey = key;
+  }
+
+  /// Internal unregistration for wrapper-provided navigator key (DEV-01, DEV-02).
+  @visibleForTesting
+  static void unregisterWrapperNavigatorKey([GlobalKey<NavigatorState>? key]) {
+    if (key == null || _wrapperNavigatorKey == key) {
+      _wrapperNavigatorKey = null;
+    }
+  }
 
   /// Initializes the Network Inspector with the specified [config] and optional [repository].
   ///
@@ -51,6 +71,15 @@ final class NetworkInspector {
 
     if (config.enableAutoCapture && !kIsWeb) {
       startAutoCapture();
+    }
+
+    if (config.enableShakeDetection && config.navigatorKey != null && !kIsWeb) {
+      _standaloneShakeDetector = ShakeDetector(
+        onShake: () => open(),
+        threshold: config.shakeThreshold,
+        debounceMs: config.shakeDebounceMs,
+      );
+      _standaloneShakeDetector!.start();
     }
   }
 
@@ -161,6 +190,45 @@ final class NetworkInspector {
   /// Returns whether [initialize] has been explicitly called.
   static bool get isInitialized => _isInitialized;
 
+  /// Returns whether the inspector UI screen is currently open (D-51).
+  static bool get isOpen => _isOpen;
+
+  /// Opens the network inspector UI full-screen using provided [context], configured [NetworkInspectorConfig.navigatorKey], or registered wrapper key (D-49, D-51, D-52, DEV-01).
+  ///
+  /// Ignored if inspector is disabled (![isEnabled]) or already open ([isOpen]).
+  static Future<void> open([BuildContext? context]) async {
+    if (!isEnabled || _isOpen) return;
+
+    NavigatorState? navigator;
+    if (context != null) {
+      navigator = Navigator.maybeOf(context, rootNavigator: true) ??
+          Navigator.maybeOf(context);
+    }
+    navigator ??= _currentConfig.navigatorKey?.currentState ??
+        _wrapperNavigatorKey?.currentState;
+
+    if (navigator == null) {
+      if (kDebugMode) {
+        debugPrint(
+          '[NetworkInspector] navigatorKey not found. Pass context to NetworkInspector.open(context) or configure navigatorKey.',
+        );
+      }
+      return;
+    }
+
+    _isOpen = true;
+    try {
+      await navigator.push<void>(
+        MaterialPageRoute<void>(
+          builder: (context) => const NetworkInspectorScreen(),
+          fullscreenDialog: true,
+        ),
+      );
+    } finally {
+      _isOpen = false;
+    }
+  }
+
   /// Flushes any pending in-memory write buffer queue entries to durable storage (D-24).
   static Future<void> flush() async {
     await _repository?.flush();
@@ -169,17 +237,25 @@ final class NetworkInspector {
   /// Disposes the active repository and resets inspector state (D-24, D-40).
   static Future<void> dispose() async {
     stopAutoCapture();
+    _standaloneShakeDetector?.dispose();
+    _standaloneShakeDetector = null;
+    _wrapperNavigatorKey = null;
     await _repository?.dispose();
     _repository = null;
     _isInitialized = false;
+    _isOpen = false;
   }
 
   /// Resets configuration, repository, and state to uninitialized defaults (for testing purposes).
   static void resetForTesting() {
     stopAutoCapture();
+    _standaloneShakeDetector?.dispose();
+    _standaloneShakeDetector = null;
+    _wrapperNavigatorKey = null;
     _repository?.dispose();
     _repository = null;
     _currentConfig = const NetworkInspectorConfig();
     _isInitialized = false;
+    _isOpen = false;
   }
 }

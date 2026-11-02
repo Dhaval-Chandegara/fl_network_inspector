@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation & Models** - Establish core configuration, immutable domain models, payload limiting, and sensitive data redaction (completed 2026-10-31)
 - [x] **Phase 2: SQLite Persistence** - Build asynchronous SQLite repository with WAL mode, write buffering, and FIFO pruning (completed 2026-11-01)
 - [x] **Phase 3: Network Capture & Interceptors** - Implement non-destructive HttpOverrides, client adapters (Dio/http), deduplication, and manual logging (completed 2026-11-01)
-- [ ] **Phase 4: Inspector UI** - Develop Material 3 inspector screens with pagination, search/filtering, formatted JSON viewer, cURL generation, and sharing
+- [x] **Phase 4: Inspector UI** - Develop Material 3 inspector screens with pagination, search/filtering, formatted JSON viewer, cURL generation, and sharing (completed 2026-11-02)
 - [ ] **Phase 5: Shake & Developer Experience** - Implement hardware shake detection, lifecycle handling, programmatic navigation, and root wrapper
 - [ ] **Phase 6: Quality, Testing & Release** - Deliver automated test suites (unit, integration, widget), comprehensive documentation, and reference example app
 
@@ -91,7 +91,19 @@ Plans:
   3. Detailed request inspection provides dedicated tabs for Overview, Request/Response Headers, Query Parameters, Request/Response Bodies, Multipart Info, and Error Details.
   4. JSON request/response bodies are formatted with syntax styling, collapsible raw/formatted toggle, and background isolate processing for payloads > 50KB.
   5. Developers can copy granular details or full cURL commands with one tap, or export complete formatted reports via native platform share sheet with sensitive data exclusion.
-**Plans**: TBD
+**Plans:** 4/4 plans complete
+
+Plans:
+**Wave 1**
+- [x] 04-01-PLAN.md — Core UI Foundation, Navigation Guard, Listing Screen, Request Tiles, and Theme Integration
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [x] 04-02-PLAN.md — Listing Search, Multi-Parameter Filtering, and Sorting Controls
+- [x] 04-03-PLAN.md — Detailed Inspection Screen, Tabbed Views, and Background JSON Viewer
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [x] 04-04-PLAN.md — cURL Generation, Native Share Sheet Exporter, and Package Barrel Exports
+
 **UI hint**: yes
 
 ### Phase 5: Shake & Developer Experience
@@ -103,7 +115,14 @@ Plans:
   2. Accelerometer hardware listeners automatically pause when the host application transitions to the background, preventing battery drain.
   3. Developers can wrap their root application with `NetworkInspectorWrapper` or call `NetworkInspector.open(context)` programmatically from custom debug menus or drawer actions.
   4. In production release builds, all triggers, interceptors, and listeners gracefully compile to zero-overhead no-ops unless explicitly forced.
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+**Wave 1**
+- [x] 05-01-PLAN.md — Shake Detection Engine & Lifecycle Sampling Manager
+
+**Wave 2**
+- [x] 05-02-PLAN.md — Root Wrapper Widget, Programmatic Open & Package Exports
 **UI hint**: yes
 
 ### Phase 6: Quality, Testing & Release
@@ -116,7 +135,7 @@ Plans:
   3. Widget tests verify the inspector listing screen, search/filter interactions, tab navigation, and formatted JSON rendering.
   4. An interactive example Flutter application runs on iOS, Android, and Desktop showcasing automatic interception, manual logging, multipart uploads, error handling, and shake-to-open.
   5. Complete documentation (README, architecture guide, API docs) provides clear setup guides and troubleshooting instructions.
-**Plans**: TBD
+**Plans:** TBD
 
 ## Progress
 
@@ -128,6 +147,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 1. Foundation & Models | 3/3 | Complete    | 2026-10-31 |
 | 2. SQLite Persistence | 3/3 | Complete    | 2026-11-01 |
 | 3. Network Capture & Interceptors | 3/3 | Complete    | 2026-11-01 |
-| 4. Inspector UI | 0/TBD | Not started | - |
-| 5. Shake & Developer Experience | 0/TBD | Not started | - |
+| 4. Inspector UI | 4/4 | Complete    | 2026-11-02 |
+| 5. Shake & Developer Experience | 2/2 | Complete    | 2026-11-02 |
 | 6. Quality, Testing & Release | 0/TBD | Not started | - |

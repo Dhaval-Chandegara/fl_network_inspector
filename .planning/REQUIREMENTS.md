@@ -46,17 +46,17 @@
 
 ### Network Inspector UI (UI)
 
-- [ ] **UI-01**: API listing screen displaying HTTP method badge, endpoint/URL, status code badge, duration, timestamp, size, and visual status indicators (success, failure, error).
-- [ ] **UI-02**: Efficient batch pagination and infinite scrolling on listing screen avoiding full-table memory loads.
-- [ ] **UI-03**: Multi-parameter search across URL, endpoint, method, status code, and payload text.
-- [ ] **UI-04**: Robust filters by HTTP method, status code categories (2xx, 3xx, 4xx, 5xx), success/error, date range, and duration.
-- [ ] **UI-05**: Sorting options: newest first, oldest first, fastest, slowest, and status code.
-- [ ] **UI-06**: Clear-all captured records action with confirmation prompt.
-- [ ] **UI-07**: API details screen with tabbed sections: Overview, Request Headers, Query Parameters, Request Body, Response Headers, Response Body, Multipart Info, and Error Details.
-- [ ] **UI-08**: Formatted JSON visualization with syntax formatting, expandable tree/raw view toggle, and background isolate parsing for large payloads.
-- [ ] **UI-09**: Clipboard copy actions for full URL, request headers, response headers, request body, and response body.
-- [ ] **UI-10**: cURL command generator producing copyable, properly escaped cURL CLI commands.
-- [ ] **UI-11**: Native platform share sheet export via `share_plus` generating formatted text reports with options to exclude sensitive data.
+- [x] **UI-01**: API listing screen displaying HTTP method badge, endpoint/URL, status code badge, duration, timestamp, size, and visual status indicators (success, failure, error).
+- [x] **UI-02**: Efficient batch pagination and infinite scrolling on listing screen avoiding full-table memory loads.
+- [x] **UI-03**: Multi-parameter search across URL, endpoint, method, status code, and payload text.
+- [x] **UI-04**: Robust filters by HTTP method, status code categories (2xx, 3xx, 4xx, 5xx), success/error, date range, and duration.
+- [x] **UI-05**: Sorting options: newest first, oldest first, fastest, slowest, and status code.
+- [x] **UI-06**: Clear-all captured records action with confirmation prompt.
+- [x] **UI-07**: API details screen with tabbed sections: Overview, Request Headers, Query Parameters, Request Body, Response Headers, Response Body, Multipart Info, and Error Details.
+- [x] **UI-08**: Formatted JSON visualization with syntax formatting, expandable tree/raw view toggle, and background isolate parsing for large payloads.
+- [x] **UI-09**: Clipboard copy actions for full URL, request headers, response headers, request body, and response body.
+- [x] **UI-10**: cURL command generator producing copyable, properly escaped cURL CLI commands.
+- [x] **UI-11**: Native platform share sheet export via `share_plus` generating formatted text reports with options to exclude sensitive data.
 
 ### Shake Detection & Developer Experience (DEV)
 
@@ -125,22 +125,22 @@ Which phases cover which requirements.
 | INTC-07 | Phase 3 | Complete |
 | LOG-01 | Phase 3 | Complete |
 | LOG-02 | Phase 3 | Complete |
-| UI-01 | Phase 4 | Pending |
-| UI-02 | Phase 4 | Pending |
-| UI-03 | Phase 4 | Pending |
-| UI-04 | Phase 4 | Pending |
-| UI-05 | Phase 4 | Pending |
-| UI-06 | Phase 4 | Pending |
-| UI-07 | Phase 4 | Pending |
-| UI-08 | Phase 4 | Pending |
-| UI-09 | Phase 4 | Pending |
-| UI-10 | Phase 4 | Pending |
-| UI-11 | Phase 4 | Pending |
-| SHAKE-01 | Phase 5 | Pending |
-| SHAKE-02 | Phase 5 | Pending |
-| SHAKE-03 | Phase 5 | Pending |
-| DEV-01 | Phase 5 | Pending |
-| DEV-02 | Phase 5 | Pending |
+| UI-01 | Phase 4 | Complete |
+| UI-02 | Phase 4 | Complete |
+| UI-03 | Phase 4 | Complete |
+| UI-04 | Phase 4 | Complete |
+| UI-05 | Phase 4 | Complete |
+| UI-06 | Phase 4 | Complete |
+| UI-07 | Phase 4 | Complete |
+| UI-08 | Phase 4 | Complete |
+| UI-09 | Phase 4 | Complete |
+| UI-10 | Phase 4 | Complete |
+| UI-11 | Phase 4 | Complete |
+| SHAKE-01 | Phase 5 | Complete |
+| SHAKE-02 | Phase 5 | Complete |
+| SHAKE-03 | Phase 5 | Complete |
+| DEV-01 | Phase 5 | Complete |
+| DEV-02 | Phase 5 | Complete |
 | TEST-01 | Phase 6 | Pending |
 | TEST-02 | Phase 6 | Pending |
 | TEST-03 | Phase 6 | Pending |

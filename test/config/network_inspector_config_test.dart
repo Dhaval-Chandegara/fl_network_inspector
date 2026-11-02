@@ -17,6 +17,8 @@ void main() {
       expect(config.maxBodyBytes, equals(1048576), reason: 'Default maxBodyBytes should be 1MB per D-02');
       expect(config.enableAutoCapture, isTrue, reason: 'enableAutoCapture defaults to true per D-04');
       expect(config.enableShakeDetection, isTrue, reason: 'enableShakeDetection defaults to true per D-04');
+      expect(config.shakeThreshold, equals(15.0), reason: 'shakeThreshold defaults to 15.0 m/s² per SHAKE-01');
+      expect(config.shakeDebounceMs, equals(1500), reason: 'shakeDebounceMs defaults to 1500ms per SHAKE-02');
       expect(config.enableDatabase, isTrue, reason: 'enableDatabase defaults to true per D-04');
       expect(config.includeMultipartFilePaths, isFalse, reason: 'includeMultipartFilePaths defaults to false per D-15');
       expect(config.customRedactionKeys, isEmpty);
@@ -65,11 +67,15 @@ void main() {
       final modified = original.copyWith(
         maxRecords: 250,
         enableShakeDetection: false,
+        shakeThreshold: 20.0,
+        shakeDebounceMs: 2500,
         ignoredHosts: ['sentry.io'],
       );
 
       expect(modified.maxRecords, equals(250));
       expect(modified.enableShakeDetection, isFalse);
+      expect(modified.shakeThreshold, equals(20.0));
+      expect(modified.shakeDebounceMs, equals(2500));
       expect(modified.customRedactionKeys, equals(['secret_token']));
       expect(modified.ignoredHosts, equals(['sentry.io']));
       expect(modified.ignoredUrls, equals(['/analytics']));

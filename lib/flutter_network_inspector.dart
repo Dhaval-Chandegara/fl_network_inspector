@@ -41,3 +41,11 @@ export 'src/interceptor/http/network_inspector_http_client.dart';
 export 'src/logging/network_request_tracker.dart';
 export 'src/logging/no_op_network_request_tracker.dart';
 
+// UI Presentation & Screens (UI-01, UI-07, D-49)
+export 'src/ui/network_inspector_detail_screen.dart';
+export 'src/ui/network_inspector_screen.dart';
+
+// Shake Detection & Developer Experience (SHAKE-01, DEV-01, DEV-02)
+export 'src/shake/shake_detector.dart';
+export 'src/ui/widgets/network_inspector_wrapper.dart';
+
