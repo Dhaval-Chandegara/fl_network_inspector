@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import '../../config/network_inspector_config.dart';
@@ -8,6 +9,7 @@ import '../../models/http_error_details.dart';
 import '../../models/network_record.dart';
 import '../../models/network_status.dart';
 import '../../models/payload_data.dart';
+import '../../utils/body_type_detector.dart';
 import '../../utils/payload_truncator.dart';
 import '../../utils/redaction_engine.dart';
 import '../stream/stream_tap_transformer.dart';
@@ -24,6 +26,7 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
   final Map<String, String> requestHeaders;
   final Map<String, dynamic> requestQueryParams;
   final PayloadData? requestPayload;
+  final String? requestContentType;
   final int requestSize;
 
   InspectorHttpClientResponse(
@@ -36,6 +39,7 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
     required this.requestHeaders,
     required this.requestQueryParams,
     this.requestPayload,
+    this.requestContentType,
     this.requestSize = 0,
   }) : super(
           _inner.transform(
@@ -53,6 +57,7 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
                   requestHeaders: requestHeaders,
                   requestQueryParams: requestQueryParams,
                   requestPayload: requestPayload,
+                  requestContentType: requestContentType,
                   requestSize: requestSize,
                   bufferedBytes: bufferedBytes,
                   isTruncated: isTruncated,
@@ -70,6 +75,7 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
                   requestHeaders: requestHeaders,
                   requestQueryParams: requestQueryParams,
                   requestPayload: requestPayload,
+                  requestContentType: requestContentType,
                   requestSize: requestSize,
                   error: error,
                   stackTrace: stackTrace,
@@ -126,7 +132,7 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
         requestHeaders: requestHeaders,
         requestQueryParams: requestQueryParams,
         requestBody: requestPayload,
-        requestContentType: _inner.headers.contentType?.mimeType,
+        requestContentType: requestContentType,
         requestSize: requestSize,
         responseHeaders: sanitizedResponseHeaders,
         requestTimestamp: startTimestamp,
@@ -147,6 +153,7 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
     required Map<String, String> requestHeaders,
     required Map<String, dynamic> requestQueryParams,
     required PayloadData? requestPayload,
+    required String? requestContentType,
     required int requestSize,
     required List<int> bufferedBytes,
     required bool isTruncated,
@@ -179,15 +186,17 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
           isTruncated: false,
         );
       } else {
-        responsePayload = PayloadTruncator.truncateBytes(
-          bytes: bufferedBytes,
-          contentType: contentType,
-          maxBytes: config.maxBodyBytes,
+        final decodedText = utf8.decode(bufferedBytes, allowMalformed: true);
+        final finalBody = isTruncated
+            ? '$decodedText${PayloadTruncator.formatTruncationBanner(config.maxBodyBytes)}'
+            : decodedText;
+        final redactedBody = engine.redactBody(finalBody, contentType);
+        responsePayload = PayloadData(
+          body: redactedBody,
+          byteSize: totalBytes,
+          bodyType: BodyTypeDetector.detect(body: finalBody, contentType: contentType),
+          isTruncated: isTruncated,
         );
-        final redactedBody = engine.redactBody(responsePayload.body, contentType);
-        if (redactedBody != responsePayload.body) {
-          responsePayload = responsePayload.copyWith(body: redactedBody);
-        }
       }
 
       final record = NetworkRecord(
@@ -201,12 +210,12 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
         requestHeaders: requestHeaders,
         requestQueryParams: requestQueryParams,
         requestBody: requestPayload,
-        requestContentType: requestPayload != null ? 'application/json' : null,
+        requestContentType: requestContentType,
         requestSize: requestSize,
         responseHeaders: sanitizedResponseHeaders,
         responseBody: responsePayload,
         responseContentType: contentType,
-        responseSize: responsePayload.byteSize,
+        responseSize: totalBytes,
         responseTimestamp: DateTime.now(),
         requestTimestamp: startTimestamp,
         durationMs: duration.inMilliseconds,
@@ -228,6 +237,7 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
     required Map<String, String> requestHeaders,
     required Map<String, dynamic> requestQueryParams,
     required PayloadData? requestPayload,
+    required String? requestContentType,
     required int requestSize,
     required Object error,
     required StackTrace stackTrace,
@@ -272,15 +282,18 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
           );
         }
       } else if (partialBytes.isNotEmpty) {
-        responsePayload = PayloadTruncator.truncateBytes(
-          bytes: partialBytes,
-          contentType: contentType,
-          maxBytes: config.maxBodyBytes,
+        final isPartialTruncated = partialBytes.length < totalBytes;
+        final decodedText = utf8.decode(partialBytes, allowMalformed: true);
+        final finalBody = isPartialTruncated
+            ? '$decodedText${PayloadTruncator.formatTruncationBanner(config.maxBodyBytes)}'
+            : decodedText;
+        final redactedBody = engine.redactBody(finalBody, contentType);
+        responsePayload = PayloadData(
+          body: redactedBody,
+          byteSize: totalBytes,
+          bodyType: BodyTypeDetector.detect(body: finalBody, contentType: contentType),
+          isTruncated: isPartialTruncated,
         );
-        final redactedBody = engine.redactBody(responsePayload.body, contentType);
-        if (redactedBody != responsePayload.body) {
-          responsePayload = responsePayload.copyWith(body: redactedBody);
-        }
       }
 
       final record = NetworkRecord(
@@ -294,12 +307,12 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
         requestHeaders: requestHeaders,
         requestQueryParams: requestQueryParams,
         requestBody: requestPayload,
-        requestContentType: requestPayload != null ? 'application/json' : null,
+        requestContentType: requestContentType,
         requestSize: requestSize,
         responseHeaders: sanitizedResponseHeaders,
         responseBody: responsePayload,
         responseContentType: responsePayload != null ? contentType : null,
-        responseSize: responsePayload?.byteSize,
+        responseSize: totalBytes,
         responseTimestamp: DateTime.now(),
         requestTimestamp: startTimestamp,
         durationMs: duration.inMilliseconds,

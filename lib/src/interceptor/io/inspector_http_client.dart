@@ -70,7 +70,7 @@ class InspectorHttpClient implements HttpClient {
       _inner.connectionFactory = f;
 
   @override
-  set keyLog(Function(String line)? callback) => _inner.keyLog = callback;
+  set keyLog(void Function(String line)? callback) => _inner.keyLog = callback;
 
   @override
   void addCredentials(Uri url, String realm, HttpClientCredentials credentials) =>
@@ -97,10 +97,44 @@ class InspectorHttpClient implements HttpClient {
   }
 
   @override
-  Future<HttpClientRequest> open(String method, String host, int port, String path) {
-    const defaultPort = 80;
-    final uri = Uri(scheme: 'http', host: host, port: port == defaultPort ? null : port, path: path);
-    return openUrl(method, uri);
+  Future<HttpClientRequest> open(String method, String host, int port, String path) async {
+    final startTimestamp = DateTime.now();
+    try {
+      final request = await _inner.open(method, host, port, path);
+      return InspectorHttpClientRequest(request, method, request.uri, _config);
+    } catch (e, st) {
+      if (NetworkInspector.isEnabled) {
+        final scheme = port == 443 ? 'https' : 'http';
+        final isDefaultPort = (scheme == 'https' && port == 443) || (scheme == 'http' && port == 80);
+        final uri = Uri(
+          scheme: scheme,
+          host: host,
+          port: isDefaultPort ? null : port,
+          path: path,
+        );
+        if (!_isIgnored(uri)) {
+          final engine = RedactionEngine(customKeys: _config.customRedactionKeys);
+          final failedRecord = NetworkRecord(
+            id: UuidGenerator.v4(),
+            url: engine.redactUrl(uri.toString()),
+            baseUrl: '${uri.scheme}://${uri.authority}',
+            path: uri.path,
+            method: method.toUpperCase(),
+            requestQueryParams: engine.redactQueryParams(uri.queryParameters),
+            requestTimestamp: startTimestamp,
+            durationMs: DateTime.now().difference(startTimestamp).inMilliseconds,
+            status: NetworkStatus.failed,
+            error: HttpErrorDetails(
+              errorType: e.runtimeType.toString(),
+              message: e.toString(),
+              stackTrace: st.toString(),
+            ),
+          );
+          unawaited(NetworkInspector.repository?.save(failedRecord));
+        }
+      }
+      rethrow;
+    }
   }
 
   @override

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 
-import '../../config/network_inspector_config.dart';
 import '../../core/constants.dart';
 import '../../core/network_inspector.dart';
 import '../../models/body_type.dart';
@@ -101,7 +100,7 @@ class NetworkInspectorDioInterceptor extends Interceptor {
               fileName: f.filename,
               contentType: f.contentType?.mimeType,
               byteSize: f.length,
-              filePath: config.includeMultipartFilePaths ? null : null,
+              filePath: null, // Dio MultipartFile does not expose source file path
             ),
           );
         }
@@ -182,7 +181,7 @@ class NetworkInspectorDioInterceptor extends Interceptor {
   }
 
   @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
+  void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
     if (!NetworkInspector.isEnabled) {
       return handler.next(response);
     }

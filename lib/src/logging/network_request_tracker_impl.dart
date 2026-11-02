@@ -5,7 +5,6 @@ import '../models/body_type.dart';
 import '../models/http_error_details.dart';
 import '../models/network_record.dart';
 import '../models/network_status.dart';
-import '../models/payload_data.dart';
 import '../repository/network_inspector_repository.dart';
 import '../utils/redaction_engine.dart';
 import 'manual_logger.dart';

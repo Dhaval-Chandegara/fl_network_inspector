@@ -26,13 +26,11 @@ final class NetworkInspector {
   static ShakeDetector? _standaloneShakeDetector;
 
   /// Internal registration for wrapper-provided navigator key (DEV-01, DEV-02).
-  @visibleForTesting
   static void registerWrapperNavigatorKey(GlobalKey<NavigatorState>? key) {
     _wrapperNavigatorKey = key;
   }
 
   /// Internal unregistration for wrapper-provided navigator key (DEV-01, DEV-02).
-  @visibleForTesting
   static void unregisterWrapperNavigatorKey([GlobalKey<NavigatorState>? key]) {
     if (key == null || _wrapperNavigatorKey == key) {
       _wrapperNavigatorKey = null;

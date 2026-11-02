@@ -99,7 +99,7 @@ void main() {
 
       transformedStream.listen(
         receivedChunks.add,
-        onError: (e) {
+        onError: (Object e) {
           consumerError = e;
         },
       );

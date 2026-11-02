@@ -141,6 +141,12 @@ class NetworkRecord {
       error != null ||
       (responseStatusCode != null && responseStatusCode! >= 400);
 
+  /// Convenient alias for [responseStatusCode].
+  int? get statusCode => responseStatusCode;
+
+  /// Convenient alias for [requestTimestamp].
+  DateTime get timestamp => requestTimestamp;
+
   /// Creates a copy of this record with updated fields.
   NetworkRecord copyWith({
     String? id,

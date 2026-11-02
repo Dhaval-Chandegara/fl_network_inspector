@@ -135,7 +135,14 @@ Plans:
   3. Widget tests verify the inspector listing screen, search/filter interactions, tab navigation, and formatted JSON rendering.
   4. An interactive example Flutter application runs on iOS, Android, and Desktop showcasing automatic interception, manual logging, multipart uploads, error handling, and shake-to-open.
   5. Complete documentation (README, architecture guide, API docs) provides clear setup guides and troubleshooting instructions.
-**Plans:** TBD
+**Plans:** 2 plans
+
+Plans:
+**Wave 1**
+- [x] 06-01-PLAN.md — Quality, Linting & Multi-Tier Test Suite Completion
+
+**Wave 2**
+- [x] 06-02-PLAN.md — Example Application, Documentation & Release Packaging
 
 ## Progress
 
@@ -149,4 +156,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Network Capture & Interceptors | 3/3 | Complete    | 2026-11-01 |
 | 4. Inspector UI | 4/4 | Complete    | 2026-11-02 |
 | 5. Shake & Developer Experience | 2/2 | Complete    | 2026-11-02 |
-| 6. Quality, Testing & Release | 0/TBD | Not started | - |
+| 6. Quality, Testing & Release | 2/2 | Complete    | 2026-11-02 |

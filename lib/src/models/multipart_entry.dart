@@ -18,6 +18,12 @@ class MultipartEntry {
   /// The size in bytes of the uploaded file/entry.
   final int byteSize;
 
+  /// Convenient alias for [fieldName].
+  String get field => fieldName;
+
+  /// Convenient alias for [byteSize].
+  int get length => byteSize;
+
   /// The local file system path, only populated if explicitly permitted by configuration (D-15).
   final String? filePath;
 

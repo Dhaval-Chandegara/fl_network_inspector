@@ -53,26 +53,42 @@ class RecordFilter {
       startDate != null ||
       endDate != null;
 
+  static const _sentinel = Object();
+
   /// Creates a modified copy of this [RecordFilter].
   RecordFilter copyWith({
-    String? searchQuery,
-    Set<String>? httpMethods,
-    Set<int>? statusCodes,
+    Object? searchQuery = _sentinel,
+    Object? httpMethods = _sentinel,
+    Object? statusCodes = _sentinel,
     bool? errorOnly,
-    int? minDurationMs,
-    int? maxDurationMs,
-    DateTime? startDate,
-    DateTime? endDate,
+    Object? minDurationMs = _sentinel,
+    Object? maxDurationMs = _sentinel,
+    Object? startDate = _sentinel,
+    Object? endDate = _sentinel,
   }) {
     return RecordFilter(
-      searchQuery: searchQuery ?? this.searchQuery,
-      httpMethods: httpMethods ?? this.httpMethods,
-      statusCodes: statusCodes ?? this.statusCodes,
+      searchQuery: identical(searchQuery, _sentinel)
+          ? this.searchQuery
+          : searchQuery as String?,
+      httpMethods: identical(httpMethods, _sentinel)
+          ? this.httpMethods
+          : httpMethods as Set<String>?,
+      statusCodes: identical(statusCodes, _sentinel)
+          ? this.statusCodes
+          : statusCodes as Set<int>?,
       errorOnly: errorOnly ?? this.errorOnly,
-      minDurationMs: minDurationMs ?? this.minDurationMs,
-      maxDurationMs: maxDurationMs ?? this.maxDurationMs,
-      startDate: startDate ?? this.startDate,
-      endDate: endDate ?? this.endDate,
+      minDurationMs: identical(minDurationMs, _sentinel)
+          ? this.minDurationMs
+          : minDurationMs as int?,
+      maxDurationMs: identical(maxDurationMs, _sentinel)
+          ? this.maxDurationMs
+          : maxDurationMs as int?,
+      startDate: identical(startDate, _sentinel)
+          ? this.startDate
+          : startDate as DateTime?,
+      endDate: identical(endDate, _sentinel)
+          ? this.endDate
+          : endDate as DateTime?,
     );
   }
 

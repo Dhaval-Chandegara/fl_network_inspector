@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -158,7 +157,7 @@ void main() {
     });
 
     test('standalone logError creates fresh record with NetworkStatus.failed and HttpErrorDetails (D-47)', () async {
-      final error = const SocketException('Network unreachable');
+      const error = SocketException('Network unreachable');
       final stack = StackTrace.current;
 
       await NetworkInspector.logError(
@@ -199,7 +198,7 @@ void main() {
       expect(initialCount, equals(1));
 
       // Now call logError linking to tracker.id
-      final failure = const HttpException('Payment gateway rejected transaction');
+      const failure = HttpException('Payment gateway rejected transaction');
       await NetworkInspector.logError(
         id: tracker.id,
         method: 'POST',

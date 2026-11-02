@@ -1,7 +1,15 @@
 name: flutter_network_inspector
-description: "A lightweight, modular in-app HTTP network inspector for Flutter applications"
+description: "A lightweight, modular in-app HTTP network inspector for Flutter applications with shake-to-open and SQLite persistence"
 version: 0.1.0
-publish_to: none
+homepage: https://github.com/dhavalchandegara/fl_network_inspector
+repository: https://github.com/dhavalchandegara/fl_network_inspector
+issue_tracker: https://github.com/dhavalchandegara/fl_network_inspector/issues
+topics:
+  - network
+  - http
+  - inspector
+  - logging
+  - debugging
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -25,3 +33,4 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^3.0.0
   test: ^1.25.0
+  http_parser: ^4.0.2

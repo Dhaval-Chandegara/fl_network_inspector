@@ -10,7 +10,6 @@ import '../models/network_record.dart';
 import '../models/network_status.dart';
 import '../models/payload_data.dart';
 import '../repository/network_inspector_repository.dart';
-import '../utils/body_type_detector.dart';
 import '../utils/payload_truncator.dart';
 import '../utils/redaction_engine.dart';
 import '../utils/uuid_generator.dart';
@@ -68,11 +67,13 @@ abstract final class ManualLogger {
     if (rawBody is Uint8List || rawBody is List<int>) {
       final bytes = rawBody is Uint8List ? rawBody : Uint8List.fromList(rawBody as List<int>);
       final effectiveMime = contentType ?? 'application/octet-stream';
-      return PayloadTruncator.truncateBytes(
+      final truncated = PayloadTruncator.truncateBytes(
         bytes: bytes,
         contentType: effectiveMime,
         maxBytes: config.maxBodyBytes,
       );
+      final redacted = engine.redactBody(truncated.body, effectiveMime);
+      return truncated.copyWith(body: redacted);
     }
 
     // 2. Multipart entries collection
@@ -261,6 +262,7 @@ abstract final class ManualLogger {
               ? engine.redactHeaders(headers).map((k, v) => MapEntry(k, v.toString()))
               : null;
 
+          final now = DateTime.now();
           final updated = existing.copyWith(
             status: NetworkStatus.failed,
             error: errorDetails,
@@ -269,6 +271,8 @@ abstract final class ManualLogger {
             responseBody: responsePayload ?? existing.responseBody,
             responseContentType: findContentType(headers) ?? existing.responseContentType,
             responseSize: responsePayload?.byteSize ?? existing.responseSize,
+            responseTimestamp: now,
+            durationMs: now.difference(existing.requestTimestamp).inMilliseconds,
           );
           await repository.save(updated);
           return;

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import '../../config/network_inspector_config.dart';
 import '../../core/constants.dart';
@@ -9,6 +10,7 @@ import '../../models/http_error_details.dart';
 import '../../models/network_record.dart';
 import '../../models/network_status.dart';
 import '../../models/payload_data.dart';
+import '../../utils/body_type_detector.dart';
 import '../../utils/payload_truncator.dart';
 import '../../utils/redaction_engine.dart';
 import '../../utils/uuid_generator.dart';
@@ -24,7 +26,10 @@ class InspectorHttpClientRequest implements HttpClientRequest {
 
   final BytesBuilder _bodyBytes = BytesBuilder(copy: false);
   int _accumulatedBodyBytes = 0;
+  int _totalBodyBytes = 0;
+  bool _isBodyTruncated = false;
   bool _isSuppressed = false;
+  bool _suppressionEvaluated = false;
   String? _transactionId;
   DateTime? _startTimestamp;
 
@@ -42,8 +47,50 @@ class InspectorHttpClientRequest implements HttpClientRequest {
     return false;
   }
 
+  void _evaluateSuppression() {
+    if (_suppressionEvaluated) return;
+    _suppressionEvaluated = true;
+
+    // 1. Blacklist check (INTC-01, D-36)
+    if (_isIgnored(_url)) {
+      _isSuppressed = true;
+    }
+
+    // 2. Deduplication check: look for synthetic tracking headers (INTC-06, D-33)
+    const trackingHeader = NetworkInspectorConstants.internalTrackingHeader;
+    const publicHeader = NetworkInspectorConstants.headerInspectorId;
+    bool hasTrackingId = false;
+    final headersToRemove = <String>[];
+    try {
+      _inner.headers.forEach((name, values) {
+        final lower = name.toLowerCase();
+        if (lower == trackingHeader.toLowerCase() || lower == publicHeader.toLowerCase()) {
+          hasTrackingId = true;
+          headersToRemove.add(name);
+        }
+      });
+      if (!hasTrackingId) {
+        hasTrackingId = _inner.headers[trackingHeader] != null ||
+            _inner.headers[publicHeader] != null;
+      }
+
+      if (hasTrackingId) {
+        _isSuppressed = true;
+        // Strip synthetic headers before wire transmission so server never sees them
+        _inner.headers.removeAll(trackingHeader);
+        _inner.headers.removeAll(publicHeader);
+        for (final h in headersToRemove) {
+          _inner.headers.removeAll(h);
+        }
+      }
+    } catch (_) {
+      // Defensive in case headers cannot be mutated
+    }
+  }
+
   void _bufferChunk(List<int> chunk) {
     if (_isSuppressed) return;
+    _totalBodyBytes += chunk.length;
     if (_accumulatedBodyBytes < _config.maxBodyBytes) {
       final remaining = _config.maxBodyBytes - _accumulatedBodyBytes;
       if (chunk.length <= remaining) {
@@ -52,18 +99,23 @@ class InspectorHttpClientRequest implements HttpClientRequest {
       } else {
         _bodyBytes.add(chunk.sublist(0, remaining));
         _accumulatedBodyBytes += remaining;
+        _isBodyTruncated = true;
       }
+    } else {
+      _isBodyTruncated = true;
     }
   }
 
   @override
   void add(List<int> data) {
+    _evaluateSuppression();
     _bufferChunk(data);
     _inner.add(data);
   }
 
   @override
   void write(Object? object) {
+    _evaluateSuppression();
     if (object != null && !_isSuppressed) {
       final str = object.toString();
       _bufferChunk(encoding.encode(str));
@@ -72,7 +124,8 @@ class InspectorHttpClientRequest implements HttpClientRequest {
   }
 
   @override
-  void writeAll(Iterable objects, [String separator = '']) {
+  void writeAll(Iterable<dynamic> objects, [String separator = '']) {
+    _evaluateSuppression();
     if (!_isSuppressed) {
       final str = objects.join(separator);
       _bufferChunk(encoding.encode(str));
@@ -82,6 +135,7 @@ class InspectorHttpClientRequest implements HttpClientRequest {
 
   @override
   void writeln([Object? object = '']) {
+    _evaluateSuppression();
     if (!_isSuppressed) {
       final str = '${object ?? ""}\n';
       _bufferChunk(encoding.encode(str));
@@ -91,6 +145,7 @@ class InspectorHttpClientRequest implements HttpClientRequest {
 
   @override
   void writeCharCode(int charCode) {
+    _evaluateSuppression();
     if (!_isSuppressed) {
       _bufferChunk(encoding.encode(String.fromCharCode(charCode)));
     }
@@ -99,6 +154,7 @@ class InspectorHttpClientRequest implements HttpClientRequest {
 
   @override
   Future<void> addStream(Stream<List<int>> stream) async {
+    _evaluateSuppression();
     if (_isSuppressed) {
       return _inner.addStream(stream);
     }
@@ -117,6 +173,7 @@ class InspectorHttpClientRequest implements HttpClientRequest {
 
   @override
   void abort([Object? exception, StackTrace? stackTrace]) {
+    _evaluateSuppression();
     if (!_isSuppressed && NetworkInspector.isEnabled) {
       final engine = RedactionEngine(customKeys: _config.customRedactionKeys);
       final rawHeaders = <String, String>{};
@@ -130,32 +187,29 @@ class InspectorHttpClientRequest implements HttpClientRequest {
       final sanitizedQueryParams = engine.redactQueryParams(_url.queryParameters);
 
       PayloadData? requestPayload;
+      String? contentType;
+      try {
+        contentType = _inner.headers.contentType?.mimeType;
+      } catch (_) {}
+
       if (_bodyBytes.isNotEmpty) {
-        final bytes = _bodyBytes.toBytes();
-        String? contentType;
-        try {
-          contentType = _inner.headers.contentType?.mimeType;
-        } catch (_) {}
-        requestPayload = PayloadTruncator.truncateBytes(
-          bytes: bytes,
-          contentType: contentType,
-          maxBytes: _config.maxBodyBytes,
+        final decodedText = utf8.decode(_bodyBytes.toBytes(), allowMalformed: true);
+        final finalBody = _isBodyTruncated
+            ? '$decodedText${PayloadTruncator.formatTruncationBanner(_config.maxBodyBytes)}'
+            : decodedText;
+        final redactedBody = engine.redactBody(finalBody, contentType);
+        requestPayload = PayloadData(
+          body: redactedBody,
+          byteSize: _totalBodyBytes,
+          bodyType: BodyTypeDetector.detect(body: finalBody, contentType: contentType),
+          isTruncated: _isBodyTruncated,
         );
-        final redactedBody = engine.redactBody(requestPayload.body, contentType);
-        if (redactedBody != requestPayload.body) {
-          requestPayload = requestPayload.copyWith(body: redactedBody);
-        }
       }
 
       _transactionId ??= UuidGenerator.v4();
       _startTimestamp ??= DateTime.now();
       final duration = DateTime.now().difference(_startTimestamp!);
       final ex = exception ?? const HttpException('Request aborted');
-
-      String? contentType;
-      try {
-        contentType = _inner.headers.contentType?.mimeType;
-      } catch (_) {}
 
       final failedRecord = NetworkRecord(
         id: _transactionId!,
@@ -167,7 +221,7 @@ class InspectorHttpClientRequest implements HttpClientRequest {
         requestQueryParams: sanitizedQueryParams,
         requestBody: requestPayload,
         requestContentType: contentType,
-        requestSize: requestPayload?.byteSize ?? _accumulatedBodyBytes,
+        requestSize: _totalBodyBytes,
         requestTimestamp: _startTimestamp!,
         durationMs: duration.inMilliseconds,
         status: NetworkStatus.failed,
@@ -184,42 +238,16 @@ class InspectorHttpClientRequest implements HttpClientRequest {
 
   @override
   Future<HttpClientResponse> close() async {
-    // 1. Deduplication check: look for synthetic tracking headers (INTC-06, D-33)
-    final trackingHeader = NetworkInspectorConstants.internalTrackingHeader;
-    final publicHeader = NetworkInspectorConstants.headerInspectorId;
-    bool hasTrackingId = false;
-    final headersToRemove = <String>[];
-    _inner.headers.forEach((name, values) {
-      final lower = name.toLowerCase();
-      if (lower == trackingHeader.toLowerCase() || lower == publicHeader.toLowerCase()) {
-        hasTrackingId = true;
-        headersToRemove.add(name);
-      }
-    });
-    if (!hasTrackingId) {
-      hasTrackingId = _inner.headers[trackingHeader] != null ||
-          _inner.headers[publicHeader] != null;
-    }
-
-    if (hasTrackingId) {
-      // Strip synthetic headers before wire transmission so server never sees them
-      _inner.headers.removeAll(trackingHeader);
-      _inner.headers.removeAll(publicHeader);
-      for (final h in headersToRemove) {
-        _inner.headers.removeAll(h);
-      }
-      _isSuppressed = true;
-    }
-
-    // 2. Blacklist check (INTC-01, D-36)
-    if (_isIgnored(_url)) {
-      _isSuppressed = true;
-    }
+    _evaluateSuppression();
 
     PayloadData? requestPayload;
     Map<String, String> sanitizedHeaders = const {};
     Map<String, dynamic> sanitizedQueryParams = const {};
     final engine = RedactionEngine(customKeys: _config.customRedactionKeys);
+    String? requestContentType;
+    try {
+      requestContentType = _inner.headers.contentType?.mimeType;
+    } catch (_) {}
 
     if (!_isSuppressed && NetworkInspector.isEnabled) {
       _transactionId = UuidGenerator.v4();
@@ -234,17 +262,17 @@ class InspectorHttpClientRequest implements HttpClientRequest {
       sanitizedQueryParams = engine.redactQueryParams(_url.queryParameters);
 
       if (_bodyBytes.isNotEmpty) {
-        final bytes = _bodyBytes.toBytes();
-        requestPayload = PayloadTruncator.truncateBytes(
-          bytes: bytes,
-          contentType: _inner.headers.contentType?.mimeType,
-          maxBytes: _config.maxBodyBytes,
+        final decodedText = utf8.decode(_bodyBytes.toBytes(), allowMalformed: true);
+        final finalBody = _isBodyTruncated
+            ? '$decodedText${PayloadTruncator.formatTruncationBanner(_config.maxBodyBytes)}'
+            : decodedText;
+        final redactedBody = engine.redactBody(finalBody, requestContentType);
+        requestPayload = PayloadData(
+          body: redactedBody,
+          byteSize: _totalBodyBytes,
+          bodyType: BodyTypeDetector.detect(body: finalBody, contentType: requestContentType),
+          isTruncated: _isBodyTruncated,
         );
-        final redactedBody =
-            engine.redactBody(requestPayload.body, _inner.headers.contentType?.mimeType);
-        if (redactedBody != requestPayload.body) {
-          requestPayload = requestPayload.copyWith(body: redactedBody);
-        }
       }
 
       final pendingRecord = NetworkRecord(
@@ -256,8 +284,8 @@ class InspectorHttpClientRequest implements HttpClientRequest {
         requestHeaders: sanitizedHeaders,
         requestQueryParams: sanitizedQueryParams,
         requestBody: requestPayload,
-        requestContentType: _inner.headers.contentType?.mimeType,
-        requestSize: requestPayload?.byteSize ?? _accumulatedBodyBytes,
+        requestContentType: requestContentType,
+        requestSize: _totalBodyBytes,
         requestTimestamp: _startTimestamp!,
         status: NetworkStatus.pending,
       );
@@ -279,8 +307,8 @@ class InspectorHttpClientRequest implements HttpClientRequest {
           requestHeaders: sanitizedHeaders,
           requestQueryParams: sanitizedQueryParams,
           requestBody: requestPayload,
-          requestContentType: _inner.headers.contentType?.mimeType,
-          requestSize: requestPayload?.byteSize ?? _accumulatedBodyBytes,
+          requestContentType: requestContentType,
+          requestSize: _totalBodyBytes,
           requestTimestamp: _startTimestamp!,
           durationMs: duration.inMilliseconds,
           status: NetworkStatus.failed,
@@ -309,7 +337,8 @@ class InspectorHttpClientRequest implements HttpClientRequest {
       requestHeaders: sanitizedHeaders,
       requestQueryParams: sanitizedQueryParams,
       requestPayload: requestPayload,
-      requestSize: requestPayload?.byteSize ?? _accumulatedBodyBytes,
+      requestContentType: requestContentType,
+      requestSize: _totalBodyBytes,
     );
   }
 

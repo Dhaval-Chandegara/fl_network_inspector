@@ -33,9 +33,9 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: NetworkInspectorWrapper(
-            child: const Scaffold(
+            child: Scaffold(
               body: Center(child: Text('Test Child')),
             ),
           ),
@@ -49,9 +49,9 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: NetworkInspectorWrapper(
-            child: const Scaffold(
+            child: Scaffold(
               body: Center(child: Text('App Content')),
             ),
           ),
@@ -72,9 +72,9 @@ void main() {
 
     testWidgets('ignores shake events below threshold', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: NetworkInspectorWrapper(
-            child: const Scaffold(
+            child: Scaffold(
               body: Center(child: Text('App Content')),
             ),
           ),
@@ -136,9 +136,9 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: NetworkInspectorWrapper(
-            child: const Scaffold(
+            child: Scaffold(
               body: Center(child: Text('App Content')),
             ),
           ),

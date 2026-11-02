@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../../config/network_inspector_config.dart';
 import '../../core/constants.dart';
 import '../../core/network_inspector.dart';
 import '../../models/body_type.dart';
@@ -11,6 +10,7 @@ import '../../models/multipart_entry.dart';
 import '../../models/network_record.dart';
 import '../../models/network_status.dart';
 import '../../models/payload_data.dart';
+import '../../utils/body_type_detector.dart';
 import '../../utils/payload_truncator.dart';
 import '../../utils/redaction_engine.dart';
 import '../../utils/uuid_generator.dart';
@@ -86,7 +86,7 @@ class NetworkInspectorHttpClient extends http.BaseClient {
             fileName: file.filename,
             contentType: file.contentType.mimeType,
             byteSize: file.length,
-            filePath: config.includeMultipartFilePaths ? null : null,
+            filePath: null, // http.MultipartFile does not expose source file path
           ),
         );
       }
@@ -187,15 +187,19 @@ class NetworkInspectorHttpClient extends http.BaseClient {
               isTruncated: false,
             );
           } else if (bufferedBytes.isNotEmpty) {
-            final truncated = PayloadTruncator.truncateBytes(
-              bytes: bufferedBytes,
-              contentType: responseContentType,
-              maxBytes: config.maxBodyBytes,
-            );
-            final redacted = engine.redactBody(truncated.body, responseContentType);
-            responsePayload = truncated.copyWith(
+            final decodedText = utf8.decode(bufferedBytes, allowMalformed: true);
+            final finalBody = isTruncated
+                ? '$decodedText${PayloadTruncator.formatTruncationBanner(config.maxBodyBytes)}'
+                : decodedText;
+            final redacted = engine.redactBody(finalBody, responseContentType);
+            responsePayload = PayloadData(
               body: redacted,
-              isTruncated: isTruncated || truncated.isTruncated,
+              byteSize: totalBytes,
+              bodyType: BodyTypeDetector.detect(
+                body: finalBody,
+                contentType: responseContentType,
+              ),
+              isTruncated: isTruncated,
             );
           }
 
@@ -204,7 +208,7 @@ class NetworkInspectorHttpClient extends http.BaseClient {
             responseHeaders: sanitizedResponseHeaders,
             responseBody: responsePayload,
             responseContentType: responseContentType,
-            responseSize: responsePayload?.byteSize ?? totalBytes,
+            responseSize: totalBytes,
             responseTimestamp: endTimestamp,
             durationMs: durationMs,
             status: NetworkStatus.success,
@@ -225,10 +229,42 @@ class NetworkInspectorHttpClient extends http.BaseClient {
             statusCode: response.statusCode,
           );
 
+          PayloadData? responsePayload;
+          if (_isBinary(responseContentType)) {
+            if (totalBytes > 0) {
+              responsePayload = PayloadData(
+                body: PayloadTruncator.formatBinarySummary(
+                  responseContentType ?? 'application/octet-stream',
+                  totalBytes,
+                ),
+                byteSize: totalBytes,
+                bodyType: BodyType.binary,
+                isTruncated: false,
+              );
+            }
+          } else if (partialBytes.isNotEmpty) {
+            final isPartialTruncated = partialBytes.length < totalBytes;
+            final decodedText = utf8.decode(partialBytes, allowMalformed: true);
+            final finalBody = isPartialTruncated
+                ? '$decodedText${PayloadTruncator.formatTruncationBanner(config.maxBodyBytes)}'
+                : decodedText;
+            final redacted = engine.redactBody(finalBody, responseContentType);
+            responsePayload = PayloadData(
+              body: redacted,
+              byteSize: totalBytes,
+              bodyType: BodyTypeDetector.detect(
+                body: finalBody,
+                contentType: responseContentType,
+              ),
+              isTruncated: isPartialTruncated,
+            );
+          }
+
           final failedRecord = pendingRecord.copyWith(
             responseStatusCode: response.statusCode,
             responseHeaders: sanitizedResponseHeaders,
-            responseContentType: responseContentType,
+            responseBody: responsePayload,
+            responseContentType: responsePayload != null ? responseContentType : null,
             responseSize: totalBytes,
             responseTimestamp: endTimestamp,
             durationMs: durationMs,

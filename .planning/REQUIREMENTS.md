@@ -141,10 +141,10 @@ Which phases cover which requirements.
 | SHAKE-03 | Phase 5 | Complete |
 | DEV-01 | Phase 5 | Complete |
 | DEV-02 | Phase 5 | Complete |
-| TEST-01 | Phase 6 | Pending |
-| TEST-02 | Phase 6 | Pending |
-| TEST-03 | Phase 6 | Pending |
-| DOC-01 | Phase 6 | Pending |
+| TEST-01 | Phase 6 | Complete |
+| TEST-02 | Phase 6 | Complete |
+| TEST-03 | Phase 6 | Complete |
+| DOC-01 | Phase 6 | Complete |
 
 **Coverage:**
 - v1 requirements: 44 total

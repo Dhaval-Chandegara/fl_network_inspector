@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_network_inspector/flutter_network_inspector.dart';
-import 'package:flutter_network_inspector/src/logging/no_op_network_request_tracker.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -71,7 +69,7 @@ void main() {
       expect(tracker.id, isNotEmpty);
 
       // Trigger failure
-      final socketException = const SocketException('Connection refused by peer');
+      const socketException = SocketException('Connection refused by peer');
       await tracker.onError(
         error: socketException,
         stackTrace: StackTrace.current,
@@ -119,7 +117,7 @@ void main() {
     });
 
     test('logApi with error parameter records failed status', () async {
-      final errorDetails = const HttpErrorDetails(
+      const errorDetails = HttpErrorDetails(
         message: 'Request timeout after 5000ms',
         errorType: 'TimeoutException',
         statusCode: 408,
