@@ -150,6 +150,22 @@ final class NetworkInspector {
     );
   }
 
+  /// Alias for [startRequest] providing exact literal API parity with requirement LOG-01.
+  static NetworkRequestTracker logRequest({
+    required String method,
+    required String url,
+    Map<String, dynamic>? headers,
+    Object? body,
+    DateTime? timestamp,
+  }) =>
+      startRequest(
+        method: method,
+        url: url,
+        headers: headers,
+        body: body,
+        timestamp: timestamp,
+      );
+
   /// Logs a standalone or linked network failure (D-47).
   static Future<void> logError({
     String? id,
