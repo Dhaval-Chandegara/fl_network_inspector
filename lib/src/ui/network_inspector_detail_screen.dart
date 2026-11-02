@@ -55,7 +55,7 @@ class NetworkInspectorDetailScreen extends StatelessWidget {
   }
 
   void _shareDetails(BuildContext context) {
-    ExportActionSheet.show(context, record: record);
+    ExportActionSheet.show(context, record: record, theme: Theme.of(context));
   }
 
   @override
@@ -69,6 +69,8 @@ class NetworkInspectorDetailScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text(
             'Request Details',
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
@@ -105,23 +107,27 @@ class NetworkInspectorDetailScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: Column(
-          children: [
-            // Header Summary Card
-            _buildHeaderSummaryCard(context, isDark),
+        body: SafeArea(
+          top: false,
+          bottom: true,
+          child: Column(
+            children: [
+              // Header Summary Card
+              _buildHeaderSummaryCard(context, isDark),
 
-            // Tab Views
-            Expanded(
-              child: TabBarView(
-                children: [
-                  _buildOverviewTab(context, isDark),
-                  _buildRequestTab(context, isDark),
-                  _buildResponseTab(context, isDark),
-                  _buildErrorTab(context, isDark),
-                ],
+              // Tab Views
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    _buildOverviewTab(context, isDark),
+                    _buildRequestTab(context, isDark),
+                    _buildResponseTab(context, isDark),
+                    _buildErrorTab(context, isDark),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

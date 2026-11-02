@@ -96,19 +96,19 @@ void main() {
       expect(count, 0);
     });
 
-    testWidgets('ThemeController toggles System -> Light -> Dark -> System',
+    testWidgets('ThemeController toggles Dark -> Light -> System -> Dark',
         (tester) async {
       final themeController = ThemeController();
-      expect(themeController.value, ThemeMode.system);
+      expect(themeController.value, ThemeMode.dark);
 
       themeController.toggleTheme();
       expect(themeController.value, ThemeMode.light);
 
       themeController.toggleTheme();
-      expect(themeController.value, ThemeMode.dark);
+      expect(themeController.value, ThemeMode.system);
 
       themeController.toggleTheme();
-      expect(themeController.value, ThemeMode.system);
+      expect(themeController.value, ThemeMode.dark);
     });
 
     testWidgets('AppBar theme button toggles theme controller', (tester) async {
@@ -125,7 +125,7 @@ void main() {
       );
 
       await tester.pumpAndSettle();
-      expect(themeController.value, ThemeMode.system);
+      expect(themeController.value, ThemeMode.dark);
 
       await tester.tap(find.byTooltip('Switch Theme'));
       await tester.pumpAndSettle();
@@ -133,7 +133,7 @@ void main() {
 
       await tester.tap(find.byTooltip('Switch Theme'));
       await tester.pumpAndSettle();
-      expect(themeController.value, ThemeMode.dark);
+      expect(themeController.value, ThemeMode.system);
     });
   });
 }

@@ -19,15 +19,19 @@ class ExportActionSheet extends StatefulWidget {
     BuildContext context, {
     required NetworkRecord record,
     Rect? anchorOrigin,
+    ThemeData? theme,
   }) {
     return showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (sheetContext) => ExportActionSheet(
-        record: record,
-        anchorOrigin: anchorOrigin,
-      ),
+      builder: (sheetContext) {
+        final content = ExportActionSheet(
+          record: record,
+          anchorOrigin: anchorOrigin,
+        );
+        return theme != null ? Theme(data: theme, child: content) : content;
+      },
     );
   }
 
@@ -134,7 +138,7 @@ class _ExportActionSheetState extends State<ExportActionSheet> {
                 ),
               ),
 
-              const SizedBox(height: 8),
+              SizedBox(height: MediaQuery.viewPaddingOf(context).bottom + 8),
 
               // Option 1: Markdown Summary
               ListTile(
@@ -208,7 +212,7 @@ class _ExportActionSheetState extends State<ExportActionSheet> {
                 onTap: () => _handleShare(ShareFormat.json),
               ),
 
-              const SizedBox(height: 8),
+              SizedBox(height: MediaQuery.viewPaddingOf(context).bottom + 8),
             ],
           ),
         ),

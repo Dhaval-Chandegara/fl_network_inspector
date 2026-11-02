@@ -25,6 +25,13 @@ final class NetworkInspector {
   static GlobalKey<NavigatorState>? _wrapperNavigatorKey;
   static ShakeDetector? _standaloneShakeDetector;
 
+  /// Default root navigator key provided out of the box for contextless opening (DEV-01).
+  ///
+  /// Can be passed to `MaterialApp(navigatorKey: NetworkInspector.navigatorKey)` to enable
+  /// shake-to-open and programmatic invocation without passing a [BuildContext].
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
+
   /// Internal registration for wrapper-provided navigator key (DEV-01, DEV-02).
   static void registerWrapperNavigatorKey(GlobalKey<NavigatorState>? key) {
     _wrapperNavigatorKey = key;
@@ -219,7 +226,8 @@ final class NetworkInspector {
           Navigator.maybeOf(context);
     }
     navigator ??= _currentConfig.navigatorKey?.currentState ??
-        _wrapperNavigatorKey?.currentState;
+        _wrapperNavigatorKey?.currentState ??
+        navigatorKey.currentState;
 
     if (navigator == null) {
       if (kDebugMode) {

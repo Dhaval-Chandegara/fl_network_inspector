@@ -16,12 +16,16 @@ class FilterBottomSheet extends StatefulWidget {
   static Future<RecordFilter?> show(
     BuildContext context, {
     required RecordFilter initialFilter,
+    ThemeData? theme,
   }) {
     return showModalBottomSheet<RecordFilter>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => FilterBottomSheet(initialFilter: initialFilter),
+      builder: (context) {
+        final content = FilterBottomSheet(initialFilter: initialFilter);
+        return theme != null ? Theme(data: theme, child: content) : content;
+      },
     );
   }
 
@@ -131,7 +135,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       child: Padding(
         padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+          bottom: MediaQuery.viewInsetsOf(context).bottom +
+              MediaQuery.viewPaddingOf(context).bottom +
+              16,
         ),
         child: SafeArea(
           top: false,

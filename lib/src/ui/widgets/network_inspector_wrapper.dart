@@ -30,6 +30,32 @@ class NetworkInspectorWrapper extends StatefulWidget {
     this.customShakeDetector,
   });
 
+  /// Creates a builder function suitable for `MaterialApp.builder` or `CupertinoApp.builder`.
+  ///
+  /// This mounts [NetworkInspectorWrapper] beneath the root [Navigator], allowing
+  /// shake-to-open gesture detection to locate the active [NavigatorState] automatically
+  /// without requiring an explicit [navigatorKey].
+  ///
+  /// Example:
+  /// ```dart
+  /// MaterialApp(
+  ///   builder: NetworkInspectorWrapper.builder(),
+  ///   home: const HomeScreen(),
+  /// )
+  /// ```
+  static Widget Function(BuildContext context, Widget? child) builder({
+    GlobalKey<NavigatorState>? navigatorKey,
+    bool? enabled,
+    ShakeDetector? customShakeDetector,
+  }) {
+    return (BuildContext context, Widget? child) => NetworkInspectorWrapper(
+          navigatorKey: navigatorKey,
+          enabled: enabled,
+          customShakeDetector: customShakeDetector,
+          child: child ?? const SizedBox.shrink(),
+        );
+  }
+
   @override
   State<NetworkInspectorWrapper> createState() =>
       _NetworkInspectorWrapperState();

@@ -35,8 +35,8 @@ void main() {
       expect(find.text('/v1/users'), findsNothing);
       expect(find.text('/v1/orders'), findsNothing);
 
-      // Tap "All" chip to reset
-      await tester.tap(find.widgetWithText(FilterChip, 'All'));
+      // Tap "Errors Only" chip again to deselect
+      await tester.tap(find.widgetWithText(FilterChip, 'Errors Only'));
       await tester.pumpAndSettle();
 
       expect(find.text('/v1/users'), findsOneWidget);

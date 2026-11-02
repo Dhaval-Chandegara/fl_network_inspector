@@ -5,10 +5,13 @@ class ClearAllDialog extends StatelessWidget {
   const ClearAllDialog({super.key});
 
   /// Shows the [ClearAllDialog] and returns `true` if confirmed, or `false`/`null` if dismissed.
-  static Future<bool?> show(BuildContext context) {
+  static Future<bool?> show(BuildContext context, {ThemeData? theme}) {
     return showDialog<bool>(
       context: context,
-      builder: (context) => const ClearAllDialog(),
+      builder: (context) {
+        const dialog = ClearAllDialog();
+        return theme != null ? Theme(data: theme, child: dialog) : dialog;
+      },
     );
   }
 

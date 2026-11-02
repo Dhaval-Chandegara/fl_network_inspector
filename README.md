@@ -77,7 +77,7 @@ void main() async {
 
 ### 2. Wrap your root widget with `NetworkInspectorWrapper`
 
-Wrap your `MaterialApp` or `CupertinoApp` with `NetworkInspectorWrapper`. This enables shake gesture detection and captures navigation context with zero UI layout interference:
+Wrap your `MaterialApp` with `NetworkInspectorWrapper` and set `navigatorKey: NetworkInspector.navigatorKey`. This enables shake gesture detection and captures navigation context with zero UI layout interference:
 
 ```dart
 class MyApp extends StatelessWidget {
@@ -87,12 +87,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return NetworkInspectorWrapper(
       child: MaterialApp(
+        navigatorKey: NetworkInspector.navigatorKey, // Built-in key for contextless opening
         title: 'My Flutter App',
         home: const HomeScreen(),
       ),
     );
   }
 }
+```
+
+*Alternative Builder syntax:*
+```dart
+MaterialApp(
+  builder: NetworkInspectorWrapper.builder(),
+  home: const HomeScreen(),
+)
 ```
 
 ---
@@ -195,6 +204,22 @@ NetworkInspector.open();
 | `ignoredHosts` | `List<String>` | `[]` | Hostnames completely bypassed from interception (e.g. analytics or crash reporters). |
 | `ignoredUrls` | `List<String>` | `[]` | Substring URLs bypassed from interception. |
 | `navigatorKey` | `GlobalKey<NavigatorState>?` | `null` | Root navigator key for contextless programmatic opening. |
+
+---
+
+## API Tracing & Duplicate Request Optimization
+
+Every network call made by your application is recorded as an independent transaction with a unique UUID, high-resolution timestamp, and exact execution duration.
+
+- **Duplicate Calls Detection:** If your application accidentally issues multiple identical requests (e.g., redundant background fetches or un-debounced button taps), each request is preserved in SQLite so you can pinpoint redundant network bandwidth and implement caching.
+- **Cross-Interceptor Safety:** While repeated app calls are always recorded, the inspector uses synthetic deduplication headers to prevent the *same* physical request from being double-counted if both `HttpOverrides` and `NetworkInspectorDioInterceptor` are active.
+
+---
+
+## Android 15 & 16 Ready (Edge-to-Edge & 16KB Page Size)
+
+- **Edge-to-Edge Windows:** Fully respects transparent system navigation bars and status bars with dynamic safe-area insets (`MediaQuery.viewPaddingOf(context)`).
+- **16KB Page Size Compatible:** Aligned for Android 15 & 16 devices requiring 16 KB page-size shared library alignment (`useLegacyPackaging = false`).
 
 ---
 

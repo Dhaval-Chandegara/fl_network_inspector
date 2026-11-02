@@ -196,5 +196,55 @@ void main() {
       expect(NetworkInspector.isOpen, isFalse);
       expect(find.byType(NetworkInspectorScreen), findsNothing);
     });
+
+    testWidgets('NetworkInspector.open works contextless via NetworkInspector.navigatorKey', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          navigatorKey: NetworkInspector.navigatorKey,
+          home: const Scaffold(
+            body: Center(child: Text('NavigatorKey Test')),
+          ),
+        ),
+      );
+
+      expect(NetworkInspector.isOpen, isFalse);
+
+      unawaited(NetworkInspector.open());
+      await tester.pumpAndSettle();
+
+      expect(NetworkInspector.isOpen, isTrue);
+      expect(find.byType(NetworkInspectorScreen), findsOneWidget);
+
+      Navigator.of(NetworkInspector.navigatorKey.currentContext!, rootNavigator: true).pop();
+      await tester.pumpAndSettle();
+
+      expect(NetworkInspector.isOpen, isFalse);
+    });
+
+    testWidgets('NetworkInspectorWrapper works with MaterialApp using NetworkInspector.navigatorKey', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          navigatorKey: NetworkInspector.navigatorKey,
+          home: const NetworkInspectorWrapper(
+            child: Scaffold(
+              body: Center(child: Text('NavigatorKey App')),
+            ),
+          ),
+        ),
+      );
+
+      expect(NetworkInspector.isOpen, isFalse);
+
+      // Violent shake event
+      sensorController.add(UserAccelerometerEvent(15.0, 0.0, 0.0, DateTime.now()));
+      await tester.pumpAndSettle();
+
+      expect(NetworkInspector.isOpen, isTrue);
+      expect(find.byType(NetworkInspectorScreen), findsOneWidget);
+    });
   });
 }

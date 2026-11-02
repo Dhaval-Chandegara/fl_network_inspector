@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-/// Local theme controller for toggling light/dark/system theme within the inspector UI (D-50).
+/// Local theme controller for managing theme mode within the inspector UI (defaults to dark mode).
 class ThemeController extends ValueNotifier<ThemeMode> {
-  ThemeController([super.value = ThemeMode.system]);
+  ThemeController([super.value = ThemeMode.dark]);
 
-  /// Cycles theme mode: System -> Light -> Dark -> System.
+  /// Cycles theme mode: Dark -> Light -> System -> Dark.
   void toggleTheme() {
     switch (value) {
-      case ThemeMode.system:
+      case ThemeMode.dark:
         value = ThemeMode.light;
         break;
       case ThemeMode.light:
-        value = ThemeMode.dark;
-        break;
-      case ThemeMode.dark:
         value = ThemeMode.system;
+        break;
+      case ThemeMode.system:
+        value = ThemeMode.dark;
         break;
     }
   }

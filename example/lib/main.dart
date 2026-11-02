@@ -28,6 +28,7 @@ class ExampleApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return NetworkInspectorWrapper(
       child: MaterialApp(
+        navigatorKey: NetworkInspector.navigatorKey,
         title: 'Network Inspector Demo',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

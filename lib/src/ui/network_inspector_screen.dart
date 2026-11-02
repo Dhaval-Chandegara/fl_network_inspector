@@ -90,8 +90,18 @@ class _NetworkInspectorScreenState extends State<NetworkInspectorScreen> {
     super.dispose();
   }
 
+  ThemeData get _activeTheme {
+    final themeMode = _themeController.value;
+    final platformBrightness =
+        MediaQuery.maybePlatformBrightnessOf(context) ?? Brightness.light;
+    final activeBrightness = themeMode == ThemeMode.system
+        ? platformBrightness
+        : (themeMode == ThemeMode.dark ? Brightness.dark : Brightness.light);
+    return _buildTheme(activeBrightness);
+  }
+
   Future<void> _handleClearAll() async {
-    final confirmed = await ClearAllDialog.show(context);
+    final confirmed = await ClearAllDialog.show(context, theme: _activeTheme);
     if (confirmed == true && mounted) {
       await _viewModel.clearAll();
       if (mounted) {
@@ -109,6 +119,7 @@ class _NetworkInspectorScreenState extends State<NetworkInspectorScreen> {
     final updated = await FilterBottomSheet.show(
       context,
       initialFilter: _viewModel.filter,
+      theme: _activeTheme,
     );
     if (updated != null && mounted) {
       _viewModel.setFilter(updated);
@@ -156,12 +167,17 @@ class _NetworkInspectorScreenState extends State<NetworkInspectorScreen> {
               return Scaffold(
                 appBar: AppBar(
                   title: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
-                        'Network Inspector',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
+                      const Flexible(
+                        child: Text(
+                          'Network Inspector',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -348,7 +364,10 @@ class _NetworkInspectorScreenState extends State<NetworkInspectorScreen> {
       child: ListView.builder(
         controller: _scrollController,
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: EdgeInsets.only(
+          top: 8,
+          bottom: MediaQuery.viewPaddingOf(context).bottom + 16,
+        ),
         itemCount: records.length + (hasMore ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == records.length) {
@@ -373,8 +392,10 @@ class _NetworkInspectorScreenState extends State<NetworkInspectorScreen> {
               } else {
                 Navigator.of(context).push(
                   MaterialPageRoute<void>(
-                    builder: (context) =>
-                        NetworkInspectorDetailScreen(record: record),
+                    builder: (context) => Theme(
+                      data: _activeTheme,
+                      child: NetworkInspectorDetailScreen(record: record),
+                    ),
                   ),
                 );
               }
