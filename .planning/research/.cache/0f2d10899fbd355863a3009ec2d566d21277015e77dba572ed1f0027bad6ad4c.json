@@ -1,0 +1,1 @@
+{"content":"Flutter compute(topLevelFunction, data) executes JSON formatting off the UI isolate for payloads >50KB, falling back seamlessly on Web.","source":"web","provider":"websearch","confidence":"MEDIUM","fetched_at":"2026-11-01T17:05:37.249Z","ttl":86400000,"kind":"docs"}

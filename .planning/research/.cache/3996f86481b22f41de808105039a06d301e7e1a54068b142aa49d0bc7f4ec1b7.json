@@ -1,0 +1,1 @@
+{"content":"Deep recursive redaction traverses Map and List trees replacing sensitive keys matched by normalized case-insensitive rules with [REDACTED]. PayloadTruncator bounds byte size at 1MB and represents binary streams with metadata summaries.","source":"web","provider":"websearch","confidence":"HIGH","fetched_at":"2026-10-31T11:00:59.072Z","ttl":86400000,"kind":"web"}

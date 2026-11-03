@@ -1,0 +1,1 @@
+{"content":"share_plus 13.3.1 requires SharePlus.instance.share(ShareParams(...)) with sharePositionOrigin on iPadOS/macOS to avoid NSGenericException popover crashes.","source":"web","provider":"websearch","confidence":"MEDIUM","fetched_at":"2026-11-01T17:05:24.990Z","ttl":86400000,"kind":"docs"}

@@ -12,41 +12,50 @@ Reliably capture, persist, and inspect HTTP requests and responses directly insi
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ **CORE-01**: One-line package initialization with flag-based activation (`enabled`, `enableAutoCapture`, `enableShakeDetection`, `enableDatabase`, `maxRecords`) and safe no-op mode in production. — v1.0
+- ✓ **CORE-02**: Clean modular architecture with independent modules (core, config, interception, manual logging, models, database, repository, services, inspector UI, sharing, shake detection). — v1.0
+- ✓ **CORE-03**: Cross-platform runtime safety with conditional imports ensuring pure Dart and Flutter compatibility across Android, iOS, macOS, Windows, Linux, and Web. — v1.0
+- ✓ **INTC-01**: Automatic HTTP interception via `HttpOverrides` and custom `HttpClient` / `HttpClientRequest` / `HttpClientResponse` wrappers without breaking original streams. — v1.0
+- ✓ **INTC-02**: Safe `HttpOverrides` chaining that preserves pre-existing overrides without silently overriding or replacing them. — v1.0
+- ✓ **INTC-03**: Dedicated client adapter for `Dio` (`NetworkInspectorDioInterceptor`). — v1.0
+- ✓ **INTC-04**: Dedicated client adapter for `package:http` (`NetworkInspectorHttpClient`). — v1.0
+- ✓ **INTC-05**: Duplicate request prevention across nested or chained interceptors. — v1.0
+- ✓ **INTC-06**: Internal synthetic tracking header stripped before wire transmission. — v1.0
+- ✓ **INTC-07**: Error, timeout, and socket failure interception with stack traces. — v1.0
+- ✓ **LOG-01**: Public static manual logging API (`NetworkInspector.logApi` and `NetworkInspector.logRequest`) supporting headers, query params, bodies, status code, timing, errors, and multipart metadata. — v1.0
+- ✓ **DATA-01**: Complete request metadata capture (unique ID, HTTP method, full URL, base URL, path, query params, headers, body, content type, timestamp, size, duration, status). — v1.0
+- ✓ **DATA-02**: Support for multiple request/response body types (JSON, plain text, form URL encoded, HTML, XML, binary, empty). — v1.0
+- ✓ **DATA-03**: Safe multipart handling capturing metadata only (file name, parameter name, MIME type, file size, optional file path) without storing raw file bytes in SQLite. — v1.0
+- ✓ **DATA-04**: Configurable request/response body capture size limits to prevent excessive memory and database consumption. — v1.0
+- ✓ **DATA-05**: Configurable redaction rules for sensitive headers and body fields (e.g., Authorization, Cookie, tokens, passwords, API keys). — v1.0
+- ✓ **DB-01**: Local SQLite database architecture using asynchronous non-blocking operations with indexed columns for search and filtering. — v1.0
+- ✓ **DB-02**: Automatic database cleanup based on configurable maximum record counts and retention limits. — v1.0
+- ✓ **DB-03**: Database schema versioning, automated migrations, and graceful error handling. — v1.0
+- ✓ **DB-04**: Abstracted repository/database layer decoupling the storage engine from business logic. — v1.0
+- ✓ **UI-01**: API listing screen displaying method, endpoint/URL, status code, duration, timestamp, size, and visual status indicators (success, failure, error). — v1.0
+- ✓ **UI-02**: Efficient batch pagination / infinite scrolling on the listing screen avoiding full-table memory loading. — v1.0
+- ✓ **UI-03**: Multi-parameter search (URL, endpoint, method, status code, payload content). — v1.0
+- ✓ **UI-04**: Robust filtering by HTTP method, status code range, success/failure, date range, and duration range. — v1.0
+- ✓ **UI-05**: Sorting by newest, oldest, duration (fastest/slowest), and status code. — v1.0
+- ✓ **UI-06**: Clear-all captured records action with confirmation. — v1.0
+- ✓ **UI-07**: API details screen with organized tabs: Overview, Request Headers, Query Parameters, Request Body, Response Headers, Response Body, Multipart Info, and Error Details. — v1.0
+- ✓ **UI-08**: Formatted JSON visualization with pretty-printing, raw/formatted toggle, and syntax-friendly display. — v1.0
+- ✓ **UI-09**: Copy actions for URL, headers, query parameters, request body, and response body. — v1.0
+- ✓ **UI-10**: cURL command generator with terminal-ready escaping. — v1.0
+- ✓ **UI-11**: Report generation and export via native platform share sheet with sensitive data exclusion options. — v1.0
+- ✓ **SHAKE-01**: Device shake detection to open the inspector with configurable sensitivity and independent toggle. — v1.0
+- ✓ **SHAKE-02**: Debounce timer (1.5s) and route stacking prevention for shake detection. — v1.0
+- ✓ **SHAKE-03**: Lifecycle-aware sensor listener pausing hardware sampling when app is backgrounded. — v1.0
+- ✓ **DEV-01**: Global programmatic opening method (`NetworkInspector.open([context])`) with automatic fallback to `NetworkInspector.navigatorKey`. — v1.0
+- ✓ **DEV-02**: `NetworkInspectorWrapper` widget with `builder` mode for root MaterialApp wrapping. — v1.0
+- ✓ **TEST-01**: Comprehensive automated unit test suite (models, redaction, database, truncation) with in-memory SQLite FFI. — v1.0
+- ✓ **TEST-02**: Interception integration tests verifying non-destructive streaming, HttpOverrides chaining, and client adapters. — v1.0
+- ✓ **TEST-03**: UI widget tests for listing screen, search/filter interactions, detail tabs, and JSON formatting. — v1.0
+- ✓ **DOC-01**: Complete documentation, architecture guide, API reference, and a fully functional example Flutter application. — v1.0
 
 ### Active
 
-- [ ] **CORE-01**: One-line package initialization with flag-based activation (`enabled`, `enableAutoCapture`, `enableShakeDetection`, `enableDatabase`, `maxRecords`) and safe no-op mode in production.
-- [ ] **CORE-02**: Clean modular architecture with independent modules (core, config, interception, manual logging, models, database, repository, services, inspector UI, sharing, shake detection).
-- [ ] **INTC-01**: Automatic HTTP interception via `HttpOverrides` and custom `HttpClient` / `HttpClientRequest` / `HttpClientResponse` wrappers without breaking original streams.
-- [ ] **INTC-02**: Safe `HttpOverrides` chaining that preserves pre-existing overrides without silently overriding or replacing them.
-- [ ] **INTC-03**: Dedicated client adapter for `Dio` (`NetworkInspectorDioInterceptor`).
-- [ ] **INTC-04**: Dedicated client adapter for `package:http` (`NetworkInspectorHttpClient`).
-- [ ] **INTC-05**: Duplicate request prevention across nested or chained interceptors.
-- [ ] **LOG-01**: Public static manual logging API (`NetworkInspector.logApi` and `NetworkInspector.logRequest`) supporting headers, query params, bodies, status code, timing, errors, and multipart metadata.
-- [ ] **DATA-01**: Complete request metadata capture (unique ID, HTTP method, full URL, base URL, path, query params, headers, body, content type, timestamp, size, duration, status).
-- [ ] **DATA-02**: Support for multiple request/response body types (JSON, plain text, form URL encoded, HTML, XML, binary, empty).
-- [ ] **DATA-03**: Safe multipart handling capturing metadata only (file name, parameter name, MIME type, file size, optional file path) without storing raw file bytes in SQLite.
-- [ ] **DATA-04**: Configurable request/response body capture size limits to prevent excessive memory and database consumption.
-- [ ] **DATA-05**: Configurable redaction rules for sensitive headers and body fields (e.g., Authorization, Cookie, tokens, passwords, API keys).
-- [ ] **DB-01**: Local SQLite database architecture using asynchronous non-blocking operations with indexed columns for search and filtering.
-- [ ] **DB-02**: Automatic database cleanup based on configurable maximum record counts and retention limits.
-- [ ] **DB-03**: Database schema versioning, automated migrations, and graceful error handling.
-- [ ] **DB-04**: Abstracted repository/database layer decoupling the storage engine from business logic.
-- [ ] **UI-01**: API listing screen displaying method, endpoint/URL, status code, duration, timestamp, size, and visual status indicators (success, failure, error).
-- [ ] **UI-02**: Efficient batch pagination / infinite scrolling on the listing screen avoiding full-table memory loading.
-- [ ] **UI-03**: Multi-parameter search (URL, endpoint, method, status code, payload content).
-- [ ] **UI-04**: Robust filtering by HTTP method, status code range, success/failure, date range, and duration range.
-- [ ] **UI-05**: Sorting by newest, oldest, duration (fastest/slowest), and status code.
-- [ ] **UI-06**: Clear-all captured records action with confirmation.
-- [ ] **UI-07**: API details screen with organized tabs: Overview, Request Headers, Query Parameters, Request Body, Response Headers, Response Body, Multipart Info, and Error Details.
-- [ ] **UI-08**: Formatted JSON visualization with pretty-printing, raw/formatted toggle, and syntax-friendly display.
-- [ ] **UI-09**: Copy actions for URL, headers, query parameters, request body, and response body.
-- [ ] **UI-10**: Report generation and export via native platform share sheet with sensitive data exclusion options.
-- [ ] **SHAKE-01**: Device shake detection to open the inspector with configurable sensitivity and independent toggle.
-- [ ] **NAV-01**: Global programmatic opening method (`NetworkInspector.open(context)`) and `NetworkInspectorWrapper` widget.
-- [ ] **TEST-01**: Comprehensive automated test suite including unit tests for models/redaction/database, interception integration tests, and UI widget tests.
-- [ ] **DOC-01**: Complete documentation, architecture guide, API reference, and a fully functional example Flutter application.
+(None currently active — milestone v1.0 shipped)
 
 ### Out of Scope
 
@@ -76,16 +85,19 @@ Reliably capture, persist, and inspect HTTP requests and responses directly insi
 - **Sharing**: `share_plus` for native share sheet export.
 - **Performance**: Zero UI thread blocking; asynchronous I/O; bounded payload buffers (default limit e.g. 1MB per body).
 - **Security**: Complete no-op in release builds unless explicitly forced; configurable redaction of sensitive credentials.
+- **OS Modernization**: Android 16 Edge-to-Edge window insets and 16KB uncompressed ELF page-alignment compatibility.
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Dart `HttpOverrides` + wrapper streams | Captures all `dart:io` requests transparently without changing application business logic | — Pending |
-| Dedicated Dio Interceptor & Http Client Adapter | Provides explicit, rock-solid capture for popular HTTP clients and web-safe setups | — Pending |
-| Clean Architecture & Repository Pattern | Decouples database storage, network interception, and UI inspection | — Pending |
-| Metadata-only multipart capture | Prevents massive SQLite growth and out-of-memory errors on large uploads | — Pending |
-| SQLite with indexing and auto-cleanup | Ensures high-performance querying and bounded storage over long debugging sessions | — Pending |
+| Dart `HttpOverrides` + wrapper streams | Captures all `dart:io` requests transparently without changing application business logic | ✓ Good |
+| Dedicated Dio Interceptor & Http Client Adapter | Provides explicit, rock-solid capture for popular HTTP clients and web-safe setups | ✓ Good |
+| Clean Architecture & Repository Pattern | Decouples database storage, network interception, and UI inspection | ✓ Good |
+| Metadata-only multipart capture | Prevents massive SQLite growth and out-of-memory errors on large uploads | ✓ Good |
+| SQLite with indexing and auto-cleanup | Ensures high-performance querying and bounded storage over long debugging sessions | ✓ Good |
+| Singleton `NetworkInspector.navigatorKey` | Eliminates ancestor context traps during shake detection in MaterialApp | ✓ Good |
+| Dynamic insets padding | Solves Android 16 edge-to-edge system navigation overlaps | ✓ Good |
 
 ## Evolution
 
@@ -105,4 +117,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-10-31 after initialization*
+*Last updated: 2026-11-03 after v1.0 milestone completion*
