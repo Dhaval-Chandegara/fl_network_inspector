@@ -1,43 +1,12 @@
 {
   "contract": "1.0.0",
   "flavor": "core",
-  "milestone": null,
-  "phases": [
-    {
-      "number": "1",
-      "name": "Foundation & Models",
-      "status": "complete"
-    },
-    {
-      "number": "2",
-      "name": "SQLite Persistence",
-      "status": "complete"
-    },
-    {
-      "number": "3",
-      "name": "Network Capture & Interceptors",
-      "status": "complete"
-    },
-    {
-      "number": "4",
-      "name": "Inspector UI",
-      "status": "complete"
-    },
-    {
-      "number": "5",
-      "name": "Shake & Developer Experience",
-      "status": "complete"
-    },
-    {
-      "number": "6",
-      "name": "Quality, Testing & Release",
-      "status": "complete"
-    }
-  ],
+  "milestone": "v1.1",
+  "phases": [],
   "next": {
-    "command": "/gsd-progress",
-    "label": "Show progress",
-    "reason": "Unsure of state — showing progress"
+    "command": "/gsd-discuss-phase",
+    "label": "Discuss the first phase",
+    "reason": "Project initialized — plan your first phase"
   },
-  "updated_at": "2026-11-03T15:34:06.166Z"
+  "updated_at": "2026-11-03T17:33:51.820Z"
 }

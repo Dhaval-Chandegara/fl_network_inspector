@@ -8,6 +8,18 @@ A reusable, modular, lightweight, and production-safe Flutter/Dart package that 
 
 Reliably capture, persist, and inspect HTTP requests and responses directly inside a Flutter application without breaking or modifying existing network streams, degrading app performance, or leaking sensitive data.
 
+## Current Milestone: v1.1 Pub.dev Release Preparation
+
+**Goal:** Prepare the package for publication on pub.dev under `fl_network_inspector` v1.0.0, achieving maximum pana score, complete public documentation, clean packaging, and verified dry-run.
+
+**Target features:**
+- Package rename to `fl_network_inspector` and version bump to `1.0.0`
+- Complete public API documentation (`///` doc comments) across all exported symbols
+- Complete code formatting (`dart format`) and zero analysis issues
+- Configure `.pubignore` to prevent leaking internal files/artifacts
+- Polish README, CHANGELOG, pubspec metadata, and example project
+- Verify with `dart pub publish --dry-run` and pana score readiness
+
 ## Requirements
 
 ### Validated
