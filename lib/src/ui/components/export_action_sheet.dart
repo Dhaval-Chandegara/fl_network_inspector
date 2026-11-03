@@ -24,6 +24,7 @@ class ExportActionSheet extends StatefulWidget {
     return showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
       backgroundColor: Colors.transparent,
       builder: (sheetContext) {
         final content = ExportActionSheet(
@@ -138,7 +139,7 @@ class _ExportActionSheetState extends State<ExportActionSheet> {
                 ),
               ),
 
-              SizedBox(height: MediaQuery.viewPaddingOf(context).bottom + 8),
+              const SizedBox(height: 8),
 
               // Option 1: Markdown Summary
               ListTile(
@@ -212,7 +213,7 @@ class _ExportActionSheetState extends State<ExportActionSheet> {
                 onTap: () => _handleShare(ShareFormat.json),
               ),
 
-              SizedBox(height: MediaQuery.viewPaddingOf(context).bottom + 8),
+              const SizedBox(height: 8),
             ],
           ),
         ),
