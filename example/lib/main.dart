@@ -177,113 +177,115 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          Card(
-            color: theme.colorScheme.primaryContainer,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.vibration, color: theme.colorScheme.onPrimaryContainer),
-                      const SizedBox(width: 8),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            Card(
+              color: theme.colorScheme.primaryContainer,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.vibration, color: theme.colorScheme.onPrimaryContainer),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Shake to Open Inspector',
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            color: theme.colorScheme.onPrimaryContainer,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Shake your physical device to open the inspector, or tap the bug icon in the AppBar / button below.',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onPrimaryContainer,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Last Activity Status:', style: theme.textTheme.labelLarge),
+                    const SizedBox(height: 4),
+                    if (_isLoading)
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8),
+                        child: LinearProgressIndicator(),
+                      )
+                    else
                       Text(
-                        'Shake to Open Inspector',
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          color: theme.colorScheme.onPrimaryContainer,
-                          fontWeight: FontWeight.bold,
+                        _lastStatus,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: theme.colorScheme.primary,
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Shake your physical device to open the inspector, or tap the bug icon in the AppBar / button below.',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onPrimaryContainer,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 16),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Last Activity Status:', style: theme.textTheme.labelLarge),
-                  const SizedBox(height: 4),
-                  if (_isLoading)
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8),
-                      child: LinearProgressIndicator(),
-                    )
-                  else
-                    Text(
-                      _lastStatus,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: theme.colorScheme.primary,
-                      ),
-                    ),
-                ],
-              ),
+            const SizedBox(height: 16),
+            FilledButton.icon(
+              onPressed: () => NetworkInspector.open(context),
+              icon: const Icon(Icons.visibility),
+              label: const Text('Open Network Inspector Screen'),
             ),
-          ),
-          const SizedBox(height: 16),
-          FilledButton.icon(
-            onPressed: () => NetworkInspector.open(context),
-            icon: const Icon(Icons.visibility),
-            label: const Text('Open Network Inspector Screen'),
-          ),
-          const SizedBox(height: 16),
-          const Divider(),
-          const SizedBox(height: 8),
-          Text('Trigger HTTP Requests:', style: theme.textTheme.titleMedium),
-          const SizedBox(height: 12),
-          OutlinedButton.icon(
-            onPressed: _sendGetRequest,
-            icon: const Icon(Icons.download),
-            label: const Text('Send HTTP GET (package:http)'),
-          ),
-          const SizedBox(height: 8),
-          OutlinedButton.icon(
-            onPressed: _sendPostDioRequest,
-            icon: const Icon(Icons.upload),
-            label: const Text('Send JSON POST (Dio with redaction)'),
-          ),
-          const SizedBox(height: 8),
-          OutlinedButton.icon(
-            onPressed: _sendMultipartRequest,
-            icon: const Icon(Icons.attach_file),
-            label: const Text('Send Multipart Upload (Metadata only)'),
-          ),
-          const SizedBox(height: 8),
-          OutlinedButton.icon(
-            onPressed: _sendError404Request,
-            icon: const Icon(Icons.error_outline),
-            label: const Text('Send HTTP 404 Not Found Request'),
-          ),
-          const SizedBox(height: 8),
-          OutlinedButton.icon(
-            onPressed: _sendNetworkFailure,
-            icon: const Icon(Icons.wifi_off),
-            label: const Text('Simulate Network Failure (Socket Error)'),
-          ),
-          const SizedBox(height: 8),
-          OutlinedButton.icon(
-            onPressed: _logManualApi,
-            icon: const Icon(Icons.code),
-            label: const Text('Log Custom Manual Call (GraphQL)'),
-          ),
-        ],
+            const SizedBox(height: 16),
+            const Divider(),
+            const SizedBox(height: 8),
+            Text('Trigger HTTP Requests:', style: theme.textTheme.titleMedium),
+            const SizedBox(height: 12),
+            OutlinedButton.icon(
+              onPressed: _sendGetRequest,
+              icon: const Icon(Icons.download),
+              label: const Text('Send HTTP GET (package:http)'),
+            ),
+            const SizedBox(height: 8),
+            OutlinedButton.icon(
+              onPressed: _sendPostDioRequest,
+              icon: const Icon(Icons.upload),
+              label: const Text('Send JSON POST (Dio with redaction)'),
+            ),
+            const SizedBox(height: 8),
+            OutlinedButton.icon(
+              onPressed: _sendMultipartRequest,
+              icon: const Icon(Icons.attach_file),
+              label: const Text('Send Multipart Upload (Metadata only)'),
+            ),
+            const SizedBox(height: 8),
+            OutlinedButton.icon(
+              onPressed: _sendError404Request,
+              icon: const Icon(Icons.error_outline),
+              label: const Text('Send HTTP 404 Not Found Request'),
+            ),
+            const SizedBox(height: 8),
+            OutlinedButton.icon(
+              onPressed: _sendNetworkFailure,
+              icon: const Icon(Icons.wifi_off),
+              label: const Text('Simulate Network Failure (Socket Error)'),
+            ),
+            const SizedBox(height: 8),
+            OutlinedButton.icon(
+              onPressed: _logManualApi,
+              icon: const Icon(Icons.code),
+              label: const Text('Log Custom Manual Call (GraphQL)'),
+            ),
+          ],
+        ),
       ),
     );
   }
