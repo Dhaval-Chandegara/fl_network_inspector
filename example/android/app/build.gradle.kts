@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.fl_network_inspector_example"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -20,9 +20,24 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        ndk {
+            abiFilters.addAll(listOf("arm64-v8a", "armeabi-v7a", "x86_64"))
+        }
+    }
+
+    packaging {
+        jniLibs {
+            // Android 15 & 16 16KB page size alignment:
+            // Ensures shared libraries (.so) are stored uncompressed and page-aligned to 16KB
+            useLegacyPackaging = false
+        }
+        resources {
+            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+        }
     }
 
     buildTypes {
