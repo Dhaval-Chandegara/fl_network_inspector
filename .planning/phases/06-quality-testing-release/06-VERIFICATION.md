@@ -1,6 +1,6 @@
 ---
 phase: 06-quality-testing-release
-verified: 2026-11-02T22:27:00Z
+verified: 2026-11-03T19:55:00Z
 status: passed
 score: 4/4 requirements verified
 covered_files:
@@ -16,7 +16,7 @@ covered_files:
   - "CHANGELOG.md"
   - "LICENSE"
   - "pubspec.yaml"
-covered_digest: "v6:sha256:633c9bf7006a3a396fad2e5afe5a05d817a970ad9c9c9fe021da649e946f1093"
+covered_digest: "v4:sha256:d701327d04a78891499a782b704cf42b81168201023da7fccd88c01f6050b7b9"
 behavior_unverified: 0
 overrides_applied: 0
 ---

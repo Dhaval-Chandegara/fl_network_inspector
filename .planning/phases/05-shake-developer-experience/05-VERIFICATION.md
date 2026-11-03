@@ -1,6 +1,6 @@
 ---
 phase: 05-shake-developer-experience
-verified: 2026-11-02T21:38:00Z
+verified: 2026-11-03T19:55:00Z
 status: passed
 score: 5/5 requirements verified
 covered_files:
@@ -17,7 +17,7 @@ covered_files:
   - "test/shake/shake_detector_test.dart"
   - "test/shake/network_inspector_wrapper_test.dart"
   - "test/config/network_inspector_config_test.dart"
-covered_digest: "v5:sha256:521d3c5fed572ce2e8140f7c244a1aa52b075b2762386750c77a28a741245604"
+covered_digest: "v4:sha256:903146e1a3237797d497f1b2cf52412ee862a71405c4cdad9b684e97b49dfde3"
 behavior_unverified: 0
 overrides_applied: 0
 ---

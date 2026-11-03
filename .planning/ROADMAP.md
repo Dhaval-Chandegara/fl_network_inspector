@@ -16,8 +16,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: SQLite Persistence** - Build asynchronous SQLite repository with WAL mode, write buffering, and FIFO pruning (completed 2026-11-01)
 - [x] **Phase 3: Network Capture & Interceptors** - Implement non-destructive HttpOverrides, client adapters (Dio/http), deduplication, and manual logging (completed 2026-11-01)
 - [x] **Phase 4: Inspector UI** - Develop Material 3 inspector screens with pagination, search/filtering, formatted JSON viewer, cURL generation, and sharing (completed 2026-11-02)
-- [ ] **Phase 5: Shake & Developer Experience** - Implement hardware shake detection, lifecycle handling, programmatic navigation, and root wrapper
-- [ ] **Phase 6: Quality, Testing & Release** - Deliver automated test suites (unit, integration, widget), comprehensive documentation, and reference example app
+- [x] **Phase 5: Shake & Developer Experience** - Implement hardware shake detection, lifecycle handling, programmatic navigation, and root wrapper (completed 2026-11-03)
+- [x] **Phase 6: Quality, Testing & Release** - Deliver automated test suites (unit, integration, widget), comprehensive documentation, and reference example app (completed 2026-11-03)
 
 ## Phase Details
 
@@ -115,7 +115,7 @@ Plans:
   2. Accelerometer hardware listeners automatically pause when the host application transitions to the background, preventing battery drain.
   3. Developers can wrap their root application with `NetworkInspectorWrapper` or call `NetworkInspector.open(context)` programmatically from custom debug menus or drawer actions.
   4. In production release builds, all triggers, interceptors, and listeners gracefully compile to zero-overhead no-ops unless explicitly forced.
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
 **Wave 1**
@@ -135,7 +135,7 @@ Plans:
   3. Widget tests verify the inspector listing screen, search/filter interactions, tab navigation, and formatted JSON rendering.
   4. An interactive example Flutter application runs on iOS, Android, and Desktop showcasing automatic interception, manual logging, multipart uploads, error handling, and shake-to-open.
   5. Complete documentation (README, architecture guide, API docs) provides clear setup guides and troubleshooting instructions.
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
 **Wave 1**

@@ -1,6 +1,6 @@
 ---
 phase: 02-sqlite-persistence
-verified: 2026-11-01T00:12:00Z
+verified: 2026-11-03T19:55:00Z
 status: passed
 score: 7/7 must-haves verified
 covered_files:
@@ -34,7 +34,7 @@ covered_files:
   - test/storage/database_pruner_test.dart
   - test/storage/database_query_builder_test.dart
   - test/storage/database_schema_test.dart
-covered_digest: "v4:sha256:e60bb260afb71a1345ef05113dc85f273216fcf6d9b1b67db3cdbe8ef547aa56"
+covered_digest: "v4:sha256:471744020f8b324449c4c907fe72338e916f5a0f78b971854e7ba1ca72dfb271"
 behavior_unverified: 0
 overrides_applied: 0
 ---
