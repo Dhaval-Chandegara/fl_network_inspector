@@ -37,14 +37,14 @@
 **Success Criteria** (what must be TRUE):
   1. `pubspec.yaml` specifies package name `fl_network_inspector`, version `1.0.0`, valid description, and verified repository, issue tracker, and homepage URLs.
   2. All Dart source files in `lib/`, `test/`, and `example/` import from `package:fl_network_inspector/` with zero unresolved URI errors or references to the old package name.
-**Plans:** 2 plans
+**Plans:** 2/2 plans executed
 
 Plans:
 **Wave 1**
-- [ ] 07-01-PLAN.md — Manifest identity, root library rename, example wiring, and test import migration
+- [x] 07-01-PLAN.md — Manifest identity, root library rename, example wiring, and test import migration
 
 **Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 07-02-PLAN.md — Publication ignore rules (.pubignore) and dry-run packaging verification
+- [x] 07-02-PLAN.md — Publication ignore rules (.pubignore) and dry-run packaging verification
 
 ### Phase 8: Code Standards & Static Quality
 **Goal**: Enforce strict code formatting, resolve all static analysis issues across the workspace, and confirm the entire automated test suite passes with zero regressions.
@@ -90,7 +90,7 @@ Phases execute in numeric order: 7 → 8 → 9 → 10
 | 4. Inspector UI | v1.0 | 4/4 | Complete | 2026-11-02 |
 | 5. Shake & Developer Experience | v1.0 | 2/2 | Complete | 2026-11-03 |
 | 6. Quality, Testing & Release | v1.0 | 2/2 | Complete | 2026-11-03 |
-| 7. Packaging & Identity | v1.1 | 0/2 | Not started | - |
+| 7. Packaging & Identity | v1.1 | 2/2 | In Progress | - |
 | 8. Code Standards & Static Quality | v1.1 | 0/TBD | Not started | - |
 | 9. Public API Documentation & Metadata | v1.1 | 0/TBD | Not started | - |
 | 10. Publish Verification & Dry Run | v1.1 | 0/TBD | Not started | - |

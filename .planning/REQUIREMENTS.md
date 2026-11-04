@@ -9,9 +9,9 @@ Requirements for pub.dev publication readiness. Each maps to roadmap phases.
 
 ### Packaging & Identity (PKG)
 
-- [ ] **PKG-01**: Rename package in `pubspec.yaml` to `fl_network_inspector` with version `1.0.0` and align repository, homepage, and issue tracker URLs.
-- [ ] **PKG-02**: Update all internal imports and example app dependency to reference `fl_network_inspector`.
-- [ ] **PKG-03**: Create `.pubignore` to prevent uploading internal development and planning artifacts (`.planning/`, `.agents/`, `.cursor/`, `.gemini/`, `.vscode/`, `.idea/`, test coverage) while retaining the package source and `example/`.
+- [x] **PKG-01**: Rename package in `pubspec.yaml` to `fl_network_inspector` with version `1.0.0` and align repository, homepage, and issue tracker URLs.
+- [x] **PKG-02**: Update all internal imports and example app dependency to reference `fl_network_inspector`.
+- [x] **PKG-03**: Create `.pubignore` to prevent uploading internal development and planning artifacts (`.planning/`, `.agents/`, `.cursor/`, `.gemini/`, `.vscode/`, `.idea/`, test coverage) while retaining the package source and `example/`.
 
 ### Code Standards & Static Quality (CODE)
 
@@ -56,9 +56,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PKG-01 | Phase 7 | Pending |
-| PKG-02 | Phase 7 | Pending |
-| PKG-03 | Phase 7 | Pending |
+| PKG-01 | Phase 7 | Complete |
+| PKG-02 | Phase 7 | Complete |
+| PKG-03 | Phase 7 | Complete |
 | CODE-01 | Phase 8 | Pending |
 | CODE-02 | Phase 8 | Pending |
 | CODE-03 | Phase 8 | Pending |

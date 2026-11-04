@@ -36,7 +36,7 @@
     {
       "number": "7",
       "name": "Packaging & Identity",
-      "status": "pending"
+      "status": "in_progress"
     },
     {
       "number": "8",
@@ -56,8 +56,8 @@
   ],
   "next": {
     "command": "/gsd-progress --next",
-    "label": "Advance to the next step",
-    "reason": "Phase 1 of 4 · 0% · executing"
+    "label": "Advance to the next step (verify)",
+    "reason": "Phase 1 of 4 · 0% · ready to verify"
   },
-  "updated_at": "2026-11-04T16:42:49.404Z"
+  "updated_at": "2026-11-04T17:41:46.119Z"
 }
