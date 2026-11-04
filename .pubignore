@@ -1,0 +1,34 @@
+# Internal planning and agent configuration directories
+.planning/
+.agents/
+.gemini/
+.cursor/
+.codex/
+.opencode/
+.claude/
+
+# Internal instructions and prompts
+GEMINI.md
+
+# IDE metadata and operating system artifacts
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.DS_Store
+*.swp
+
+# Build, test coverage, and cache artifacts
+coverage/
+.dart_tool/
+build/
+.pub/
+.pub-cache/
+*.log
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# FVM configuration
+.fvm/
+.fvmrc
