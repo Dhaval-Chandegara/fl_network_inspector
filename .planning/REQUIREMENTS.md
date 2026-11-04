@@ -21,10 +21,10 @@ Requirements for pub.dev publication readiness. Each maps to roadmap phases.
 
 ### Public API Documentation & Metadata (DOC)
 
-- [ ] **DOC-01**: Provide comprehensive `///` dartdoc documentation on all publicly exported symbols in `lib/fl_network_inspector.dart` (classes, constructors, methods, properties, and typedefs) to achieve 100% dartdoc scoring.
-- [ ] **DOC-02**: Polish `README.md` with pub.dev badges, feature overview, setup guide, shake detection usage, client adapters, and platform support matrix.
-- [ ] **DOC-03**: Format `CHANGELOG.md` following standard semantic versioning and Keep a Changelog conventions for `1.0.0`.
-- [ ] **DOC-04**: Validate `LICENSE` file for MIT open-source compatibility and valid copyright attribution.
+- [x] **DOC-01**: Provide comprehensive `///` dartdoc documentation on all publicly exported symbols in `lib/fl_network_inspector.dart` (classes, constructors, methods, properties, and typedefs) to achieve 100% dartdoc scoring.
+- [x] **DOC-02**: Polish `README.md` with pub.dev badges, feature overview, setup guide, shake detection usage, client adapters, and platform support matrix.
+- [x] **DOC-03**: Format `CHANGELOG.md` following standard semantic versioning and Keep a Changelog conventions for `1.0.0`.
+- [x] **DOC-04**: Validate `LICENSE` file for MIT open-source compatibility and valid copyright attribution.
 
 ### Publish Verification & Dry Run (PUB)
 
@@ -62,10 +62,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CODE-01 | Phase 8 | Complete |
 | CODE-02 | Phase 8 | Complete |
 | CODE-03 | Phase 8 | Complete |
-| DOC-01 | Phase 9 | Pending |
-| DOC-02 | Phase 9 | Pending |
-| DOC-03 | Phase 9 | Pending |
-| DOC-04 | Phase 9 | Pending |
+| DOC-01 | Phase 9 | Complete |
+| DOC-02 | Phase 9 | Complete |
+| DOC-03 | Phase 9 | Complete |
+| DOC-04 | Phase 9 | Complete |
 | PUB-01 | Phase 10 | Pending |
 | PUB-02 | Phase 10 | Pending |
 | PUB-03 | Phase 10 | Pending |
