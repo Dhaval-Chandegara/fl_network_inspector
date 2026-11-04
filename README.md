@@ -204,16 +204,16 @@ NetworkInspector.open();
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `enabled` | `bool` | `kDebugMode` | Master kill-switch. When `false`, all interceptors, listeners, and repositories become instant no-ops. |
+| `enabled` | `bool` | `!kReleaseMode` | Master kill-switch. When `false`, all interceptors, listeners, and repositories become instant no-ops. |
 | `enableDatabase` | `bool` | `true` | Persist records to SQLite database. When `false`, uses in-memory repository. |
 | `enableAutoCapture` | `bool` | `true` | Installs global `HttpOverrides` for automatic `dart:io` interception. |
 | `enableShakeDetection` | `bool` | `true` | Enables accelerometer shake detection on supported platforms. |
 | `shakeThreshold` | `double` | `15.0` | Dynamic vector acceleration threshold in m/s² (subtracts gravity). |
 | `shakeDebounceMs` | `int` | `1500` | Cooldown period in milliseconds to suppress rapid duplicate shake triggers. |
-| `maxRecords` | `int` | `1000` | Maximum number of records retained in SQLite storage before FIFO pruning. |
-| `maxBodySizeBytes` | `int` | `1048576` (1MB) | Maximum payload byte length buffered per request/response body before truncation. |
-| `sensitiveHeaders` | `List<String>` | `['authorization', 'cookie', 'token', 'key']` | Header keys whose values will be redacted to `[REDACTED]`. |
-| `sensitiveBodyKeys` | `List<String>` | `['password', 'secret', 'token', 'pin', 'cvv', 'card']` | JSON payload keys whose values will be sanitized. |
+| `maxRecords` | `int` | `500` | Maximum number of records retained in SQLite storage before FIFO pruning. |
+| `maxBodyBytes` | `int` | `1048576` (1MB) | Maximum payload byte length buffered per request/response body before truncation. |
+| `customRedactionKeys` | `List<String>` | `[]` | Additional sensitive keys to redact from headers, query parameters, and JSON payloads. |
+| `includeMultipartFilePaths` | `bool` | `false` | Retain local file paths in captured multipart form inspection metadata. |
 | `ignoredHosts` | `List<String>` | `[]` | Hostnames completely bypassed from interception (e.g. analytics or crash reporters). |
 | `ignoredUrls` | `List<String>` | `[]` | Substring URLs bypassed from interception. |
 | `navigatorKey` | `GlobalKey<NavigatorState>?` | `null` | Root navigator key for contextless programmatic opening. |
