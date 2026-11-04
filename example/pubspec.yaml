@@ -1,5 +1,5 @@
 name: fl_network_inspector_example
-description: "Example application demonstrating flutter_network_inspector package"
+description: "Example application demonstrating fl_network_inspector package"
 publish_to: none
 version: 1.0.0+1
 
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_network_inspector:
+  fl_network_inspector:
     path: ../
   dio: ">=5.0.0 <6.0.0"
   http: ">=1.0.0 <2.0.0"

@@ -3,7 +3,7 @@
 /// A reusable, modular, lightweight, and production-safe Flutter package
 /// that captures, stores, manages, and displays HTTP network requests and
 /// responses made by a Flutter application.
-library flutter_network_inspector;
+library fl_network_inspector;
 
 // Configuration
 export 'src/config/network_inspector_config.dart';
@@ -48,4 +48,3 @@ export 'src/ui/network_inspector_screen.dart';
 // Shake Detection & Developer Experience (SHAKE-01, DEV-01, DEV-02)
 export 'src/shake/shake_detector.dart';
 export 'src/ui/widgets/network_inspector_wrapper.dart';
-
