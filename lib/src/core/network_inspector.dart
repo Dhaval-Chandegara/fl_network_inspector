@@ -46,10 +46,10 @@ final class NetworkInspector {
 
   /// Initializes the Network Inspector with the specified [config] and optional [repository].
   ///
-  /// If [config.enabled] is false (e.g. in release mode by default per D-03), storage
+  /// If [NetworkInspectorConfig.enabled] is false (e.g. in release mode by default per D-03), storage
   /// and interceptor pipelines remain disabled.
   /// If [repository] is provided, it is used directly (useful for tests or custom backends).
-  /// Otherwise, routes to [InMemoryNetworkInspectorRepository] on Web or when [config.enableDatabase]
+  /// Otherwise, routes to [InMemoryNetworkInspectorRepository] on Web or when [NetworkInspectorConfig.enableDatabase]
   /// is false, or to [SqliteNetworkInspectorRepository] with desktop FFI initialization.
   static Future<void> initialize({
     NetworkInspectorConfig config = const NetworkInspectorConfig(),
@@ -101,7 +101,7 @@ final class NetworkInspector {
     restoreHttpOverrides();
   }
 
-  /// Executes [body] within a Zone configured with [InspectorHttpOverrides] (D-37).
+  /// Executes [body] within a Zone configured with `InspectorHttpOverrides` (D-37).
   static R runZoned<R>(R Function() body) {
     if (!isEnabled || kIsWeb) return body();
     return runWithHttpOverrides(body, _currentConfig);
