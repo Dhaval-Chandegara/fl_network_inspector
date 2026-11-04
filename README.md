@@ -1,6 +1,6 @@
-# flutter_network_inspector
+# fl_network_inspector
 
-[![pub package](https://img.shields.io/badge/pub-v0.1.0-blue.svg)](https://pub.dev/packages/flutter_network_inspector)
+[![pub package](https://img.shields.io/pub/v/fl_network_inspector.svg)](https://pub.dev/packages/fl_network_inspector)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A lightweight, modular, and production-safe Flutter package that captures, persists, and displays all HTTP/HTTPS network requests and responses made by your application.
@@ -31,15 +31,28 @@ Deliver a comprehensive in-app debugging and traffic inspection experience simil
 
 ---
 
+## Platform Support
+
+| Platform | Traffic Capture | Storage Engine | Shake-to-Open | Native Share Sheet |
+| :--- | :---: | :---: | :---: | :---: |
+| **Android** (API 21+) | ✅ `HttpOverrides` / Dio / http | SQLite (`sqflite`) | ✅ Hardware (`sensors_plus`) | ✅ Native (`share_plus`) |
+| **iOS** (12.0+) | ✅ `HttpOverrides` / Dio / http | SQLite (`sqflite`) | ✅ Hardware (`sensors_plus`) | ✅ Native (`share_plus`) |
+| **macOS** (10.14+) | ✅ `HttpOverrides` / Dio / http | SQLite FFI (`sqflite_common_ffi`) | ⚠️ UI / Programmatic | ✅ Native (`share_plus`) |
+| **Windows** | ✅ `HttpOverrides` / Dio / http | SQLite FFI (`sqflite_common_ffi`) | ⚠️ UI / Programmatic | ✅ Native (`share_plus`) |
+| **Linux** | ✅ `HttpOverrides` / Dio / http | SQLite FFI (`sqflite_common_ffi`) | ⚠️ UI / Programmatic | ✅ Native (`share_plus`) |
+| **Web** | ✅ Dio / `package:http` | In-Memory Buffer | ⚠️ UI / Programmatic | ✅ Web Share Sheet |
+
+---
+
 ## Installation
 
-Add `flutter_network_inspector` to your `pubspec.yaml`:
+Add `fl_network_inspector` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
   flutter:
     sdk: flutter
-  flutter_network_inspector: ^0.1.0
+  fl_network_inspector: ^1.0.0
 ```
 
 Then run:
@@ -58,7 +71,7 @@ Initialize `NetworkInspector` before launching your application:
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:flutter_network_inspector/flutter_network_inspector.dart';
+import 'package:fl_network_inspector/fl_network_inspector.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -118,7 +131,7 @@ For applications using `dio`:
 
 ```dart
 import 'package:dio/dio.dart';
-import 'package:flutter_network_inspector/flutter_network_inspector.dart';
+import 'package:fl_network_inspector/fl_network_inspector.dart';
 
 final dio = Dio()
   ..interceptors.add(const NetworkInspectorDioInterceptor());
@@ -129,7 +142,7 @@ final dio = Dio()
 For applications using `package:http`:
 
 ```dart
-import 'package:flutter_network_inspector/flutter_network_inspector.dart';
+import 'package:fl_network_inspector/fl_network_inspector.dart';
 import 'package:http/http.dart' as http;
 
 final client = NetworkInspectorHttpClient();
