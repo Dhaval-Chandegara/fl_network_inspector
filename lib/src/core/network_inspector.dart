@@ -33,11 +33,13 @@ final class NetworkInspector {
       GlobalKey<NavigatorState>();
 
   /// Internal registration for wrapper-provided navigator key.
+  @internal
   static void registerWrapperNavigatorKey(GlobalKey<NavigatorState>? key) {
     _wrapperNavigatorKey = key;
   }
 
   /// Internal unregistration for wrapper-provided navigator key.
+  @internal
   static void unregisterWrapperNavigatorKey([GlobalKey<NavigatorState>? key]) {
     if (key == null || _wrapperNavigatorKey == key) {
       _wrapperNavigatorKey = null;
@@ -271,6 +273,7 @@ final class NetworkInspector {
   }
 
   /// Resets configuration, repository, and state to uninitialized defaults (for testing purposes).
+  @visibleForTesting
   static void resetForTesting() {
     stopAutoCapture();
     _standaloneShakeDetector?.dispose();
