@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Automatic database migrations and LRU/FIFO record pruning preserving the newest configured capacity (`maxRecords`).
   - `InMemoryNetworkInspectorRepository` fallback for Flutter Web and test environments.
 - **Transparent Network Capture & Interceptors**:
-  - Global `HttpOverrides` chaining (`NetworkInspectorHttpOverrides`) capturing `dart:io` `HttpClient` traffic without breaking host app proxies or SSL configurations.
+  - Global `HttpOverrides` chaining (`InspectorHttpOverrides` via `NetworkInspector.startAutoCapture()`) capturing `dart:io` `HttpClient` traffic without breaking host app proxies or SSL configurations.
   - Dedicated `NetworkInspectorDioInterceptor` adapter for Dio 5.x apps.
   - Dedicated `NetworkInspectorHttpClient` adapter for `package:http` apps.
   - Non-destructive single-subscription stream tapping (`StreamTapTransformer`) preventing "Stream has already been listened to" runtime errors.
@@ -68,7 +68,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Automatic database migrations and LRU/FIFO record pruning preserving the newest configured capacity (`maxRecords`).
   - `InMemoryNetworkInspectorRepository` fallback for Flutter Web and test environments.
 - **Transparent Network Capture & Interceptors**:
-  - Global `HttpOverrides` chaining (`NetworkInspectorHttpOverrides`) capturing `dart:io` `HttpClient` traffic without breaking host app proxies or SSL configurations.
+  - Global `HttpOverrides` chaining (`InspectorHttpOverrides` via `NetworkInspector.startAutoCapture()`) capturing `dart:io` `HttpClient` traffic without breaking host app proxies or SSL configurations.
   - Dedicated `NetworkInspectorDioInterceptor` adapter for Dio 5.x apps.
   - Dedicated `NetworkInspectorHttpClient` adapter for `package:http` apps.
   - Non-destructive single-subscription stream tapping (`StreamTapTransformer`) preventing "Stream has already been listened to" runtime errors.
