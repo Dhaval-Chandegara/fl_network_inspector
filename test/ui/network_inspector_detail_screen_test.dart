@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_network_inspector/src/models/http_error_details.dart';
-import 'package:flutter_network_inspector/src/models/multipart_entry.dart';
-import 'package:flutter_network_inspector/src/models/network_status.dart';
-import 'package:flutter_network_inspector/src/ui/components/export_action_sheet.dart';
-import 'package:flutter_network_inspector/src/ui/network_inspector_detail_screen.dart';
+import 'package:fl_network_inspector/src/models/http_error_details.dart';
+import 'package:fl_network_inspector/src/models/multipart_entry.dart';
+import 'package:fl_network_inspector/src/models/network_status.dart';
+import 'package:fl_network_inspector/src/ui/components/export_action_sheet.dart';
+import 'package:fl_network_inspector/src/ui/network_inspector_detail_screen.dart';
 
 import 'helpers/test_record_fixtures.dart';
 

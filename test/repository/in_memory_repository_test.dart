@@ -1,10 +1,10 @@
-import 'package:flutter_network_inspector/src/models/http_error_details.dart';
-import 'package:flutter_network_inspector/src/models/network_record.dart';
-import 'package:flutter_network_inspector/src/models/network_status.dart';
-import 'package:flutter_network_inspector/src/models/payload_data.dart';
-import 'package:flutter_network_inspector/src/models/record_filter.dart';
-import 'package:flutter_network_inspector/src/models/record_sort.dart';
-import 'package:flutter_network_inspector/src/repository/in_memory_network_inspector_repository.dart';
+import 'package:fl_network_inspector/src/models/http_error_details.dart';
+import 'package:fl_network_inspector/src/models/network_record.dart';
+import 'package:fl_network_inspector/src/models/network_status.dart';
+import 'package:fl_network_inspector/src/models/payload_data.dart';
+import 'package:fl_network_inspector/src/models/record_filter.dart';
+import 'package:fl_network_inspector/src/models/record_sort.dart';
+import 'package:fl_network_inspector/src/repository/in_memory_network_inspector_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

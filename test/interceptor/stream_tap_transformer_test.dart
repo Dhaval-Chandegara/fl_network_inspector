@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter_network_inspector/src/interceptor/stream/stream_tap_transformer.dart';
+import 'package:fl_network_inspector/src/interceptor/stream/stream_tap_transformer.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

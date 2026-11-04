@@ -1,4 +1,4 @@
-import 'package:flutter_network_inspector/src/models/http_error_details.dart';
+import 'package:fl_network_inspector/src/models/http_error_details.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

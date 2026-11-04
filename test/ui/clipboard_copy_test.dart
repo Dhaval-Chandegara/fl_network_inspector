@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_network_inspector/src/ui/components/copy_button.dart';
-import 'package:flutter_network_inspector/src/ui/network_inspector_detail_screen.dart';
+import 'package:fl_network_inspector/src/ui/components/copy_button.dart';
+import 'package:fl_network_inspector/src/ui/network_inspector_detail_screen.dart';
 
 import 'helpers/test_record_fixtures.dart';
 

@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:flutter_network_inspector/flutter_network_inspector.dart';
-import 'package:flutter_network_inspector/src/interceptor/io/http_overrides_manager.dart';
-import 'package:flutter_network_inspector/src/interceptor/io/inspector_http_client.dart';
+import 'package:fl_network_inspector/fl_network_inspector.dart';
+import 'package:fl_network_inspector/src/interceptor/io/http_overrides_manager.dart';
+import 'package:fl_network_inspector/src/interceptor/io/inspector_http_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class _MockParentHttpOverrides extends HttpOverrides {

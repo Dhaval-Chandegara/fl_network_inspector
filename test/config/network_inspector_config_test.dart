@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_network_inspector/src/config/network_inspector_config.dart';
-import 'package:flutter_network_inspector/src/core/constants.dart';
-import 'package:flutter_network_inspector/src/core/network_inspector.dart';
+import 'package:fl_network_inspector/src/config/network_inspector_config.dart';
+import 'package:fl_network_inspector/src/core/constants.dart';
+import 'package:fl_network_inspector/src/core/network_inspector.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

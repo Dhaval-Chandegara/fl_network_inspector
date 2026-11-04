@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter_network_inspector/src/core/constants.dart';
-import 'package:flutter_network_inspector/src/utils/redaction_engine.dart';
+import 'package:fl_network_inspector/src/core/constants.dart';
+import 'package:fl_network_inspector/src/utils/redaction_engine.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

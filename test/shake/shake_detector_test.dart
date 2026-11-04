@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_network_inspector/src/shake/shake_detector.dart';
+import 'package:fl_network_inspector/src/shake/shake_detector.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 

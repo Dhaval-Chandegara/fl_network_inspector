@@ -1,8 +1,8 @@
-import 'package:flutter_network_inspector/src/models/network_record.dart';
-import 'package:flutter_network_inspector/src/models/network_status.dart';
-import 'package:flutter_network_inspector/src/models/payload_data.dart';
-import 'package:flutter_network_inspector/src/models/body_type.dart';
-import 'package:flutter_network_inspector/src/models/http_error_details.dart';
+import 'package:fl_network_inspector/src/models/network_record.dart';
+import 'package:fl_network_inspector/src/models/network_status.dart';
+import 'package:fl_network_inspector/src/models/payload_data.dart';
+import 'package:fl_network_inspector/src/models/body_type.dart';
+import 'package:fl_network_inspector/src/models/http_error_details.dart';
 
 /// Reusable mock [NetworkRecord] fixtures for UI widget and integration tests.
 class TestRecordFixtures {

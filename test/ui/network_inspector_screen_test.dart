@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_network_inspector/src/config/network_inspector_config.dart';
-import 'package:flutter_network_inspector/src/core/network_inspector.dart';
-import 'package:flutter_network_inspector/src/models/network_record.dart';
-import 'package:flutter_network_inspector/src/models/record_filter.dart';
-import 'package:flutter_network_inspector/src/models/record_sort.dart';
-import 'package:flutter_network_inspector/src/repository/in_memory_network_inspector_repository.dart';
-import 'package:flutter_network_inspector/src/ui/components/status_badge.dart';
-import 'package:flutter_network_inspector/src/ui/network_inspector_detail_screen.dart';
-import 'package:flutter_network_inspector/src/ui/network_inspector_screen.dart';
+import 'package:fl_network_inspector/src/config/network_inspector_config.dart';
+import 'package:fl_network_inspector/src/core/network_inspector.dart';
+import 'package:fl_network_inspector/src/models/network_record.dart';
+import 'package:fl_network_inspector/src/models/record_filter.dart';
+import 'package:fl_network_inspector/src/models/record_sort.dart';
+import 'package:fl_network_inspector/src/repository/in_memory_network_inspector_repository.dart';
+import 'package:fl_network_inspector/src/ui/components/status_badge.dart';
+import 'package:fl_network_inspector/src/ui/network_inspector_detail_screen.dart';
+import 'package:fl_network_inspector/src/ui/network_inspector_screen.dart';
 
 import 'helpers/test_record_fixtures.dart';
 

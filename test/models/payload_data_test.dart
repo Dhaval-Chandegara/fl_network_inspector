@@ -1,5 +1,5 @@
-import 'package:flutter_network_inspector/src/models/body_type.dart';
-import 'package:flutter_network_inspector/src/models/payload_data.dart';
+import 'package:fl_network_inspector/src/models/body_type.dart';
+import 'package:fl_network_inspector/src/models/payload_data.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

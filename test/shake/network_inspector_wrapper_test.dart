@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_network_inspector/flutter_network_inspector.dart';
+import 'package:fl_network_inspector/fl_network_inspector.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 void main() {

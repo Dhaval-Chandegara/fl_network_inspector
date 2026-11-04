@@ -1,8 +1,8 @@
-import 'package:flutter_network_inspector/src/models/network_status.dart';
-import 'package:flutter_network_inspector/src/models/record_filter.dart';
-import 'package:flutter_network_inspector/src/models/record_sort.dart';
-import 'package:flutter_network_inspector/src/storage/database_constants.dart';
-import 'package:flutter_network_inspector/src/storage/database_query_builder.dart';
+import 'package:fl_network_inspector/src/models/network_status.dart';
+import 'package:fl_network_inspector/src/models/record_filter.dart';
+import 'package:fl_network_inspector/src/models/record_sort.dart';
+import 'package:fl_network_inspector/src/storage/database_constants.dart';
+import 'package:fl_network_inspector/src/storage/database_query_builder.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

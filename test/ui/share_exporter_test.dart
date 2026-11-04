@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_network_inspector/flutter_network_inspector.dart';
-import 'package:flutter_network_inspector/src/ui/components/export_action_sheet.dart';
-import 'package:flutter_network_inspector/src/ui/utils/share_exporter.dart';
+import 'package:fl_network_inspector/fl_network_inspector.dart';
+import 'package:fl_network_inspector/src/ui/components/export_action_sheet.dart';
+import 'package:fl_network_inspector/src/ui/utils/share_exporter.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

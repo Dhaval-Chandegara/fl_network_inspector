@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter_network_inspector/src/models/network_record.dart';
-import 'package:flutter_network_inspector/src/models/network_status.dart';
-import 'package:flutter_network_inspector/src/repository/write_buffer_queue.dart';
+import 'package:fl_network_inspector/src/models/network_record.dart';
+import 'package:fl_network_inspector/src/models/network_status.dart';
+import 'package:fl_network_inspector/src/repository/write_buffer_queue.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

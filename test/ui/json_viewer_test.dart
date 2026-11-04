@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_network_inspector/src/models/body_type.dart';
-import 'package:flutter_network_inspector/src/ui/components/json_viewer.dart';
-import 'package:flutter_network_inspector/src/ui/utils/json_format_isolate.dart';
+import 'package:fl_network_inspector/src/models/body_type.dart';
+import 'package:fl_network_inspector/src/ui/components/json_viewer.dart';
+import 'package:fl_network_inspector/src/ui/utils/json_format_isolate.dart';
 
 void main() {
   group('JsonViewerWidget & Isolate Formatter Tests', () {

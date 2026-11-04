@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_network_inspector/src/repository/in_memory_network_inspector_repository.dart';
-import 'package:flutter_network_inspector/src/ui/controllers/inspector_view_model.dart';
-import 'package:flutter_network_inspector/src/ui/network_inspector_screen.dart';
+import 'package:fl_network_inspector/src/repository/in_memory_network_inspector_repository.dart';
+import 'package:fl_network_inspector/src/ui/controllers/inspector_view_model.dart';
+import 'package:fl_network_inspector/src/ui/network_inspector_screen.dart';
 
 import 'helpers/test_record_fixtures.dart';
 

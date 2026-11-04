@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:flutter_network_inspector/src/models/body_type.dart';
-import 'package:flutter_network_inspector/src/utils/body_type_detector.dart';
-import 'package:flutter_network_inspector/src/utils/payload_truncator.dart';
+import 'package:fl_network_inspector/src/models/body_type.dart';
+import 'package:fl_network_inspector/src/utils/body_type_detector.dart';
+import 'package:fl_network_inspector/src/utils/payload_truncator.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -1,5 +1,5 @@
-import 'package:flutter_network_inspector/src/storage/database_constants.dart';
-import 'package:flutter_network_inspector/src/storage/database_manager.dart';
+import 'package:fl_network_inspector/src/storage/database_constants.dart';
+import 'package:fl_network_inspector/src/storage/database_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 

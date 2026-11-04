@@ -1,11 +1,11 @@
-import 'package:flutter_network_inspector/src/models/body_type.dart';
-import 'package:flutter_network_inspector/src/models/http_error_details.dart';
-import 'package:flutter_network_inspector/src/models/multipart_entry.dart';
-import 'package:flutter_network_inspector/src/models/network_record.dart';
-import 'package:flutter_network_inspector/src/models/network_status.dart';
-import 'package:flutter_network_inspector/src/models/payload_data.dart';
-import 'package:flutter_network_inspector/src/storage/database_constants.dart';
-import 'package:flutter_network_inspector/src/storage/database_manager.dart';
+import 'package:fl_network_inspector/src/models/body_type.dart';
+import 'package:fl_network_inspector/src/models/http_error_details.dart';
+import 'package:fl_network_inspector/src/models/multipart_entry.dart';
+import 'package:fl_network_inspector/src/models/network_record.dart';
+import 'package:fl_network_inspector/src/models/network_status.dart';
+import 'package:fl_network_inspector/src/models/payload_data.dart';
+import 'package:fl_network_inspector/src/storage/database_constants.dart';
+import 'package:fl_network_inspector/src/storage/database_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 

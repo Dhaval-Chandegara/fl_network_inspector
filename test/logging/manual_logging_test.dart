@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter_network_inspector/flutter_network_inspector.dart';
+import 'package:fl_network_inspector/fl_network_inspector.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

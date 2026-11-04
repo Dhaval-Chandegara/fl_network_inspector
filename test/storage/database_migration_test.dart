@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:flutter_network_inspector/src/models/network_record.dart';
-import 'package:flutter_network_inspector/src/storage/database_constants.dart';
-import 'package:flutter_network_inspector/src/storage/database_manager.dart';
+import 'package:fl_network_inspector/src/models/network_record.dart';
+import 'package:fl_network_inspector/src/storage/database_constants.dart';
+import 'package:fl_network_inspector/src/storage/database_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
