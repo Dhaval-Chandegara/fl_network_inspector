@@ -256,7 +256,7 @@ await NetworkInspector.initialize(
 
 ## Example App
 
-Check out the [`example/`](file:///Users/dhavalchandegara/projects/fl_network_inspector/example) folder for a complete Flutter application demonstrating:
+Check out the [`example/`](example) folder for a complete Flutter application demonstrating:
 - Interception of GET, POST, and multipart requests
 - Handling 404 and 500 error responses
 - Socket and network failures
