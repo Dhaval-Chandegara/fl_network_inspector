@@ -80,7 +80,7 @@ final class NetworkInspector {
       startAutoCapture();
     }
 
-    if (config.enableShakeDetection && config.navigatorKey != null && !kIsWeb) {
+    if (config.enableShakeDetection && !kIsWeb) {
       _standaloneShakeDetector = ShakeDetector(
         onShake: () => open(),
         threshold: config.shakeThreshold,

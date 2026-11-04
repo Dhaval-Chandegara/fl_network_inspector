@@ -121,7 +121,15 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     if (picked != null) {
       setState(() {
         _startDate = picked.start;
-        _endDate = picked.end;
+        _endDate = DateTime(
+          picked.end.year,
+          picked.end.month,
+          picked.end.day,
+          23,
+          59,
+          59,
+          999,
+        );
       });
     }
   }

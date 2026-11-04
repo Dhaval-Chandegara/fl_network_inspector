@@ -51,6 +51,14 @@ class ShakeDetector with WidgetsBindingObserver {
   /// Returns whether the detector is currently paused due to lifecycle state.
   bool get isPaused => _isPaused;
 
+  WidgetsBinding? get _binding {
+    try {
+      return WidgetsBinding.instance;
+    } catch (_) {
+      return null;
+    }
+  }
+
   /// Starts listening to accelerometer sensor events and registers lifecycle observer.
   void start() {
     if (_isStarted) return;
@@ -58,13 +66,18 @@ class ShakeDetector with WidgetsBindingObserver {
     _isPaused = false;
 
     // Register lifecycle observer
-    WidgetsBinding.instance.addObserver(this);
+    _binding?.addObserver(this);
 
     _subscribe();
   }
 
   void _subscribe() {
     if (_subscription != null) return;
+
+    // In headless Dart VM tests without Flutter bindings, native sensor platform channels are unavailable.
+    if (_binding == null && _customStream == null && mockStream == null) {
+      return;
+    }
 
     try {
       final stream =
@@ -136,7 +149,7 @@ class ShakeDetector with WidgetsBindingObserver {
     if (!_isStarted) return;
     _isStarted = false;
     _isPaused = false;
-    WidgetsBinding.instance.removeObserver(this);
+    _binding?.removeObserver(this);
     _unsubscribe();
   }
 

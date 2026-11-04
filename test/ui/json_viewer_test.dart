@@ -116,5 +116,49 @@ void main() {
 
       expect(find.byType(JsonViewerWidget), findsOneWidget);
     });
+
+    testWidgets(
+        'properly classifies string values containing ": and does not falsely treat them as keys',
+        (tester) async {
+      const payload =
+          '{"query": "WHERE col = \\":id\\"", "greeting": "hello:"}';
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: JsonViewerWidget(
+              rawPayload: payload,
+              bodyType: BodyType.json,
+            ),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      final selectableTextFinder = find.byType(SelectableText);
+      expect(selectableTextFinder, findsOneWidget);
+
+      final selectableText =
+          tester.widget<SelectableText>(selectableTextFinder);
+      final rootSpan = selectableText.textSpan!;
+
+      final spans = rootSpan.children!.whereType<TextSpan>().toList();
+
+      // Find the span containing the WHERE query string value
+      final valueSpan = spans.firstWhere(
+        (s) => s.text != null && s.text!.contains('WHERE col ='),
+      );
+      // Ensure its color is stringColor (0xFF16A34A for light mode default)
+      expect(valueSpan.style?.color, const Color(0xFF16A34A));
+      expect(valueSpan.style?.fontWeight, isNot(FontWeight.w600));
+
+      // Find the span containing "hello:" string value
+      final greetingValueSpan = spans.firstWhere(
+        (s) => s.text != null && s.text!.contains('hello:'),
+      );
+      expect(greetingValueSpan.style?.color, const Color(0xFF16A34A));
+      expect(greetingValueSpan.style?.fontWeight, isNot(FontWeight.w600));
+    });
   });
 }

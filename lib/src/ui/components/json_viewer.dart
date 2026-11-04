@@ -108,11 +108,11 @@ class _JsonViewerWidgetState extends State<JsonViewerWidget> {
       }
 
       final matchedText = match.group(0)!;
-      if (matchedText.endsWith(':') || matchedText.contains('":')) {
+      final isKey = match.group(1) != null;
+      if (isKey) {
         // Key
-        final colonIndex = matchedText.indexOf(':');
-        final keyText = matchedText.substring(0, colonIndex);
-        final colonAndSpace = matchedText.substring(colonIndex);
+        final keyText = match.group(1)!;
+        final colonAndSpace = matchedText.substring(keyText.length);
         spans.add(TextSpan(
           text: keyText,
           style: TextStyle(color: keyColor, fontWeight: FontWeight.w600),

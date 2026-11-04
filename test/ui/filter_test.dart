@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fl_network_inspector/src/models/record_filter.dart';
 import 'package:fl_network_inspector/src/repository/in_memory_network_inspector_repository.dart';
+import 'package:fl_network_inspector/src/ui/components/filter_bottom_sheet.dart';
 import 'package:fl_network_inspector/src/ui/controllers/inspector_view_model.dart';
 import 'package:fl_network_inspector/src/ui/network_inspector_screen.dart';
 
@@ -100,6 +102,63 @@ void main() {
       expect(find.text('/v1/items/999'), findsOneWidget);
       expect(find.text('/v1/users'), findsNothing);
       expect(find.text('/v1/checkout'), findsNothing);
+    });
+
+    testWidgets(
+        'FilterBottomSheet date range selection normalizes end date to end of day',
+        (tester) async {
+      RecordFilter? appliedFilter;
+      final today = DateTime.now();
+      final initialRangeStart = DateTime(today.year, today.month, today.day);
+      final initialRangeEnd = DateTime(today.year, today.month, today.day);
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(
+              builder: (context) => ElevatedButton(
+                onPressed: () async {
+                  appliedFilter = await FilterBottomSheet.show(
+                    context,
+                    initialFilter: RecordFilter(
+                      startDate: initialRangeStart,
+                      endDate: initialRangeEnd,
+                    ),
+                  );
+                },
+                child: const Text('Open Sheet'),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open Sheet'));
+      await tester.pumpAndSettle();
+
+      // Scroll to reveal Date Range button
+      final dateButtonFinder = find.byIcon(Icons.date_range_rounded);
+      await tester.ensureVisible(dateButtonFinder);
+      await tester.pumpAndSettle();
+
+      // Tap Date Range button (shows formatted date)
+      await tester.tap(dateButtonFinder);
+      await tester.pumpAndSettle();
+
+      // In showDateRangePicker with initial date range, tap Save
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+
+      // Tap Apply Filters
+      await tester.tap(find.text('Apply Filters'));
+      await tester.pumpAndSettle();
+
+      expect(appliedFilter, isNotNull);
+      expect(appliedFilter!.endDate, isNotNull);
+      expect(appliedFilter!.endDate!.hour, 23);
+      expect(appliedFilter!.endDate!.minute, 59);
+      expect(appliedFilter!.endDate!.second, 59);
+      expect(appliedFilter!.endDate!.millisecond, 999);
     });
   });
 }

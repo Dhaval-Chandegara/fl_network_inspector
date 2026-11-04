@@ -260,5 +260,29 @@ void main() {
       expect(NetworkInspector.isOpen, isTrue);
       expect(find.byType(NetworkInspectorScreen), findsOneWidget);
     });
+
+    testWidgets(
+        'standalone shake detection triggers NetworkInspector.open via NetworkInspector.navigatorKey without wrapper',
+        (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          navigatorKey: NetworkInspector.navigatorKey,
+          home: const Scaffold(
+            body: Center(child: Text('Standalone Shake App')),
+          ),
+        ),
+      );
+
+      expect(NetworkInspector.isOpen, isFalse);
+
+      sensorController
+          .add(UserAccelerometerEvent(15.0, 0.0, 0.0, DateTime.now()));
+      await tester.pumpAndSettle();
+
+      expect(NetworkInspector.isOpen, isTrue);
+      expect(find.byType(NetworkInspectorScreen), findsOneWidget);
+    });
   });
 }
