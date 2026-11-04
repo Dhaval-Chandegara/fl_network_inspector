@@ -38,7 +38,8 @@ void main() {
     expect(find.text('Send JSON POST (Dio with redaction)'), findsOneWidget);
     expect(find.text('Send Multipart Upload (Metadata only)'), findsOneWidget);
     expect(find.text('Send HTTP 404 Not Found Request'), findsOneWidget);
-    expect(find.text('Simulate Network Failure (Socket Error)'), findsOneWidget);
+    expect(
+        find.text('Simulate Network Failure (Socket Error)'), findsOneWidget);
     expect(find.text('Log Custom Manual Call (GraphQL)'), findsOneWidget);
   });
 }

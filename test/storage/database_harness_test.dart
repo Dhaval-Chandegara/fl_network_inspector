@@ -28,7 +28,8 @@ void main() {
       await dbManager.close();
     });
 
-    test('opens in-memory SQLite and round-trips all 21 NetworkRecord columns', () async {
+    test('opens in-memory SQLite and round-trips all 21 NetworkRecord columns',
+        () async {
       final db = await dbManager.database;
       expect(db.isOpen, isTrue);
 
@@ -37,7 +38,10 @@ void main() {
         baseUrl: 'https://api.example.com',
         path: '/v1/users',
         method: 'POST',
-        requestHeaders: const {'Authorization': 'Bearer test-token', 'Accept': 'application/json'},
+        requestHeaders: const {
+          'Authorization': 'Bearer test-token',
+          'Accept': 'application/json'
+        },
         requestQueryParams: const {'page': '1'},
         requestBody: const PayloadData(
           body: '{"username":"dev"}',
@@ -48,7 +52,10 @@ void main() {
         requestSize: 19,
         requestTimestamp: DateTime.parse('2026-10-31T20:00:00.000Z'),
         responseStatusCode: 201,
-        responseHeaders: const {'Content-Type': 'application/json', 'x-request-id': 'req-123'},
+        responseHeaders: const {
+          'Content-Type': 'application/json',
+          'x-request-id': 'req-123'
+        },
         responseBody: const PayloadData(
           body: '{"id":"usr-99","status":"created"}',
           byteSize: 33,
@@ -109,18 +116,21 @@ void main() {
       expect(reconstructed.baseUrl, equals(record.baseUrl));
       expect(reconstructed.path, equals(record.path));
       expect(reconstructed.method, equals(record.method));
-      expect(reconstructed.requestHeaders['Authorization'], equals('Bearer test-token'));
+      expect(reconstructed.requestHeaders['Authorization'],
+          equals('Bearer test-token'));
       expect(reconstructed.requestQueryParams['page'], equals('1'));
       expect(reconstructed.requestBody?.body, equals('{"username":"dev"}'));
       expect(reconstructed.requestSize, equals(19));
       expect(reconstructed.responseStatusCode, equals(201));
       expect(reconstructed.responseHeaders?['x-request-id'], equals('req-123'));
-      expect(reconstructed.responseBody?.body, equals('{"id":"usr-99","status":"created"}'));
+      expect(reconstructed.responseBody?.body,
+          equals('{"id":"usr-99","status":"created"}'));
       expect(reconstructed.durationMs, equals(250));
       expect(reconstructed.status, equals(NetworkStatus.success));
       expect(reconstructed.error?.errorType, equals('NoError'));
       expect(reconstructed.multipartEntries, hasLength(1));
-      expect(reconstructed.multipartEntries!.first.fileName, equals('profile.jpg'));
+      expect(reconstructed.multipartEntries!.first.fileName,
+          equals('profile.jpg'));
     });
   });
 }

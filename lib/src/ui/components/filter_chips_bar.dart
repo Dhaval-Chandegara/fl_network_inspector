@@ -61,7 +61,8 @@ class FilterChipsBar extends StatelessWidget {
 
   bool get _is4xx5xxSelected =>
       filter.statusCodes != null &&
-      (filter.statusCodes!.contains(400) || filter.statusCodes!.contains(500)) &&
+      (filter.statusCodes!.contains(400) ||
+          filter.statusCodes!.contains(500)) &&
       !filter.statusCodes!.contains(200);
 
   @override
@@ -84,7 +85,9 @@ class FilterChipsBar extends StatelessWidget {
               size: 16,
               color: hasActive
                   ? (isDark ? Colors.white : Colors.white)
-                  : (isDark ? const Color(0xFF94A3B8) : const Color(0xFF475569)),
+                  : (isDark
+                      ? const Color(0xFF94A3B8)
+                      : const Color(0xFF475569)),
             ),
             label: Text(
               hasActive ? 'Filters ($count)' : 'Filters',
@@ -92,7 +95,9 @@ class FilterChipsBar extends StatelessWidget {
                 fontWeight: hasActive ? FontWeight.bold : FontWeight.w600,
                 color: hasActive
                     ? Colors.white
-                    : (isDark ? const Color(0xFFE2E8F0) : const Color(0xFF1E293B)),
+                    : (isDark
+                        ? const Color(0xFFE2E8F0)
+                        : const Color(0xFF1E293B)),
               ),
             ),
             backgroundColor: hasActive
@@ -101,7 +106,9 @@ class FilterChipsBar extends StatelessWidget {
             side: BorderSide(
               color: hasActive
                   ? const Color(0xFF1D4ED8)
-                  : (isDark ? const Color(0xFF334155) : const Color(0xFFCBD5E1)),
+                  : (isDark
+                      ? const Color(0xFF334155)
+                      : const Color(0xFFCBD5E1)),
             ),
             tooltip: 'Open filter sheet',
             onPressed: onOpenFilterSheet,
@@ -111,7 +118,8 @@ class FilterChipsBar extends StatelessWidget {
           // 2. Errors Only Quick Chip
           FilterChip(
             avatar: _isErrorsOnlySelected
-                ? const Icon(Icons.error_outline_rounded, size: 16, color: Color(0xFFEF4444))
+                ? const Icon(Icons.error_outline_rounded,
+                    size: 16, color: Color(0xFFEF4444))
                 : null,
             label: const Text('Errors Only'),
             selected: _isErrorsOnlySelected,

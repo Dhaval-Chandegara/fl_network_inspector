@@ -8,11 +8,13 @@ import 'helpers/test_record_fixtures.dart';
 
 void main() {
   group('Search Bar & Debounce Tests', () {
-    testWidgets('debounces search input by 300ms across records', (tester) async {
+    testWidgets('debounces search input by 300ms across records',
+        (tester) async {
       final repository = InMemoryNetworkInspectorRepository();
       await repository.save(TestRecordFixtures.getSuccessRecord); // /v1/users
       await repository.save(TestRecordFixtures.postSuccessRecord); // /v1/orders
-      await repository.save(TestRecordFixtures.clientErrorRecord); // /v1/items/999
+      await repository
+          .save(TestRecordFixtures.clientErrorRecord); // /v1/items/999
 
       final viewModel = InspectorViewModel(repository: repository);
 
@@ -59,7 +61,8 @@ void main() {
       expect(find.text('/v1/items/999'), findsOneWidget);
     });
 
-    testWidgets('search matching zero records shows "No Matching Requests" empty state',
+    testWidgets(
+        'search matching zero records shows "No Matching Requests" empty state',
         (tester) async {
       final repository = InMemoryNetworkInspectorRepository();
       await repository.save(TestRecordFixtures.getSuccessRecord);

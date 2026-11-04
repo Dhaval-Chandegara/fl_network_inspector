@@ -53,7 +53,9 @@ class HttpErrorDetails {
     final rawStatusCode = map['status_code'] ?? map['statusCode'];
     final int? statusCode = (rawStatusCode is num)
         ? rawStatusCode.toInt()
-        : (rawStatusCode != null ? int.tryParse(rawStatusCode.toString()) : null);
+        : (rawStatusCode != null
+            ? int.tryParse(rawStatusCode.toString())
+            : null);
 
     return HttpErrorDetails(
       message: (map['message'] ?? '') as String,

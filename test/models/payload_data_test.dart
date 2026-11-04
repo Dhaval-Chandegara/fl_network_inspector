@@ -56,23 +56,28 @@ void main() {
     });
 
     test('fromMap handles bool, int, and string is_truncated variations', () {
-      final fromBool = PayloadData.fromMap(const {'is_truncated': true, 'byte_size': 100});
+      final fromBool =
+          PayloadData.fromMap(const {'is_truncated': true, 'byte_size': 100});
       expect(fromBool.isTruncated, isTrue);
 
-      final fromInt = PayloadData.fromMap(const {'is_truncated': 1, 'byte_size': 100});
+      final fromInt =
+          PayloadData.fromMap(const {'is_truncated': 1, 'byte_size': 100});
       expect(fromInt.isTruncated, isTrue);
 
-      final fromString = PayloadData.fromMap(const {'is_truncated': 'true', 'byte_size': 100});
+      final fromString =
+          PayloadData.fromMap(const {'is_truncated': 'true', 'byte_size': 100});
       expect(fromString.isTruncated, isTrue);
 
-      final fromZero = PayloadData.fromMap(const {'is_truncated': 0, 'byte_size': 100});
+      final fromZero =
+          PayloadData.fromMap(const {'is_truncated': 0, 'byte_size': 100});
       expect(fromZero.isTruncated, isFalse);
     });
 
     test('supports value equality and hashCode', () {
       const a = PayloadData(body: 'data', byteSize: 4, bodyType: BodyType.text);
       const b = PayloadData(body: 'data', byteSize: 4, bodyType: BodyType.text);
-      const c = PayloadData(body: 'different', byteSize: 9, bodyType: BodyType.text);
+      const c =
+          PayloadData(body: 'different', byteSize: 9, bodyType: BodyType.text);
 
       expect(a, equals(b));
       expect(a.hashCode, equals(b.hashCode));
@@ -82,17 +87,20 @@ void main() {
 
   group('BodyType Enum', () {
     test('contains all 6 required discrete types', () {
-      expect(BodyType.values, containsAll([
-        BodyType.json,
-        BodyType.text,
-        BodyType.formData,
-        BodyType.multipart,
-        BodyType.binary,
-        BodyType.empty,
-      ]));
+      expect(
+          BodyType.values,
+          containsAll([
+            BodyType.json,
+            BodyType.text,
+            BodyType.formData,
+            BodyType.multipart,
+            BodyType.binary,
+            BodyType.empty,
+          ]));
     });
 
-    test('fromString parses case-insensitively and falls back to text or empty', () {
+    test('fromString parses case-insensitively and falls back to text or empty',
+        () {
       expect(BodyType.fromString('json'), equals(BodyType.json));
       expect(BodyType.fromString('JSON'), equals(BodyType.json));
       expect(BodyType.fromString('formData'), equals(BodyType.formData));

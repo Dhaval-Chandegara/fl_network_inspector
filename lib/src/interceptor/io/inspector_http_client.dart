@@ -49,16 +49,20 @@ class InspectorHttpClient implements HttpClient {
 
   @override
   set badCertificateCallback(
-          bool Function(X509Certificate cert, String host, int port)? callback) =>
+          bool Function(X509Certificate cert, String host, int port)?
+              callback) =>
       _inner.badCertificateCallback = callback;
 
   @override
-  set authenticate(Future<bool> Function(Uri url, String scheme, String? realm)? f) =>
+  set authenticate(
+          Future<bool> Function(Uri url, String scheme, String? realm)? f) =>
       _inner.authenticate = f;
 
   @override
   set authenticateProxy(
-          Future<bool> Function(String host, int port, String scheme, String? realm)? f) =>
+          Future<bool> Function(
+                  String host, int port, String scheme, String? realm)?
+              f) =>
       _inner.authenticateProxy = f;
 
   @override
@@ -66,19 +70,22 @@ class InspectorHttpClient implements HttpClient {
 
   @override
   set connectionFactory(
-          Future<ConnectionTask<Socket>> Function(Uri url, String? proxyHost, int? proxyPort)? f) =>
+          Future<ConnectionTask<Socket>> Function(
+                  Uri url, String? proxyHost, int? proxyPort)?
+              f) =>
       _inner.connectionFactory = f;
 
   @override
   set keyLog(void Function(String line)? callback) => _inner.keyLog = callback;
 
   @override
-  void addCredentials(Uri url, String realm, HttpClientCredentials credentials) =>
+  void addCredentials(
+          Uri url, String realm, HttpClientCredentials credentials) =>
       _inner.addCredentials(url, realm, credentials);
 
   @override
-  void addProxyCredentials(
-          String host, int port, String realm, HttpClientCredentials credentials) =>
+  void addProxyCredentials(String host, int port, String realm,
+          HttpClientCredentials credentials) =>
       _inner.addProxyCredentials(host, port, realm, credentials);
 
   @override
@@ -97,7 +104,8 @@ class InspectorHttpClient implements HttpClient {
   }
 
   @override
-  Future<HttpClientRequest> open(String method, String host, int port, String path) async {
+  Future<HttpClientRequest> open(
+      String method, String host, int port, String path) async {
     final startTimestamp = DateTime.now();
     try {
       final request = await _inner.open(method, host, port, path);
@@ -105,7 +113,8 @@ class InspectorHttpClient implements HttpClient {
     } catch (e, st) {
       if (NetworkInspector.isEnabled) {
         final scheme = port == 443 ? 'https' : 'http';
-        final isDefaultPort = (scheme == 'https' && port == 443) || (scheme == 'http' && port == 80);
+        final isDefaultPort = (scheme == 'https' && port == 443) ||
+            (scheme == 'http' && port == 80);
         final uri = Uri(
           scheme: scheme,
           host: host,
@@ -113,7 +122,8 @@ class InspectorHttpClient implements HttpClient {
           path: path,
         );
         if (!_isIgnored(uri)) {
-          final engine = RedactionEngine(customKeys: _config.customRedactionKeys);
+          final engine =
+              RedactionEngine(customKeys: _config.customRedactionKeys);
           final failedRecord = NetworkRecord(
             id: UuidGenerator.v4(),
             url: engine.redactUrl(uri.toString()),
@@ -122,7 +132,8 @@ class InspectorHttpClient implements HttpClient {
             method: method.toUpperCase(),
             requestQueryParams: engine.redactQueryParams(uri.queryParameters),
             requestTimestamp: startTimestamp,
-            durationMs: DateTime.now().difference(startTimestamp).inMilliseconds,
+            durationMs:
+                DateTime.now().difference(startTimestamp).inMilliseconds,
             status: NetworkStatus.failed,
             error: HttpErrorDetails(
               errorType: e.runtimeType.toString(),

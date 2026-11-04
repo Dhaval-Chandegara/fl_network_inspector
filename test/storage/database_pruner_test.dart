@@ -27,7 +27,8 @@ void main() {
       await dbManager.close();
     });
 
-    Future<void> insertTestRecords(int count, {DateTime? startTimestamp}) async {
+    Future<void> insertTestRecords(int count,
+        {DateTime? startTimestamp}) async {
       final base = startTimestamp ?? DateTime.parse('2026-10-31T12:00:00.000Z');
       final batch = db.batch();
       for (var i = 0; i < count; i++) {
@@ -43,7 +44,8 @@ void main() {
       await batch.commit(noResult: true);
     }
 
-    test('Test 1: Does NOT prune when count is within hysteresis margin (D-25)', () async {
+    test('Test 1: Does NOT prune when count is within hysteresis margin (D-25)',
+        () async {
       const maxRecords = 10;
       const margin = 5;
 
@@ -51,14 +53,16 @@ void main() {
       await insertTestRecords(15);
 
       final countBefore = Sqflite.firstIntValue(
-        await db.rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
+        await db
+            .rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
       );
       expect(countBefore, equals(15));
 
       await DatabasePruner.pruneIfNecessary(db, maxRecords, margin: margin);
 
       final countAfter = Sqflite.firstIntValue(
-        await db.rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
+        await db
+            .rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
       );
       expect(countAfter, equals(15)); // Not pruned
     });
@@ -74,14 +78,16 @@ void main() {
       await insertTestRecords(20, startTimestamp: startTime);
 
       final countBefore = Sqflite.firstIntValue(
-        await db.rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
+        await db
+            .rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
       );
       expect(countBefore, equals(20));
 
       await DatabasePruner.pruneIfNecessary(db, maxRecords, margin: margin);
 
       final countAfter = Sqflite.firstIntValue(
-        await db.rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
+        await db
+            .rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
       );
       expect(countAfter, equals(maxRecords)); // Pruned down to exactly 10
 
@@ -93,11 +99,14 @@ void main() {
       expect(remainingRows, hasLength(10));
 
       // The earliest remaining item should be item/10
-      expect(remainingRows.first['url'], equals('https://api.example.com/item/10'));
-      expect(remainingRows.last['url'], equals('https://api.example.com/item/19'));
+      expect(remainingRows.first['url'],
+          equals('https://api.example.com/item/10'));
+      expect(
+          remainingRows.last['url'], equals('https://api.example.com/item/19'));
     });
 
-    test('Test 3: Default hysteresis margin of 50 triggers at maxRecords + 50', () async {
+    test('Test 3: Default hysteresis margin of 50 triggers at maxRecords + 50',
+        () async {
       const maxRecords = 100;
       expect(DatabasePruner.hysteresisMargin, equals(50));
 
@@ -105,7 +114,8 @@ void main() {
       await insertTestRecords(150);
       await DatabasePruner.pruneIfNecessary(db, maxRecords);
       var count = Sqflite.firstIntValue(
-        await db.rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
+        await db
+            .rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
       );
       expect(count, equals(150));
 
@@ -113,34 +123,42 @@ void main() {
       await insertTestRecords(1);
       await DatabasePruner.pruneIfNecessary(db, maxRecords);
       count = Sqflite.firstIntValue(
-        await db.rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
+        await db
+            .rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
       );
       expect(count, equals(100));
     });
 
-    test('Test 4: Clear all action removes all records and permits new inserts (D-28)', () async {
+    test(
+        'Test 4: Clear all action removes all records and permits new inserts (D-28)',
+        () async {
       await insertTestRecords(15);
       var count = Sqflite.firstIntValue(
-        await db.rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
+        await db
+            .rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
       );
       expect(count, equals(15));
 
       await DatabasePruner.clearAll(db);
 
       count = Sqflite.firstIntValue(
-        await db.rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
+        await db
+            .rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
       );
       expect(count, equals(0));
 
       // Subsequent insert works without errors
       await insertTestRecords(1);
       count = Sqflite.firstIntValue(
-        await db.rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
+        await db
+            .rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
       );
       expect(count, equals(1));
     });
 
-    test('Test 5: Error resilience: pruneIfNecessary handles closed database without throwing (D-27)', () async {
+    test(
+        'Test 5: Error resilience: pruneIfNecessary handles closed database without throwing (D-27)',
+        () async {
       await dbManager.close();
 
       // Should complete without uncaught exceptions

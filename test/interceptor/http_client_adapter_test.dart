@@ -7,7 +7,9 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
 void main() {
-  group('NetworkInspectorHttpClient Adapter (INTC-03, INTC-05, D-33, D-34, D-41, DATA-04)', () {
+  group(
+      'NetworkInspectorHttpClient Adapter (INTC-03, INTC-05, D-33, D-34, D-41, DATA-04)',
+      () {
     late HttpServer server;
     late InMemoryNetworkInspectorRepository repository;
     final receivedHeaders = <String, List<String>>{};
@@ -69,13 +71,16 @@ void main() {
       NetworkInspector.resetForTesting();
     });
 
-    test('sends GET request, taps stream non-destructively, and records success', () async {
+    test(
+        'sends GET request, taps stream non-destructively, and records success',
+        () async {
       final client = NetworkInspectorHttpClient();
       final url = Uri.parse(
         'http://${server.address.host}:${server.port}/api/items?category=books&apiKey=secret123',
       );
 
-      final response = await client.get(url, headers: {'x-app-client': 'flutter-http'});
+      final response =
+          await client.get(url, headers: {'x-app-client': 'flutter-http'});
 
       expect(response.statusCode, equals(200));
       // Host application consumes single-subscription response body safely
@@ -101,18 +106,22 @@ void main() {
 
       // Injected tracking header verification
       expect(
-        receivedHeaders.containsKey(NetworkInspectorConstants.headerInspectorId),
+        receivedHeaders
+            .containsKey(NetworkInspectorConstants.headerInspectorId),
         isTrue,
       );
 
       client.close();
     });
 
-    test('sends POST request and captures request and response payloads', () async {
+    test('sends POST request and captures request and response payloads',
+        () async {
       final client = NetworkInspectorHttpClient();
-      final url = Uri.parse('http://${server.address.host}:${server.port}/api/items');
+      final url =
+          Uri.parse('http://${server.address.host}:${server.port}/api/items');
 
-      final payload = jsonEncode({'title': 'New Book', 'password': 'my-secret'});
+      final payload =
+          jsonEncode({'title': 'New Book', 'password': 'my-secret'});
       final response = await client.post(
         url,
         headers: {'content-type': 'application/json'},
@@ -140,9 +149,11 @@ void main() {
       client.close();
     });
 
-    test('extracts MultipartRequest metadata without raw file bytes (DATA-04)', () async {
+    test('extracts MultipartRequest metadata without raw file bytes (DATA-04)',
+        () async {
       final client = NetworkInspectorHttpClient();
-      final url = Uri.parse('http://${server.address.host}:${server.port}/api/multipart');
+      final url = Uri.parse(
+          'http://${server.address.host}:${server.port}/api/multipart');
 
       final request = http.MultipartRequest('POST', url);
       request.fields['description'] = 'Invoice upload';
@@ -189,7 +200,8 @@ void main() {
 
     test('handles binary response stream with format summary (D-43)', () async {
       final client = NetworkInspectorHttpClient();
-      final url = Uri.parse('http://${server.address.host}:${server.port}/api/binary');
+      final url =
+          Uri.parse('http://${server.address.host}:${server.port}/api/binary');
 
       final response = await client.get(url);
       expect(response.statusCode, equals(200));
@@ -202,12 +214,14 @@ void main() {
       final record = records.first;
       expect(record.responseBody, isNotNull);
       expect(record.responseBody!.bodyType, equals(BodyType.binary));
-      expect(record.responseBody!.body, contains('[Binary data: image/jpeg, 512 bytes]'));
+      expect(record.responseBody!.body,
+          contains('[Binary data: image/jpeg, 512 bytes]'));
 
       client.close();
     });
 
-    test('records NetworkStatus.failed on socket/connection failure (INTC-07)', () async {
+    test('records NetworkStatus.failed on socket/connection failure (INTC-07)',
+        () async {
       final client = NetworkInspectorHttpClient();
       // Target a non-existent port
       final url = Uri.parse('http://127.0.0.1:59999/unreachable');
@@ -233,12 +247,14 @@ void main() {
       client.close();
     });
 
-    test('guards against repeated/nested wrapper registrations (D-34)', () async {
+    test('guards against repeated/nested wrapper registrations (D-34)',
+        () async {
       final innerClient = NetworkInspectorHttpClient();
       // Nested client wrapping another NetworkInspectorHttpClient
       final outerClient = NetworkInspectorHttpClient(innerClient);
 
-      final url = Uri.parse('http://${server.address.host}:${server.port}/api/items');
+      final url =
+          Uri.parse('http://${server.address.host}:${server.port}/api/items');
       final response = await outerClient.get(url);
       expect(response.statusCode, equals(200));
 
@@ -275,7 +291,8 @@ void main() {
       );
 
       final client = NetworkInspectorHttpClient();
-      final url = Uri.parse('http://${server.address.host}:${server.port}/api/items');
+      final url =
+          Uri.parse('http://${server.address.host}:${server.port}/api/items');
       final response = await client.get(url);
       expect(response.statusCode, equals(200));
 

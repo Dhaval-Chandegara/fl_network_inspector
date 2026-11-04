@@ -18,7 +18,8 @@ void main() {
     late String tempDbPath;
 
     setUp(() async {
-      tempDir = await Directory.systemTemp.createTemp('fl_net_insp_migration_test_');
+      tempDir =
+          await Directory.systemTemp.createTemp('fl_net_insp_migration_test_');
       tempDbPath = p.join(tempDir.path, 'migration_test.db');
     });
 
@@ -30,7 +31,9 @@ void main() {
       }
     });
 
-    test('Test 1: Fresh database open runs onCreate at version 1, creating table and indexes', () async {
+    test(
+        'Test 1: Fresh database open runs onCreate at version 1, creating table and indexes',
+        () async {
       final manager = DatabaseManager(
         factory: databaseFactoryFfi,
         customPath: tempDbPath,
@@ -59,7 +62,9 @@ void main() {
       await manager.close();
     });
 
-    test('Test 2: Database opened with matching version does not invoke onUpgrade', () async {
+    test(
+        'Test 2: Database opened with matching version does not invoke onUpgrade',
+        () async {
       bool onUpgradeRan = false;
 
       // First open at v1
@@ -113,7 +118,8 @@ void main() {
 
       await dbV1.insert(DatabaseConstants.tableName, testRecord.toMap());
       final v1Count = Sqflite.firstIntValue(
-        await dbV1.rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
+        await dbV1
+            .rawQuery('SELECT COUNT(*) FROM ${DatabaseConstants.tableName};'),
       );
       expect(v1Count, equals(1));
 
@@ -142,7 +148,8 @@ void main() {
       final columnsInfo = await dbV2.rawQuery(
         'PRAGMA table_info(${DatabaseConstants.tableName});',
       );
-      final columnNames = columnsInfo.map((row) => row['name'] as String).toList();
+      final columnNames =
+          columnsInfo.map((row) => row['name'] as String).toList();
       expect(columnNames, contains('extra_test'));
       expect(columnNames, hasLength(22)); // 21 original + 1 added
 

@@ -24,7 +24,8 @@ import '../stream/stream_tap_transformer.dart';
 class NetworkInspectorHttpClient extends http.BaseClient {
   final http.Client _inner;
 
-  NetworkInspectorHttpClient([http.Client? inner]) : _inner = inner ?? http.Client();
+  NetworkInspectorHttpClient([http.Client? inner])
+      : _inner = inner ?? http.Client();
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) async {
@@ -33,8 +34,10 @@ class NetworkInspectorHttpClient extends http.BaseClient {
     }
 
     // D-34: Guard against repeat capture from nested or repeated wrappers
-    if (request.headers.containsKey(NetworkInspectorConstants.headerInspectorId) ||
-        request.headers.containsKey(NetworkInspectorConstants.internalTrackingHeader)) {
+    if (request.headers
+            .containsKey(NetworkInspectorConstants.headerInspectorId) ||
+        request.headers
+            .containsKey(NetworkInspectorConstants.internalTrackingHeader)) {
       return _inner.send(request);
     }
 
@@ -53,8 +56,10 @@ class NetworkInspectorHttpClient extends http.BaseClient {
     final config = NetworkInspector.currentConfig;
     final engine = RedactionEngine(customKeys: config.customRedactionKeys);
 
-    final sanitizedHeaders = engine.redactHeaders(Map<String, dynamic>.from(request.headers));
-    final sanitizedQueryParams = engine.redactQueryParams(request.url.queryParameters);
+    final sanitizedHeaders =
+        engine.redactHeaders(Map<String, dynamic>.from(request.headers));
+    final sanitizedQueryParams =
+        engine.redactQueryParams(request.url.queryParameters);
     final sanitizedUrl = engine.redactUrl(request.url.toString());
 
     PayloadData? requestPayload;
@@ -86,7 +91,8 @@ class NetworkInspectorHttpClient extends http.BaseClient {
             fileName: file.filename,
             contentType: file.contentType.mimeType,
             byteSize: file.length,
-            filePath: null, // http.MultipartFile does not expose source file path
+            filePath:
+                null, // http.MultipartFile does not expose source file path
           ),
         );
       }
@@ -144,7 +150,8 @@ class NetworkInspectorHttpClient extends http.BaseClient {
       response = await _inner.send(request);
     } catch (e, st) {
       final errorTimestamp = DateTime.now();
-      final durationMs = errorTimestamp.difference(startTimestamp).inMilliseconds;
+      final durationMs =
+          errorTimestamp.difference(startTimestamp).inMilliseconds;
       final errorDetails = HttpErrorDetails(
         message: e.toString(),
         errorType: e.runtimeType.toString(),
@@ -170,7 +177,8 @@ class NetworkInspectorHttpClient extends http.BaseClient {
         isBinary: isBinary,
         onComplete: (bufferedBytes, isTruncated, totalBytes) {
           final endTimestamp = DateTime.now();
-          final durationMs = endTimestamp.difference(startTimestamp).inMilliseconds;
+          final durationMs =
+              endTimestamp.difference(startTimestamp).inMilliseconds;
           final rawHeaders = <String, dynamic>{};
           response.headers.forEach((k, v) => rawHeaders[k] = v);
           final sanitizedResponseHeaders = engine.redactHeaders(rawHeaders);
@@ -187,7 +195,8 @@ class NetworkInspectorHttpClient extends http.BaseClient {
               isTruncated: false,
             );
           } else if (bufferedBytes.isNotEmpty) {
-            final decodedText = utf8.decode(bufferedBytes, allowMalformed: true);
+            final decodedText =
+                utf8.decode(bufferedBytes, allowMalformed: true);
             final finalBody = isTruncated
                 ? '$decodedText${PayloadTruncator.formatTruncationBanner(config.maxBodyBytes)}'
                 : decodedText;
@@ -217,7 +226,8 @@ class NetworkInspectorHttpClient extends http.BaseClient {
         },
         onError: (error, stackTrace, partialBytes, totalBytes) {
           final endTimestamp = DateTime.now();
-          final durationMs = endTimestamp.difference(startTimestamp).inMilliseconds;
+          final durationMs =
+              endTimestamp.difference(startTimestamp).inMilliseconds;
           final rawHeaders = <String, dynamic>{};
           response.headers.forEach((k, v) => rawHeaders[k] = v);
           final sanitizedResponseHeaders = engine.redactHeaders(rawHeaders);
@@ -264,7 +274,8 @@ class NetworkInspectorHttpClient extends http.BaseClient {
             responseStatusCode: response.statusCode,
             responseHeaders: sanitizedResponseHeaders,
             responseBody: responsePayload,
-            responseContentType: responsePayload != null ? responseContentType : null,
+            responseContentType:
+                responsePayload != null ? responseContentType : null,
             responseSize: totalBytes,
             responseTimestamp: endTimestamp,
             durationMs: durationMs,

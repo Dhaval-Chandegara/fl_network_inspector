@@ -65,7 +65,7 @@ void main() {
       expect(uuid, isNotEmpty);
 
       // Client Adapters
-      final dioInterceptor = NetworkInspectorDioInterceptor();
+      const dioInterceptor = NetworkInspectorDioInterceptor();
       expect(dioInterceptor, isNotNull);
 
       final httpClient = NetworkInspectorHttpClient();

@@ -44,7 +44,8 @@ class _ExportActionSheetState extends State<ExportActionSheet> {
   bool _excludeHeaders = false;
 
   Future<void> _handleShare(ShareFormat format) async {
-    final origin = widget.anchorOrigin ?? ShareExporter.calculateAnchor(context);
+    final origin =
+        widget.anchorOrigin ?? ShareExporter.calculateAnchor(context);
     Navigator.of(context).pop();
 
     await ShareExporter.shareRecord(
@@ -62,8 +63,10 @@ class _ExportActionSheetState extends State<ExportActionSheet> {
     final isDark = theme.brightness == Brightness.dark;
 
     final backgroundColor = isDark ? const Color(0xFF1E1E1E) : Colors.white;
-    final primaryTextColor = isDark ? const Color(0xFFF9FAFB) : const Color(0xFF111827);
-    final secondaryTextColor = isDark ? const Color(0xFF9CA3AF) : const Color(0xFF64748B);
+    final primaryTextColor =
+        isDark ? const Color(0xFFF9FAFB) : const Color(0xFF111827);
+    final secondaryTextColor =
+        isDark ? const Color(0xFF9CA3AF) : const Color(0xFF64748B);
 
     return Material(
       color: backgroundColor,
@@ -83,7 +86,9 @@ class _ExportActionSheetState extends State<ExportActionSheet> {
                   height: 4,
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   decoration: BoxDecoration(
-                    color: isDark ? const Color(0xFF4B5563) : const Color(0xFFD1D5DB),
+                    color: isDark
+                        ? const Color(0xFF4B5563)
+                        : const Color(0xFFD1D5DB),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -91,7 +96,8 @@ class _ExportActionSheetState extends State<ExportActionSheet> {
 
               // Title Header
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 child: Text(
                   'Share Request Details',
                   style: TextStyle(
@@ -108,7 +114,9 @@ class _ExportActionSheetState extends State<ExportActionSheet> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 child: Material(
-                  color: isDark ? const Color(0xFF2C2C2C) : const Color(0xFFF3F4F6),
+                  color: isDark
+                      ? const Color(0xFF2C2C2C)
+                      : const Color(0xFFF3F4F6),
                   borderRadius: BorderRadius.circular(8),
                   child: CheckboxListTile(
                     value: _excludeHeaders,

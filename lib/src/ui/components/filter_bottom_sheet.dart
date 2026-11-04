@@ -161,7 +161,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     height: 4,
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     decoration: BoxDecoration(
-                      color: isDark ? const Color(0xFF4B5563) : const Color(0xFFD1D5DB),
+                      color: isDark
+                          ? const Color(0xFF4B5563)
+                          : const Color(0xFFD1D5DB),
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -193,7 +195,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 // Scrollable Inner Content
                 Flexible(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
@@ -201,14 +204,16 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         // HTTP Methods
                         const Text(
                           'HTTP Methods',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(height: 8),
                         Wrap(
                           spacing: 8,
                           runSpacing: 8,
                           children: _availableMethods.map((method) {
-                            final isSelected = _selectedMethods.contains(method);
+                            final isSelected =
+                                _selectedMethods.contains(method);
                             return FilterChip(
                               label: Text(method),
                               selected: isSelected,
@@ -229,7 +234,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         // Status Code Categories
                         const Text(
                           'Status Code Range',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(height: 8),
                         Wrap(
@@ -242,9 +248,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                               onSelected: (selected) {
                                 setState(() {
                                   if (selected) {
-                                    _selectedStatusCodes.addAll([200, 201, 202, 204]);
+                                    _selectedStatusCodes
+                                        .addAll([200, 201, 202, 204]);
                                   } else {
-                                    _selectedStatusCodes.removeAll([200, 201, 202, 204]);
+                                    _selectedStatusCodes
+                                        .removeAll([200, 201, 202, 204]);
                                   }
                                 });
                               },
@@ -255,9 +263,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                               onSelected: (selected) {
                                 setState(() {
                                   if (selected) {
-                                    _selectedStatusCodes.addAll([301, 302, 304, 307]);
+                                    _selectedStatusCodes
+                                        .addAll([301, 302, 304, 307]);
                                   } else {
-                                    _selectedStatusCodes.removeAll([301, 302, 304, 307]);
+                                    _selectedStatusCodes
+                                        .removeAll([301, 302, 304, 307]);
                                   }
                                 });
                               },
@@ -268,9 +278,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                               onSelected: (selected) {
                                 setState(() {
                                   if (selected) {
-                                    _selectedStatusCodes.addAll([400, 401, 403, 404, 422]);
+                                    _selectedStatusCodes
+                                        .addAll([400, 401, 403, 404, 422]);
                                   } else {
-                                    _selectedStatusCodes.removeAll([400, 401, 403, 404, 422]);
+                                    _selectedStatusCodes
+                                        .removeAll([400, 401, 403, 404, 422]);
                                   }
                                 });
                               },
@@ -281,9 +293,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                               onSelected: (selected) {
                                 setState(() {
                                   if (selected) {
-                                    _selectedStatusCodes.addAll([500, 502, 503, 504]);
+                                    _selectedStatusCodes
+                                        .addAll([500, 502, 503, 504]);
                                   } else {
-                                    _selectedStatusCodes.removeAll([500, 502, 503, 504]);
+                                    _selectedStatusCodes
+                                        .removeAll([500, 502, 503, 504]);
                                   }
                                 });
                               },
@@ -297,7 +311,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                           contentPadding: EdgeInsets.zero,
                           title: const Text(
                             'Errors Only',
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w600),
                           ),
                           subtitle: const Text(
                             'Show only failed network requests or status codes >= 400',
@@ -313,7 +328,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         // Duration Filters
                         const Text(
                           'Duration (ms)',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(height: 8),
                         Row(
@@ -325,8 +341,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                 decoration: const InputDecoration(
                                   labelText: 'Min (ms)',
                                   border: OutlineInputBorder(),
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 10),
                                 ),
                               ),
                             ),
@@ -338,8 +354,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                 decoration: const InputDecoration(
                                   labelText: 'Max (ms)',
                                   border: OutlineInputBorder(),
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 10),
                                 ),
                               ),
                             ),
@@ -350,7 +366,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         // Date Range Picker
                         const Text(
                           'Date Range',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(height: 8),
                         OutlinedButton.icon(
@@ -370,7 +387,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 // Bottom Action buttons: Reset & Apply
                 const Divider(height: 1),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   child: Row(
                     children: [
                       Expanded(

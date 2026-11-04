@@ -34,7 +34,8 @@ void main() {
   });
 
   group('NetworkInspectorScreen Tests', () {
-    testWidgets('renders empty state "No Captured Traffic" when no records exist',
+    testWidgets(
+        'renders empty state "No Captured Traffic" when no records exist',
         (tester) async {
       final repository = InMemoryNetworkInspectorRepository();
 
@@ -59,7 +60,8 @@ void main() {
       expect(find.byIcon(Icons.radar), findsOneWidget);
     });
 
-    testWidgets('renders request tiles with method badges, status badges, and paths',
+    testWidgets(
+        'renders request tiles with method badges, status badges, and paths',
         (tester) async {
       final repository = InMemoryNetworkInspectorRepository();
       await repository.save(TestRecordFixtures.getSuccessRecord);
@@ -108,7 +110,8 @@ void main() {
       expect(find.textContaining('ms'), findsNothing);
     });
 
-    testWidgets('displays error state when repository fetch throws', (tester) async {
+    testWidgets('displays error state when repository fetch throws',
+        (tester) async {
       final repository = FailingRepository();
 
       await tester.pumpWidget(
@@ -162,7 +165,8 @@ void main() {
       expect(NetworkInspector.isOpen, isTrue);
 
       // Rapid second tap while open should be ignored (reentrancy guard)
-      final BuildContext currentContext = tester.element(find.byType(ElevatedButton));
+      final BuildContext currentContext =
+          tester.element(find.byType(ElevatedButton));
       await NetworkInspector.open(currentContext);
 
       await tester.pumpAndSettle();

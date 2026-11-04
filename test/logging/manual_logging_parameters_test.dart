@@ -24,7 +24,8 @@ void main() {
       NetworkInspector.resetForTesting();
     });
 
-    test('processes Map body: JSON encoded and sensitive keys redacted (D-46)', () async {
+    test('processes Map body: JSON encoded and sensitive keys redacted (D-46)',
+        () async {
       await NetworkInspector.logApi(
         method: 'POST',
         url: 'https://api.example.com/auth/login',
@@ -53,10 +54,12 @@ void main() {
       expect(record.responseBody, isNotNull);
       expect(record.responseBody!.bodyType, equals(BodyType.json));
       expect(record.responseBody!.body, contains('"name":"John"'));
-      expect(record.responseBody!.body, contains('"access_token":"[REDACTED]"'));
+      expect(
+          record.responseBody!.body, contains('"access_token":"[REDACTED]"'));
     });
 
-    test('processes List body: JSON array encoded and sensitive items redacted', () async {
+    test('processes List body: JSON array encoded and sensitive items redacted',
+        () async {
       await NetworkInspector.logApi(
         method: 'POST',
         url: 'https://api.example.com/batch',
@@ -76,8 +79,11 @@ void main() {
       expect(record.requestBody!.body, contains('"secret":"[REDACTED]"'));
     });
 
-    test('processes Uint8List binary body: records metadata banner without raw bytes (D-43, D-46)', () async {
-      final binaryBytes = Uint8List.fromList(List.generate(256, (i) => i % 256));
+    test(
+        'processes Uint8List binary body: records metadata banner without raw bytes (D-43, D-46)',
+        () async {
+      final binaryBytes =
+          Uint8List.fromList(List.generate(256, (i) => i % 256));
 
       await NetworkInspector.logApi(
         method: 'POST',
@@ -94,15 +100,19 @@ void main() {
 
       final record = records.first;
       expect(record.requestBody!.bodyType, equals(BodyType.binary));
-      expect(record.requestBody!.body, contains('[Binary data: image/jpeg, 256 bytes]'));
+      expect(record.requestBody!.body,
+          contains('[Binary data: image/jpeg, 256 bytes]'));
       expect(record.requestBody!.byteSize, equals(256));
 
       expect(record.responseBody!.bodyType, equals(BodyType.binary));
-      expect(record.responseBody!.body, contains('[Binary data: image/png, 256 bytes]'));
+      expect(record.responseBody!.body,
+          contains('[Binary data: image/png, 256 bytes]'));
       expect(record.responseBody!.byteSize, equals(256));
     });
 
-    test('processes raw String body with truncation at maxBodyBytes (D-02, D-13)', () async {
+    test(
+        'processes raw String body with truncation at maxBodyBytes (D-02, D-13)',
+        () async {
       final longString = 'A' * 200;
 
       await NetworkInspector.logApi(
@@ -118,10 +128,13 @@ void main() {
       final record = records.first;
       expect(record.requestBody!.isTruncated, isTrue);
       expect(record.requestBody!.byteSize, equals(200));
-      expect(record.requestBody!.body, contains('[Payload truncated at 100 bytes]'));
+      expect(record.requestBody!.body,
+          contains('[Payload truncated at 100 bytes]'));
     });
 
-    test('processes MultipartEntry list: extracts metadata entries without raw bytes (DATA-04)', () async {
+    test(
+        'processes MultipartEntry list: extracts metadata entries without raw bytes (DATA-04)',
+        () async {
       final multipart = [
         const MultipartEntry(
           fieldName: 'description',
@@ -156,7 +169,9 @@ void main() {
       expect(record.multipartEntries![1].byteSize, equals(50000));
     });
 
-    test('standalone logError creates fresh record with NetworkStatus.failed and HttpErrorDetails (D-47)', () async {
+    test(
+        'standalone logError creates fresh record with NetworkStatus.failed and HttpErrorDetails (D-47)',
+        () async {
       const error = SocketException('Network unreachable');
       final stack = StackTrace.current;
 
@@ -181,11 +196,14 @@ void main() {
       expect(record.error!.errorType, contains('SocketException'));
       expect(record.error!.message, contains('Network unreachable'));
       expect(record.error!.statusCode, equals(504));
-      expect(record.error!.stackTrace, contains('manual_logging_parameters_test.dart'));
+      expect(record.error!.stackTrace,
+          contains('manual_logging_parameters_test.dart'));
       expect(record.requestBody?.body, contains('gateway timeout'));
     });
 
-    test('linked logError updates existing record with failure details without duplicating (D-47)', () async {
+    test(
+        'linked logError updates existing record with failure details without duplicating (D-47)',
+        () async {
       // First, create a pending or initial request via startRequest
       final tracker = NetworkInspector.startRequest(
         method: 'POST',

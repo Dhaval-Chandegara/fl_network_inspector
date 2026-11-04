@@ -86,9 +86,8 @@ class RecordFilter {
       startDate: identical(startDate, _sentinel)
           ? this.startDate
           : startDate as DateTime?,
-      endDate: identical(endDate, _sentinel)
-          ? this.endDate
-          : endDate as DateTime?,
+      endDate:
+          identical(endDate, _sentinel) ? this.endDate : endDate as DateTime?,
     );
   }
 
@@ -115,7 +114,10 @@ class RecordFilter {
 
     final rawStatusCodes = map['status_codes'] ?? map['statusCodes'];
     final Set<int>? statusCodes = (rawStatusCodes is List)
-        ? rawStatusCodes.map((e) => (e is num) ? e.toInt() : int.tryParse(e.toString()) ?? 0).toSet()
+        ? rawStatusCodes
+            .map(
+                (e) => (e is num) ? e.toInt() : int.tryParse(e.toString()) ?? 0)
+            .toSet()
         : null;
 
     final rawErrorOnly = map['error_only'] ?? map['errorOnly'];
@@ -124,14 +126,19 @@ class RecordFilter {
         : (rawErrorOnly == 1 || rawErrorOnly == '1' || rawErrorOnly == 'true');
 
     return RecordFilter(
-      searchQuery: map['search_query'] as String? ?? map['searchQuery'] as String?,
+      searchQuery:
+          map['search_query'] as String? ?? map['searchQuery'] as String?,
       httpMethods: httpMethods,
       statusCodes: statusCodes,
       errorOnly: errorOnly,
       minDurationMs: (map['min_duration_ms'] ?? map['minDurationMs']) as int?,
       maxDurationMs: (map['max_duration_ms'] ?? map['maxDurationMs']) as int?,
-      startDate: map['start_date'] != null ? DateTime.tryParse(map['start_date'] as String) : null,
-      endDate: map['end_date'] != null ? DateTime.tryParse(map['end_date'] as String) : null,
+      startDate: map['start_date'] != null
+          ? DateTime.tryParse(map['start_date'] as String)
+          : null,
+      endDate: map['end_date'] != null
+          ? DateTime.tryParse(map['end_date'] as String)
+          : null,
     );
   }
 

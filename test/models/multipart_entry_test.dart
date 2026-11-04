@@ -11,7 +11,8 @@ void main() {
         byteSize: 20480,
       );
 
-      expect(entry.filePath, isNull, reason: 'filePath must be null by default per D-15');
+      expect(entry.filePath, isNull,
+          reason: 'filePath must be null by default per D-15');
       expect(entry.fieldName, equals('avatar'));
       expect(entry.fileName, equals('profile.jpg'));
       expect(entry.contentType, equals('image/jpeg'));

@@ -22,7 +22,8 @@ void main() {
 
     test('parameterizes searchQuery across 4 columns', () {
       const filter = RecordFilter(searchQuery: 'users/profile');
-      final (sql, args) = DatabaseQueryBuilder.buildRecordsQuery(filter: filter);
+      final (sql, args) =
+          DatabaseQueryBuilder.buildRecordsQuery(filter: filter);
 
       expect(
         sql,
@@ -46,10 +47,14 @@ void main() {
         httpMethods: {'get', 'post'},
         statusCodes: {200, 201, 204},
       );
-      final (sql, args) = DatabaseQueryBuilder.buildRecordsQuery(filter: filter);
+      final (sql, args) =
+          DatabaseQueryBuilder.buildRecordsQuery(filter: filter);
 
       expect(sql, contains('${DatabaseConstants.columnMethod} IN (?, ?)'));
-      expect(sql, contains('${DatabaseConstants.columnResponseStatusCode} IN (?, ?, ?)'));
+      expect(
+          sql,
+          contains(
+              '${DatabaseConstants.columnResponseStatusCode} IN (?, ?, ?)'));
       expect(args, contains('GET'));
       expect(args, contains('POST'));
       expect(args, contains(200));
@@ -59,7 +64,8 @@ void main() {
 
     test('generates errorOnly WHERE clause', () {
       const filter = RecordFilter(errorOnly: true);
-      final (sql, args) = DatabaseQueryBuilder.buildRecordsQuery(filter: filter);
+      final (sql, args) =
+          DatabaseQueryBuilder.buildRecordsQuery(filter: filter);
 
       expect(
         sql,
@@ -83,7 +89,8 @@ void main() {
         endDate: end,
       );
 
-      final (sql, args) = DatabaseQueryBuilder.buildRecordsQuery(filter: filter);
+      final (sql, args) =
+          DatabaseQueryBuilder.buildRecordsQuery(filter: filter);
 
       expect(sql, contains('${DatabaseConstants.columnDurationMs} >= ?'));
       expect(sql, contains('${DatabaseConstants.columnDurationMs} <= ?'));
@@ -98,16 +105,66 @@ void main() {
 
     test('maps all RecordSort fields and directions correctly', () {
       final testCases = [
-        (RecordSortField.timestamp, SortOrder.ascending, DatabaseConstants.columnRequestTimestamp, 'ASC'),
-        (RecordSortField.timestamp, SortOrder.descending, DatabaseConstants.columnRequestTimestamp, 'DESC'),
-        (RecordSortField.duration, SortOrder.ascending, DatabaseConstants.columnDurationMs, 'ASC'),
-        (RecordSortField.duration, SortOrder.descending, DatabaseConstants.columnDurationMs, 'DESC'),
-        (RecordSortField.statusCode, SortOrder.ascending, DatabaseConstants.columnResponseStatusCode, 'ASC'),
-        (RecordSortField.statusCode, SortOrder.descending, DatabaseConstants.columnResponseStatusCode, 'DESC'),
-        (RecordSortField.url, SortOrder.ascending, DatabaseConstants.columnUrl, 'ASC'),
-        (RecordSortField.url, SortOrder.descending, DatabaseConstants.columnUrl, 'DESC'),
-        (RecordSortField.size, SortOrder.ascending, DatabaseConstants.columnResponseSize, 'ASC'),
-        (RecordSortField.size, SortOrder.descending, DatabaseConstants.columnResponseSize, 'DESC'),
+        (
+          RecordSortField.timestamp,
+          SortOrder.ascending,
+          DatabaseConstants.columnRequestTimestamp,
+          'ASC'
+        ),
+        (
+          RecordSortField.timestamp,
+          SortOrder.descending,
+          DatabaseConstants.columnRequestTimestamp,
+          'DESC'
+        ),
+        (
+          RecordSortField.duration,
+          SortOrder.ascending,
+          DatabaseConstants.columnDurationMs,
+          'ASC'
+        ),
+        (
+          RecordSortField.duration,
+          SortOrder.descending,
+          DatabaseConstants.columnDurationMs,
+          'DESC'
+        ),
+        (
+          RecordSortField.statusCode,
+          SortOrder.ascending,
+          DatabaseConstants.columnResponseStatusCode,
+          'ASC'
+        ),
+        (
+          RecordSortField.statusCode,
+          SortOrder.descending,
+          DatabaseConstants.columnResponseStatusCode,
+          'DESC'
+        ),
+        (
+          RecordSortField.url,
+          SortOrder.ascending,
+          DatabaseConstants.columnUrl,
+          'ASC'
+        ),
+        (
+          RecordSortField.url,
+          SortOrder.descending,
+          DatabaseConstants.columnUrl,
+          'DESC'
+        ),
+        (
+          RecordSortField.size,
+          SortOrder.ascending,
+          DatabaseConstants.columnResponseSize,
+          'ASC'
+        ),
+        (
+          RecordSortField.size,
+          SortOrder.descending,
+          DatabaseConstants.columnResponseSize,
+          'DESC'
+        ),
       ];
 
       for (final (field, order, expectedCol, expectedDir) in testCases) {
@@ -122,7 +179,9 @@ void main() {
       }
     });
 
-    test('buildCountQuery produces matching WHERE clause without ORDER BY or LIMIT', () {
+    test(
+        'buildCountQuery produces matching WHERE clause without ORDER BY or LIMIT',
+        () {
       const filter = RecordFilter(
         searchQuery: 'api/test',
         errorOnly: true,
@@ -130,11 +189,15 @@ void main() {
 
       final (sql, args) = DatabaseQueryBuilder.buildCountQuery(filter: filter);
 
-      expect(sql.startsWith('SELECT COUNT(*) FROM ${DatabaseConstants.tableName} WHERE'), isTrue);
+      expect(
+          sql.startsWith(
+              'SELECT COUNT(*) FROM ${DatabaseConstants.tableName} WHERE'),
+          isTrue);
       expect(sql.contains('ORDER BY'), isFalse);
       expect(sql.contains('LIMIT'), isFalse);
       expect(sql.contains('OFFSET'), isFalse);
-      expect(args, hasLength(5)); // 4 search query pattern copies + 1 error status
+      expect(
+          args, hasLength(5)); // 4 search query pattern copies + 1 error status
     });
   });
 }

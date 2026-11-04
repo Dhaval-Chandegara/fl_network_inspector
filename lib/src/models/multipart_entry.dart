@@ -67,12 +67,15 @@ class MultipartEntry {
   /// Deserializes a [MultipartEntry] from a map.
   factory MultipartEntry.fromMap(Map<String, dynamic> map) {
     final rawSize = map['byte_size'] ?? map['byteSize'] ?? 0;
-    final int byteSize = (rawSize is num) ? rawSize.toInt() : int.tryParse(rawSize.toString()) ?? 0;
+    final int byteSize = (rawSize is num)
+        ? rawSize.toInt()
+        : int.tryParse(rawSize.toString()) ?? 0;
 
     return MultipartEntry(
       fieldName: (map['field_name'] ?? map['fieldName'] ?? '') as String,
       fileName: map['file_name'] as String? ?? map['fileName'] as String?,
-      contentType: map['content_type'] as String? ?? map['contentType'] as String?,
+      contentType:
+          map['content_type'] as String? ?? map['contentType'] as String?,
       byteSize: byteSize,
       filePath: map['file_path'] as String? ?? map['filePath'] as String?,
     );
@@ -90,7 +93,8 @@ class MultipartEntry {
   }
 
   @override
-  int get hashCode => Object.hash(fieldName, fileName, contentType, byteSize, filePath);
+  int get hashCode =>
+      Object.hash(fieldName, fileName, contentType, byteSize, filePath);
 
   @override
   String toString() {

@@ -19,7 +19,8 @@ class SortMenuButton extends StatelessWidget {
   );
 
   bool _isOptionActive(RecordSort option) {
-    return currentSort.field == option.field && currentSort.order == option.order;
+    return currentSort.field == option.field &&
+        currentSort.order == option.order;
   }
 
   PopupMenuItem<RecordSort> _buildItem({

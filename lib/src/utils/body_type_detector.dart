@@ -52,7 +52,9 @@ abstract final class BodyTypeDetector {
     }
 
     // Check for form URL encoded by key-value structure
-    if (trimmed.contains('=') && !trimmed.contains('\n') && !trimmed.contains(' ')) {
+    if (trimmed.contains('=') &&
+        !trimmed.contains('\n') &&
+        !trimmed.contains(' ')) {
       return BodyType.formData;
     }
 

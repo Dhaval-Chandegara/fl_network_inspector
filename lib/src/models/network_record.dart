@@ -206,13 +206,16 @@ class NetworkRecord {
       'method': method,
       'request_headers': jsonEncode(requestHeaders),
       'request_query_params': jsonEncode(requestQueryParams),
-      'request_body': requestBody != null ? jsonEncode(requestBody!.toMap()) : null,
+      'request_body':
+          requestBody != null ? jsonEncode(requestBody!.toMap()) : null,
       'request_content_type': requestContentType,
       'request_size': requestSize,
       'request_timestamp': requestTimestamp.toIso8601String(),
       'response_status_code': responseStatusCode,
-      'response_headers': responseHeaders != null ? jsonEncode(responseHeaders) : null,
-      'response_body': responseBody != null ? jsonEncode(responseBody!.toMap()) : null,
+      'response_headers':
+          responseHeaders != null ? jsonEncode(responseHeaders) : null,
+      'response_body':
+          responseBody != null ? jsonEncode(responseBody!.toMap()) : null,
       'response_content_type': responseContentType,
       'response_size': responseSize,
       'response_timestamp': responseTimestamp?.toIso8601String(),
@@ -310,10 +313,13 @@ class NetworkRecord {
       return null;
     }
 
-    final rawStatusCode = map['response_status_code'] ?? map['responseStatusCode'];
+    final rawStatusCode =
+        map['response_status_code'] ?? map['responseStatusCode'];
     final int? responseStatusCode = (rawStatusCode is num)
         ? rawStatusCode.toInt()
-        : (rawStatusCode != null ? int.tryParse(rawStatusCode.toString()) : null);
+        : (rawStatusCode != null
+            ? int.tryParse(rawStatusCode.toString())
+            : null);
 
     final rawRequestSize = map['request_size'] ?? map['requestSize'] ?? 0;
     final int requestSize = (rawRequestSize is num)
@@ -323,7 +329,9 @@ class NetworkRecord {
     final rawResponseSize = map['response_size'] ?? map['responseSize'];
     final int? responseSize = (rawResponseSize is num)
         ? rawResponseSize.toInt()
-        : (rawResponseSize != null ? int.tryParse(rawResponseSize.toString()) : null);
+        : (rawResponseSize != null
+            ? int.tryParse(rawResponseSize.toString())
+            : null);
 
     final rawDuration = map['duration_ms'] ?? map['durationMs'];
     final int? durationMs = (rawDuration is num)
@@ -331,27 +339,36 @@ class NetworkRecord {
         : (rawDuration != null ? int.tryParse(rawDuration.toString()) : null);
 
     return NetworkRecord.raw(
-      id: (map['id'] as String?)?.isNotEmpty == true ? map['id'] as String : UuidGenerator.v4(),
+      id: (map['id'] as String?)?.isNotEmpty == true
+          ? map['id'] as String
+          : UuidGenerator.v4(),
       url: (map['url'] ?? '') as String,
       baseUrl: (map['base_url'] ?? map['baseUrl'] ?? '') as String,
       path: (map['path'] ?? '') as String,
       method: ((map['method'] ?? 'GET') as String).toUpperCase(),
       requestHeaders: parseMap(map['request_headers'] ?? map['requestHeaders']),
-      requestQueryParams: parseMap(map['request_query_params'] ?? map['requestQueryParams']),
+      requestQueryParams:
+          parseMap(map['request_query_params'] ?? map['requestQueryParams']),
       requestBody: parsePayload(map['request_body'] ?? map['requestBody']),
-      requestContentType: map['request_content_type'] as String? ?? map['requestContentType'] as String?,
+      requestContentType: map['request_content_type'] as String? ??
+          map['requestContentType'] as String?,
       requestSize: requestSize,
-      requestTimestamp: parseDateTime(map['request_timestamp'] ?? map['requestTimestamp']),
+      requestTimestamp:
+          parseDateTime(map['request_timestamp'] ?? map['requestTimestamp']),
       responseStatusCode: responseStatusCode,
-      responseHeaders: parseNullableMap(map['response_headers'] ?? map['responseHeaders']),
+      responseHeaders:
+          parseNullableMap(map['response_headers'] ?? map['responseHeaders']),
       responseBody: parsePayload(map['response_body'] ?? map['responseBody']),
-      responseContentType: map['response_content_type'] as String? ?? map['responseContentType'] as String?,
+      responseContentType: map['response_content_type'] as String? ??
+          map['responseContentType'] as String?,
       responseSize: responseSize,
-      responseTimestamp: parseNullableDateTime(map['response_timestamp'] ?? map['responseTimestamp']),
+      responseTimestamp: parseNullableDateTime(
+          map['response_timestamp'] ?? map['responseTimestamp']),
       durationMs: durationMs,
       status: NetworkStatus.fromString(map['status'] as String?),
       error: parseError(map['error']),
-      multipartEntries: parseMultipart(map['multipart_entries'] ?? map['multipartEntries']),
+      multipartEntries:
+          parseMultipart(map['multipart_entries'] ?? map['multipartEntries']),
     );
   }
 

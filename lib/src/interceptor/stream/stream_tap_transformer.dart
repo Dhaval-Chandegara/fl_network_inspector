@@ -55,7 +55,8 @@ StreamTransformer<List<int>, List<int>> createStreamTapTransformer({
         }
       }
     },
-    handleError: (Object error, StackTrace stackTrace, EventSink<List<int>> sink) {
+    handleError:
+        (Object error, StackTrace stackTrace, EventSink<List<int>> sink) {
       if (!isTerminated) {
         isTerminated = true;
         try {

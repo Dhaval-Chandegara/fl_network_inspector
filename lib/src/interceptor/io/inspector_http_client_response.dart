@@ -16,7 +16,8 @@ import '../stream/stream_tap_transformer.dart';
 
 /// Wraps an underlying [HttpClientResponse] to transparently tap response stream bytes
 /// without consuming or altering the single-subscription stream for host applications (INTC-01, D-39, D-41).
-class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpClientResponse {
+class InspectorHttpClientResponse extends StreamView<List<int>>
+    implements HttpClientResponse {
   final HttpClientResponse _inner;
   final String transactionId;
   final DateTime startTimestamp;
@@ -107,7 +108,8 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
   static bool _isProgressiveStream(String? mime) {
     if (mime == null) return false;
     final lower = mime.toLowerCase();
-    return lower.contains('text/event-stream') || lower.contains('multipart/x-mixed-replace');
+    return lower.contains('text/event-stream') ||
+        lower.contains('multipart/x-mixed-replace');
   }
 
   void _saveProgressiveInitialRecord() {
@@ -194,7 +196,8 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
         responsePayload = PayloadData(
           body: redactedBody,
           byteSize: totalBytes,
-          bodyType: BodyTypeDetector.detect(body: finalBody, contentType: contentType),
+          bodyType: BodyTypeDetector.detect(
+              body: finalBody, contentType: contentType),
           isTruncated: isTruncated,
         );
       }
@@ -291,7 +294,8 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
         responsePayload = PayloadData(
           body: redactedBody,
           byteSize: totalBytes,
-          bodyType: BodyTypeDetector.detect(body: finalBody, contentType: contentType),
+          bodyType: BodyTypeDetector.detect(
+              body: finalBody, contentType: contentType),
           isTruncated: isPartialTruncated,
         );
       }
@@ -342,7 +346,8 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
   int get contentLength => _inner.contentLength;
 
   @override
-  HttpClientResponseCompressionState get compressionState => _inner.compressionState;
+  HttpClientResponseCompressionState get compressionState =>
+      _inner.compressionState;
 
   @override
   HttpHeaders get headers => _inner.headers;
@@ -360,7 +365,8 @@ class InspectorHttpClientResponse extends StreamView<List<int>> implements HttpC
   bool get persistentConnection => _inner.persistentConnection;
 
   @override
-  Future<HttpClientResponse> redirect([String? method, Uri? url, bool? followLoops]) =>
+  Future<HttpClientResponse> redirect(
+          [String? method, Uri? url, bool? followLoops]) =>
       _inner.redirect(method, url, followLoops);
 
   @override

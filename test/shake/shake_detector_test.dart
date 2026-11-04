@@ -59,7 +59,8 @@ void main() {
       expect(shakeEvents.length, equals(1));
     });
 
-    test('enforces debounce cooldown window to suppress rapid repeat events', () async {
+    test('enforces debounce cooldown window to suppress rapid repeat events',
+        () async {
       detector.start();
 
       // First shake event
@@ -70,7 +71,8 @@ void main() {
       // Second shake event immediately (within 500ms debounce)
       controller.add(UserAccelerometerEvent(15.0, 12.0, 8.0, DateTime.now()));
       await Future<void>.delayed(const Duration(milliseconds: 20));
-      expect(shakeEvents.length, equals(1), reason: 'Debounce should suppress rapid repeat');
+      expect(shakeEvents.length, equals(1),
+          reason: 'Debounce should suppress rapid repeat');
 
       // Wait for debounce window to elapse
       await Future<void>.delayed(const Duration(milliseconds: 550));
@@ -78,7 +80,8 @@ void main() {
       // Third shake event after cooldown
       controller.add(UserAccelerometerEvent(11.0, 11.0, 4.0, DateTime.now()));
       await Future<void>.delayed(const Duration(milliseconds: 20));
-      expect(shakeEvents.length, equals(2), reason: 'Shake after debounce window should trigger');
+      expect(shakeEvents.length, equals(2),
+          reason: 'Shake after debounce window should trigger');
     });
 
     test('pauses and resumes sampling across app lifecycle states', () async {
@@ -117,7 +120,9 @@ void main() {
       expect(detector.isPaused, isTrue);
     });
 
-    test('catches stream errors gracefully without throwing unhandled exceptions', () async {
+    test(
+        'catches stream errors gracefully without throwing unhandled exceptions',
+        () async {
       detector.start();
 
       controller.addError(Exception('Platform sensor channel failure'));

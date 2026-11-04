@@ -64,7 +64,8 @@ class InspectorViewModel extends ChangeNotifier {
       _errorMessage = null;
     } catch (e) {
       if (_isDisposed) return;
-      _errorMessage = 'Failed to load network records: check storage permissions and tap Retry.';
+      _errorMessage =
+          'Failed to load network records: check storage permissions and tap Retry.';
     } finally {
       if (!_isDisposed) {
         _isInitialLoading = false;

@@ -10,7 +10,8 @@ void main() {
     setUp(() async {
       repository = InMemoryNetworkInspectorRepository(maxRecords: 100);
       await NetworkInspector.initialize(
-        config: const NetworkInspectorConfig(enabled: true, enableAutoCapture: false),
+        config: const NetworkInspectorConfig(
+            enabled: true, enableAutoCapture: false),
         repository: repository,
       );
     });
@@ -19,12 +20,17 @@ void main() {
       NetworkInspector.resetForTesting();
     });
 
-    test('startRequest creates pending record and transitions to success via onResponse', () async {
+    test(
+        'startRequest creates pending record and transitions to success via onResponse',
+        () async {
       final start = DateTime.now();
       final tracker = NetworkInspector.startRequest(
         method: 'POST',
         url: 'https://api.example.com/graphql',
-        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer secret-token'},
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer secret-token'
+        },
         body: {'query': 'query GetUser { user { id name } }'},
         timestamp: start,
       );
@@ -38,14 +44,19 @@ void main() {
       expect(pendingRecord!.status, equals(NetworkStatus.pending));
       expect(pendingRecord.method, equals('POST'));
       expect(pendingRecord.url, equals('https://api.example.com/graphql'));
-      expect(pendingRecord.requestHeaders['Authorization'], equals('[REDACTED]'));
+      expect(
+          pendingRecord.requestHeaders['Authorization'], equals('[REDACTED]'));
       expect(pendingRecord.requestBody?.body, contains('GetUser'));
 
       // Complete via onResponse
       await tracker.onResponse(
         statusCode: 200,
         headers: {'Content-Type': 'application/json', 'X-Server': 'gateway-1'},
-        body: {'data': {'user': {'id': '42', 'name': 'Alice'}}},
+        body: {
+          'data': {
+            'user': {'id': '42', 'name': 'Alice'}
+          }
+        },
       );
 
       await Future<void>.delayed(const Duration(milliseconds: 30));
@@ -59,7 +70,8 @@ void main() {
       expect(completedRecord.responseHeaders?['X-Server'], equals('gateway-1'));
     });
 
-    test('startRequest transitions to failed via onError with HttpErrorDetails', () async {
+    test('startRequest transitions to failed via onError with HttpErrorDetails',
+        () async {
       final tracker = NetworkInspector.startRequest(
         method: 'GET',
         url: 'https://api.example.com/custom-stream',
@@ -93,10 +105,17 @@ void main() {
         method: 'PUT',
         url: 'https://api.example.com/users/42',
         statusCode: 200,
-        requestHeaders: {'Content-Type': 'application/json', 'apiKey': 'super-secret'},
+        requestHeaders: {
+          'Content-Type': 'application/json',
+          'apiKey': 'super-secret'
+        },
         responseHeaders: {'Content-Type': 'application/json'},
         requestBody: {'name': 'Alice Updated'},
-        responseBody: {'id': 42, 'name': 'Alice Updated', 'updatedAt': '2026-11-01'},
+        responseBody: {
+          'id': 42,
+          'name': 'Alice Updated',
+          'updatedAt': '2026-11-01'
+        },
         duration: const Duration(milliseconds: 120),
         timestamp: start,
       );
@@ -143,7 +162,9 @@ void main() {
       expect(record.error!.message, contains('Request timeout'));
     });
 
-    test('disabled mode performs zero repository writes and returns NoOpNetworkRequestTracker (D-48)', () async {
+    test(
+        'disabled mode performs zero repository writes and returns NoOpNetworkRequestTracker (D-48)',
+        () async {
       await NetworkInspector.initialize(
         config: const NetworkInspectorConfig(enabled: false),
         repository: repository,

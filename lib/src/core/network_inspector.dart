@@ -66,10 +66,12 @@ final class NetworkInspector {
     if (repository != null) {
       _repository = repository;
     } else if (kIsWeb || !config.enableDatabase) {
-      _repository = InMemoryNetworkInspectorRepository(maxRecords: config.maxRecords);
+      _repository =
+          InMemoryNetworkInspectorRepository(maxRecords: config.maxRecords);
     } else {
       initDesktopFfiIfRequired();
-      final sqliteRepo = SqliteNetworkInspectorRepository(maxRecords: config.maxRecords);
+      final sqliteRepo =
+          SqliteNetworkInspectorRepository(maxRecords: config.maxRecords);
       await sqliteRepo.initialize();
       _repository = sqliteRepo;
     }

@@ -10,7 +10,8 @@ import 'helpers/test_record_fixtures.dart';
 
 void main() {
   group('Clear All Confirmation & Theme Toggle Tests', () {
-    testWidgets('Clear All Dialog displays exact copy contract', (tester) async {
+    testWidgets('Clear All Dialog displays exact copy contract',
+        (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Builder(
@@ -64,7 +65,8 @@ void main() {
       expect(count, 1);
     });
 
-    testWidgets('confirming Clear All wipes repository and transitions to empty state',
+    testWidgets(
+        'confirming Clear All wipes repository and transitions to empty state',
         (tester) async {
       final repository = InMemoryNetworkInspectorRepository();
       await repository.save(TestRecordFixtures.getSuccessRecord);

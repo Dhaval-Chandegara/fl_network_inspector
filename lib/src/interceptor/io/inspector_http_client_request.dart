@@ -33,7 +33,8 @@ class InspectorHttpClientRequest implements HttpClientRequest {
   String? _transactionId;
   DateTime? _startTimestamp;
 
-  InspectorHttpClientRequest(this._inner, this._method, this._url, this._config);
+  InspectorHttpClientRequest(
+      this._inner, this._method, this._url, this._config);
 
   bool _isIgnored(Uri uri) {
     final host = uri.host.toLowerCase();
@@ -64,7 +65,8 @@ class InspectorHttpClientRequest implements HttpClientRequest {
     try {
       _inner.headers.forEach((name, values) {
         final lower = name.toLowerCase();
-        if (lower == trackingHeader.toLowerCase() || lower == publicHeader.toLowerCase()) {
+        if (lower == trackingHeader.toLowerCase() ||
+            lower == publicHeader.toLowerCase()) {
           hasTrackingId = true;
           headersToRemove.add(name);
         }
@@ -182,9 +184,11 @@ class InspectorHttpClientRequest implements HttpClientRequest {
           rawHeaders[name] = values.join(', ');
         });
       } catch (_) {}
-      final sanitizedHeaders =
-          engine.redactHeaders(rawHeaders).map((k, v) => MapEntry(k, v.toString()));
-      final sanitizedQueryParams = engine.redactQueryParams(_url.queryParameters);
+      final sanitizedHeaders = engine
+          .redactHeaders(rawHeaders)
+          .map((k, v) => MapEntry(k, v.toString()));
+      final sanitizedQueryParams =
+          engine.redactQueryParams(_url.queryParameters);
 
       PayloadData? requestPayload;
       String? contentType;
@@ -193,7 +197,8 @@ class InspectorHttpClientRequest implements HttpClientRequest {
       } catch (_) {}
 
       if (_bodyBytes.isNotEmpty) {
-        final decodedText = utf8.decode(_bodyBytes.toBytes(), allowMalformed: true);
+        final decodedText =
+            utf8.decode(_bodyBytes.toBytes(), allowMalformed: true);
         final finalBody = _isBodyTruncated
             ? '$decodedText${PayloadTruncator.formatTruncationBanner(_config.maxBodyBytes)}'
             : decodedText;
@@ -201,7 +206,8 @@ class InspectorHttpClientRequest implements HttpClientRequest {
         requestPayload = PayloadData(
           body: redactedBody,
           byteSize: _totalBodyBytes,
-          bodyType: BodyTypeDetector.detect(body: finalBody, contentType: contentType),
+          bodyType: BodyTypeDetector.detect(
+              body: finalBody, contentType: contentType),
           isTruncated: _isBodyTruncated,
         );
       }
@@ -257,12 +263,14 @@ class InspectorHttpClientRequest implements HttpClientRequest {
       _inner.headers.forEach((name, values) {
         rawHeaders[name] = values.join(', ');
       });
-      sanitizedHeaders =
-          engine.redactHeaders(rawHeaders).map((k, v) => MapEntry(k, v.toString()));
+      sanitizedHeaders = engine
+          .redactHeaders(rawHeaders)
+          .map((k, v) => MapEntry(k, v.toString()));
       sanitizedQueryParams = engine.redactQueryParams(_url.queryParameters);
 
       if (_bodyBytes.isNotEmpty) {
-        final decodedText = utf8.decode(_bodyBytes.toBytes(), allowMalformed: true);
+        final decodedText =
+            utf8.decode(_bodyBytes.toBytes(), allowMalformed: true);
         final finalBody = _isBodyTruncated
             ? '$decodedText${PayloadTruncator.formatTruncationBanner(_config.maxBodyBytes)}'
             : decodedText;
@@ -270,7 +278,8 @@ class InspectorHttpClientRequest implements HttpClientRequest {
         requestPayload = PayloadData(
           body: redactedBody,
           byteSize: _totalBodyBytes,
-          bodyType: BodyTypeDetector.detect(body: finalBody, contentType: requestContentType),
+          bodyType: BodyTypeDetector.detect(
+              body: finalBody, contentType: requestContentType),
           isTruncated: _isBodyTruncated,
         );
       }

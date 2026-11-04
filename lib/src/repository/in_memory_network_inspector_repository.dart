@@ -63,7 +63,8 @@ class InMemoryNetworkInspectorRepository implements NetworkInspectorRepository {
     if (offset >= filtered.length) {
       return [];
     }
-    final end = (offset + limit < filtered.length) ? offset + limit : filtered.length;
+    final end =
+        (offset + limit < filtered.length) ? offset + limit : filtered.length;
     return filtered.sublist(offset, end);
   }
 
@@ -101,8 +102,10 @@ class InMemoryNetworkInspectorRepository implements NetworkInspectorRepository {
         final query = filter.searchQuery!.trim().toLowerCase();
         final matchesUrl = record.url.toLowerCase().contains(query);
         final matchesPath = record.path.toLowerCase().contains(query);
-        final matchesReq = record.requestBody?.body?.toLowerCase().contains(query) ?? false;
-        final matchesRes = record.responseBody?.body?.toLowerCase().contains(query) ?? false;
+        final matchesReq =
+            record.requestBody?.body?.toLowerCase().contains(query) ?? false;
+        final matchesRes =
+            record.responseBody?.body?.toLowerCase().contains(query) ?? false;
         if (!matchesUrl && !matchesPath && !matchesReq && !matchesRes) {
           return false;
         }
@@ -133,12 +136,14 @@ class InMemoryNetworkInspectorRepository implements NetworkInspectorRepository {
 
       // Duration bounds
       if (filter.minDurationMs != null) {
-        if (record.durationMs == null || record.durationMs! < filter.minDurationMs!) {
+        if (record.durationMs == null ||
+            record.durationMs! < filter.minDurationMs!) {
           return false;
         }
       }
       if (filter.maxDurationMs != null) {
-        if (record.durationMs == null || record.durationMs! > filter.maxDurationMs!) {
+        if (record.durationMs == null ||
+            record.durationMs! > filter.maxDurationMs!) {
           return false;
         }
       }
@@ -173,7 +178,8 @@ class InMemoryNetworkInspectorRepository implements NetworkInspectorRepository {
           comparison = (a.durationMs ?? 0).compareTo(b.durationMs ?? 0);
           break;
         case RecordSortField.statusCode:
-          comparison = (a.responseStatusCode ?? 0).compareTo(b.responseStatusCode ?? 0);
+          comparison =
+              (a.responseStatusCode ?? 0).compareTo(b.responseStatusCode ?? 0);
           break;
         case RecordSortField.url:
           comparison = a.url.compareTo(b.url);

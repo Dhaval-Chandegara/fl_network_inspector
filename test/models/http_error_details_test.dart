@@ -41,7 +41,8 @@ void main() {
       );
 
       final map = original.toMap();
-      expect(map['message'], equals('SocketException: OS Error: Connection refused'));
+      expect(map['message'],
+          equals('SocketException: OS Error: Connection refused'));
       expect(map['error_type'], equals('SocketException'));
       expect(map['stack_trace'], contains('Client.send'));
       expect(map['status_code'], isNull);
@@ -51,9 +52,12 @@ void main() {
     });
 
     test('supports value equality and hashCode', () {
-      const a = HttpErrorDetails(message: 'err', errorType: 'e1', statusCode: 404);
-      const b = HttpErrorDetails(message: 'err', errorType: 'e1', statusCode: 404);
-      const c = HttpErrorDetails(message: 'err', errorType: 'e2', statusCode: 500);
+      const a =
+          HttpErrorDetails(message: 'err', errorType: 'e1', statusCode: 404);
+      const b =
+          HttpErrorDetails(message: 'err', errorType: 'e1', statusCode: 404);
+      const c =
+          HttpErrorDetails(message: 'err', errorType: 'e2', statusCode: 500);
 
       expect(a, equals(b));
       expect(a.hashCode, equals(b.hashCode));

@@ -7,4 +7,5 @@ void installHttpOverrides(NetworkInspectorConfig config) {}
 void restoreHttpOverrides() {}
 
 /// Executes [body] with zone-scoped HttpOverrides (no-op on Web).
-R runWithHttpOverrides<R>(R Function() body, NetworkInspectorConfig config) => body();
+R runWithHttpOverrides<R>(R Function() body, NetworkInspectorConfig config) =>
+    body();

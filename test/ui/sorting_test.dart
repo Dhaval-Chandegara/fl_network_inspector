@@ -8,7 +8,8 @@ import 'helpers/test_record_fixtures.dart';
 
 void main() {
   group('Sorting Popup Menu Tests', () {
-    testWidgets('AppBar SortMenuButton reorders records by duration and timestamp',
+    testWidgets(
+        'AppBar SortMenuButton reorders records by duration and timestamp',
         (tester) async {
       final repository = InMemoryNetworkInspectorRepository();
       final now = DateTime.now();

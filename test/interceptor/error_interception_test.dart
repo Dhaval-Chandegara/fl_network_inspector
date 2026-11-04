@@ -38,13 +38,16 @@ void main() {
         socket.listen((data) async {
           final text = utf8.decode(data, allowMalformed: true);
           if (text.contains('/partial-crash')) {
-            socket.write('HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nTransfer-Encoding: chunked\r\n\r\n');
-            socket.write('2c\r\n{"status": "in_progress", "partial_data": [1, 2, 3]}\r\n');
+            socket.write(
+                'HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nTransfer-Encoding: chunked\r\n\r\n');
+            socket.write(
+                '2c\r\n{"status": "in_progress", "partial_data": [1, 2, 3]}\r\n');
             await socket.flush();
             await Future<void>.delayed(const Duration(milliseconds: 30));
             socket.destroy();
           } else if (text.contains('/partial-binary')) {
-            socket.write('HTTP/1.1 200 OK\r\nContent-Type: image/png\r\nContent-Length: 1000\r\n\r\n');
+            socket.write(
+                'HTTP/1.1 200 OK\r\nContent-Type: image/png\r\nContent-Length: 1000\r\n\r\n');
             socket.add(List.generate(100, (i) => i % 256));
             await socket.flush();
             await Future<void>.delayed(const Duration(milliseconds: 30));
@@ -60,12 +63,15 @@ void main() {
       NetworkInspector.resetForTesting();
     });
 
-    test('captures connection/socket failures to unrouted ports and rethrows', () async {
+    test('captures connection/socket failures to unrouted ports and rethrows',
+        () async {
       final nativeClient = HttpClient();
-      final client = InspectorHttpClient(nativeClient, NetworkInspector.currentConfig);
+      final client =
+          InspectorHttpClient(nativeClient, NetworkInspector.currentConfig);
 
       // Unused port that will fail connection immediately
-      final deadUrl = Uri.parse('http://${InternetAddress.loopbackIPv4.address}:1/dead');
+      final deadUrl =
+          Uri.parse('http://${InternetAddress.loopbackIPv4.address}:1/dead');
 
       Object? thrownError;
       try {
@@ -94,10 +100,14 @@ void main() {
       expect(record.durationMs, greaterThanOrEqualTo(0));
     });
 
-    test('captures request.abort() with NetworkStatus.failed and HttpErrorDetails', () async {
+    test(
+        'captures request.abort() with NetworkStatus.failed and HttpErrorDetails',
+        () async {
       final nativeClient = HttpClient();
-      final client = InspectorHttpClient(nativeClient, NetworkInspector.currentConfig);
-      final url = Uri.parse('http://${server.address.address}:${server.port}/slow');
+      final client =
+          InspectorHttpClient(nativeClient, NetworkInspector.currentConfig);
+      final url =
+          Uri.parse('http://${server.address.address}:${server.port}/slow');
 
       try {
         final request = await client.postUrl(url);
@@ -123,10 +133,13 @@ void main() {
       expect(record.requestBody?.body, contains('will_abort'));
     });
 
-    test('retains partial response body when mid-stream error occurs (D-44)', () async {
+    test('retains partial response body when mid-stream error occurs (D-44)',
+        () async {
       final nativeClient = HttpClient();
-      final client = InspectorHttpClient(nativeClient, NetworkInspector.currentConfig);
-      final url = Uri.parse('http://${rawCrashServer.address.address}:${rawCrashServer.port}/partial-crash');
+      final client =
+          InspectorHttpClient(nativeClient, NetworkInspector.currentConfig);
+      final url = Uri.parse(
+          'http://${rawCrashServer.address.address}:${rawCrashServer.port}/partial-crash');
 
       Object? streamError;
       try {
@@ -164,10 +177,14 @@ void main() {
       expect(record.responseBody!.byteSize, greaterThan(0));
     });
 
-    test('retains binary response summary when mid-stream error occurs on binary stream (D-43, D-44)', () async {
+    test(
+        'retains binary response summary when mid-stream error occurs on binary stream (D-43, D-44)',
+        () async {
       final nativeClient = HttpClient();
-      final client = InspectorHttpClient(nativeClient, NetworkInspector.currentConfig);
-      final url = Uri.parse('http://${rawCrashServer.address.address}:${rawCrashServer.port}/partial-binary');
+      final client =
+          InspectorHttpClient(nativeClient, NetworkInspector.currentConfig);
+      final url = Uri.parse(
+          'http://${rawCrashServer.address.address}:${rawCrashServer.port}/partial-binary');
 
       Object? streamError;
       try {
@@ -201,13 +218,17 @@ void main() {
       expect(record.responseBody!.body, contains('image/png'));
     });
 
-    test('suppresses error logging when synthetic tracking header is present (INTC-06)', () async {
+    test(
+        'suppresses error logging when synthetic tracking header is present (INTC-06)',
+        () async {
       final client = HttpClient();
-      final url = Uri.parse('http://${rawCrashServer.address.address}:${rawCrashServer.port}/partial-crash');
+      final url = Uri.parse(
+          'http://${rawCrashServer.address.address}:${rawCrashServer.port}/partial-crash');
 
       try {
         final request = await client.getUrl(url);
-        request.headers.add(NetworkInspectorConstants.headerInspectorId, 'existing-uuid-1234');
+        request.headers.add(
+            NetworkInspectorConstants.headerInspectorId, 'existing-uuid-1234');
         final response = await request.close();
         await response.toList();
       } catch (_) {

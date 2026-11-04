@@ -62,7 +62,8 @@ void main() {
       expect(NetworkInspector.isOpen, isFalse);
 
       // Simulate a violent shake event (magnitude > 10.0: sqrt(100+100) ~ 14.14)
-      sensorController.add(UserAccelerometerEvent(10.0, 10.0, 0.0, DateTime.now()));
+      sensorController
+          .add(UserAccelerometerEvent(10.0, 10.0, 0.0, DateTime.now()));
       await tester.pumpAndSettle();
 
       // Verify inspector opened and route is shown
@@ -82,7 +83,8 @@ void main() {
       );
 
       // Simulate gentle movement (magnitude: sqrt(1+1) ~ 1.41 < 10.0)
-      sensorController.add(UserAccelerometerEvent(1.0, 1.0, 0.0, DateTime.now()));
+      sensorController
+          .add(UserAccelerometerEvent(1.0, 1.0, 0.0, DateTime.now()));
       await tester.pumpAndSettle();
 
       expect(NetworkInspector.isOpen, isFalse);
@@ -114,12 +116,14 @@ void main() {
       );
 
       // First shake event
-      sensorController.add(UserAccelerometerEvent(15.0, 0.0, 0.0, DateTime.now()));
+      sensorController
+          .add(UserAccelerometerEvent(15.0, 0.0, 0.0, DateTime.now()));
       await tester.pump();
       expect(openCallCount, 1);
 
       // Immediate second shake within debounce window (0ms elapsed)
-      sensorController.add(UserAccelerometerEvent(15.0, 0.0, 0.0, DateTime.now()));
+      sensorController
+          .add(UserAccelerometerEvent(15.0, 0.0, 0.0, DateTime.now()));
       await tester.pump();
       expect(openCallCount, 1);
 
@@ -127,7 +131,8 @@ void main() {
       fakeTime = fakeTime.add(const Duration(milliseconds: 150));
 
       // Third shake event after cooldown
-      sensorController.add(UserAccelerometerEvent(15.0, 0.0, 0.0, DateTime.now()));
+      sensorController
+          .add(UserAccelerometerEvent(15.0, 0.0, 0.0, DateTime.now()));
       await tester.pump();
       expect(openCallCount, 2);
     });
@@ -146,7 +151,8 @@ void main() {
       );
 
       // First shake opens inspector
-      sensorController.add(UserAccelerometerEvent(15.0, 0.0, 0.0, DateTime.now()));
+      sensorController
+          .add(UserAccelerometerEvent(15.0, 0.0, 0.0, DateTime.now()));
       await tester.pumpAndSettle();
 
       expect(NetworkInspector.isOpen, isTrue);
@@ -156,7 +162,8 @@ void main() {
       await tester.pump(const Duration(milliseconds: 200));
 
       // Second shake while inspector is already open
-      sensorController.add(UserAccelerometerEvent(15.0, 0.0, 0.0, DateTime.now()));
+      sensorController
+          .add(UserAccelerometerEvent(15.0, 0.0, 0.0, DateTime.now()));
       await tester.pumpAndSettle();
 
       // Should still only have one NetworkInspectorScreen on route stack
@@ -197,7 +204,9 @@ void main() {
       expect(find.byType(NetworkInspectorScreen), findsNothing);
     });
 
-    testWidgets('NetworkInspector.open works contextless via NetworkInspector.navigatorKey', (
+    testWidgets(
+        'NetworkInspector.open works contextless via NetworkInspector.navigatorKey',
+        (
       tester,
     ) async {
       await tester.pumpWidget(
@@ -217,13 +226,17 @@ void main() {
       expect(NetworkInspector.isOpen, isTrue);
       expect(find.byType(NetworkInspectorScreen), findsOneWidget);
 
-      Navigator.of(NetworkInspector.navigatorKey.currentContext!, rootNavigator: true).pop();
+      Navigator.of(NetworkInspector.navigatorKey.currentContext!,
+              rootNavigator: true)
+          .pop();
       await tester.pumpAndSettle();
 
       expect(NetworkInspector.isOpen, isFalse);
     });
 
-    testWidgets('NetworkInspectorWrapper works with MaterialApp using NetworkInspector.navigatorKey', (
+    testWidgets(
+        'NetworkInspectorWrapper works with MaterialApp using NetworkInspector.navigatorKey',
+        (
       tester,
     ) async {
       await tester.pumpWidget(
@@ -240,7 +253,8 @@ void main() {
       expect(NetworkInspector.isOpen, isFalse);
 
       // Violent shake event
-      sensorController.add(UserAccelerometerEvent(15.0, 0.0, 0.0, DateTime.now()));
+      sensorController
+          .add(UserAccelerometerEvent(15.0, 0.0, 0.0, DateTime.now()));
       await tester.pumpAndSettle();
 
       expect(NetworkInspector.isOpen, isTrue);

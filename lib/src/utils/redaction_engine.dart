@@ -78,10 +78,12 @@ class RedactionEngine {
 
       for (final entry in uri.queryParametersAll.entries) {
         if (isSensitive(entry.key)) {
-          updatedQuery[entry.key] = NetworkInspectorConstants.redactedPlaceholder;
+          updatedQuery[entry.key] =
+              NetworkInspectorConstants.redactedPlaceholder;
           modified = true;
         } else {
-          updatedQuery[entry.key] = entry.value.length == 1 ? entry.value.first : entry.value;
+          updatedQuery[entry.key] =
+              entry.value.length == 1 ? entry.value.first : entry.value;
         }
       }
 
@@ -106,7 +108,8 @@ class RedactionEngine {
     // 1. Attempt deep recursive JSON redaction
     if ((trimmed.startsWith('{') && trimmed.endsWith('}')) ||
         (trimmed.startsWith('[') && trimmed.endsWith(']')) ||
-        (contentType != null && contentType.toLowerCase().contains('application/json'))) {
+        (contentType != null &&
+            contentType.toLowerCase().contains('application/json'))) {
       try {
         final decoded = jsonDecode(trimmed);
         final redactedJson = _redactRecursive(decoded);
@@ -119,7 +122,9 @@ class RedactionEngine {
     // 2. Attempt form URL-encoded redaction
     final lowerMime = contentType?.toLowerCase() ?? '';
     if (lowerMime.contains('application/x-www-form-urlencoded') ||
-        (trimmed.contains('=') && !trimmed.contains('\n') && !trimmed.contains(' '))) {
+        (trimmed.contains('=') &&
+            !trimmed.contains('\n') &&
+            !trimmed.contains(' '))) {
       return _redactFormUrlEncoded(trimmed);
     }
 
@@ -161,7 +166,8 @@ class RedactionEngine {
       final rawKey = Uri.decodeQueryComponent(keyPart);
 
       if (isSensitive(rawKey)) {
-        sanitizedPairs.add('$keyPart=${Uri.encodeQueryComponent(NetworkInspectorConstants.redactedPlaceholder)}');
+        sanitizedPairs.add(
+            '$keyPart=${Uri.encodeQueryComponent(NetworkInspectorConstants.redactedPlaceholder)}');
       } else {
         sanitizedPairs.add(pair);
       }

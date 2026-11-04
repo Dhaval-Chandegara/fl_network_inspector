@@ -50,7 +50,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final dio = Dio()..interceptors.add(const NetworkInspectorDioInterceptor());
   final httpClient = NetworkInspectorHttpClient();
-  String _lastStatus = 'Ready. Tap any button below to trigger network activity.';
+  String _lastStatus =
+      'Ready. Tap any button below to trigger network activity.';
   bool _isLoading = false;
 
   void _setStatus(String status) {
@@ -122,7 +123,8 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() => _isLoading = true);
     try {
       final response = await httpClient.get(
-        Uri.parse('https://jsonplaceholder.typicode.com/non_existent_endpoint_404'),
+        Uri.parse(
+            'https://jsonplaceholder.typicode.com/non_existent_endpoint_404'),
       );
       _setStatus('404 Request Received: HTTP ${response.statusCode}');
     } catch (e) {
@@ -154,7 +156,11 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       responseBody: {
         'data': {
-          'user': {'id': '42', 'name': 'Alice Smith', 'email': 'alice@example.com'},
+          'user': {
+            'id': '42',
+            'name': 'Alice Smith',
+            'email': 'alice@example.com'
+          },
         },
       },
       duration: const Duration(milliseconds: 145),
@@ -190,7 +196,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.vibration, color: theme.colorScheme.onPrimaryContainer),
+                        Icon(Icons.vibration,
+                            color: theme.colorScheme.onPrimaryContainer),
                         const SizedBox(width: 8),
                         Text(
                           'Shake to Open Inspector',
@@ -219,7 +226,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Last Activity Status:', style: theme.textTheme.labelLarge),
+                    Text('Last Activity Status:',
+                        style: theme.textTheme.labelLarge),
                     const SizedBox(height: 4),
                     if (_isLoading)
                       const Padding(

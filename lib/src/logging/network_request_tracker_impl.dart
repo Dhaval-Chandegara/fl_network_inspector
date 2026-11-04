@@ -51,7 +51,9 @@ class NetworkRequestTrackerImpl implements NetworkRequestTracker {
       final queryParams = uri?.queryParameters ?? const {};
 
       final sanitizedReqHeaders = headers != null
-          ? _engine.redactHeaders(headers).map((k, v) => MapEntry(k, v.toString()))
+          ? _engine
+              .redactHeaders(headers)
+              .map((k, v) => MapEntry(k, v.toString()))
           : null;
       final sanitizedQueryParams = _engine.redactQueryParams(queryParams);
       final reqContentType = ManualLogger.findContentType(headers);
@@ -74,7 +76,8 @@ class NetworkRequestTrackerImpl implements NetworkRequestTracker {
         requestHeaders: sanitizedReqHeaders ?? const {},
         requestQueryParams: sanitizedQueryParams,
         requestBody: reqPayload.bodyType != BodyType.empty ? reqPayload : null,
-        requestContentType: reqContentType ?? (reqPayload.bodyType == BodyType.json ? 'application/json' : null),
+        requestContentType: reqContentType ??
+            (reqPayload.bodyType == BodyType.json ? 'application/json' : null),
         requestSize: reqPayload.byteSize,
         multipartEntries: multipartEntries,
         requestTimestamp: _startTimestamp,
@@ -101,10 +104,13 @@ class NetworkRequestTrackerImpl implements NetworkRequestTracker {
 
     try {
       final endTimestamp = timestamp ?? DateTime.now();
-      final durationMs = endTimestamp.difference(_startTimestamp).inMilliseconds;
+      final durationMs =
+          endTimestamp.difference(_startTimestamp).inMilliseconds;
 
       final sanitizedRespHeaders = headers != null
-          ? _engine.redactHeaders(headers).map((k, v) => MapEntry(k, v.toString()))
+          ? _engine
+              .redactHeaders(headers)
+              .map((k, v) => MapEntry(k, v.toString()))
           : null;
       final respContentType = ManualLogger.findContentType(headers);
 
@@ -120,8 +126,12 @@ class NetworkRequestTrackerImpl implements NetworkRequestTracker {
               responseStatusCode: statusCode,
               status: NetworkStatus.success,
               responseHeaders: sanitizedRespHeaders,
-              responseBody: respPayload.bodyType != BodyType.empty ? respPayload : null,
-              responseContentType: respContentType ?? (respPayload.bodyType == BodyType.json ? 'application/json' : null),
+              responseBody:
+                  respPayload.bodyType != BodyType.empty ? respPayload : null,
+              responseContentType: respContentType ??
+                  (respPayload.bodyType == BodyType.json
+                      ? 'application/json'
+                      : null),
               responseSize: respPayload.byteSize,
               durationMs: durationMs,
               responseTimestamp: endTimestamp,
@@ -135,7 +145,8 @@ class NetworkRequestTrackerImpl implements NetworkRequestTracker {
               responseStatusCode: statusCode,
               status: NetworkStatus.success,
               responseHeaders: sanitizedRespHeaders,
-              responseBody: respPayload.bodyType != BodyType.empty ? respPayload : null,
+              responseBody:
+                  respPayload.bodyType != BodyType.empty ? respPayload : null,
               responseContentType: respContentType,
               responseSize: respPayload.byteSize,
               durationMs: durationMs,
@@ -161,10 +172,13 @@ class NetworkRequestTrackerImpl implements NetworkRequestTracker {
 
     try {
       final endTimestamp = DateTime.now();
-      final durationMs = endTimestamp.difference(_startTimestamp).inMilliseconds;
+      final durationMs =
+          endTimestamp.difference(_startTimestamp).inMilliseconds;
 
       final sanitizedRespHeaders = headers != null
-          ? _engine.redactHeaders(headers).map((k, v) => MapEntry(k, v.toString()))
+          ? _engine
+              .redactHeaders(headers)
+              .map((k, v) => MapEntry(k, v.toString()))
           : null;
       final respContentType = ManualLogger.findContentType(headers);
 
@@ -187,7 +201,8 @@ class NetworkRequestTrackerImpl implements NetworkRequestTracker {
               responseStatusCode: statusCode,
               status: NetworkStatus.failed,
               responseHeaders: sanitizedRespHeaders,
-              responseBody: respPayload.bodyType != BodyType.empty ? respPayload : null,
+              responseBody:
+                  respPayload.bodyType != BodyType.empty ? respPayload : null,
               responseContentType: respContentType,
               responseSize: respPayload.byteSize,
               durationMs: durationMs,
@@ -203,7 +218,8 @@ class NetworkRequestTrackerImpl implements NetworkRequestTracker {
               responseStatusCode: statusCode,
               status: NetworkStatus.failed,
               responseHeaders: sanitizedRespHeaders,
-              responseBody: respPayload.bodyType != BodyType.empty ? respPayload : null,
+              responseBody:
+                  respPayload.bodyType != BodyType.empty ? respPayload : null,
               responseContentType: respContentType,
               responseSize: respPayload.byteSize,
               durationMs: durationMs,

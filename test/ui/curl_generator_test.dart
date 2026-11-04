@@ -60,7 +60,8 @@ void main() {
       );
     });
 
-    test('escapes single quotes in URL, headers, and body with bash sequence', () {
+    test('escapes single quotes in URL, headers, and body with bash sequence',
+        () {
       final record = NetworkRecord(
         id: 'test-3',
         url: "https://api.example.com/search?q=alice's",
@@ -84,7 +85,15 @@ void main() {
       // Verify single quotes are escaped as '\''
       expect(curl, contains(r"https://api.example.com/search?q=alice'\''s"));
       expect(curl, contains(r"-H 'X-User'\''s-Token: secret'\''token'"));
-      expect(curl, contains(r"--data-raw '{" '"message":"It' r"'\''" 's a test' r"'\''" 's payload"}' r"'"));
+      expect(
+          curl,
+          contains(r"--data-raw '{"
+              '"message":"It'
+              r"'\''"
+              's a test'
+              r"'\''"
+              's payload"}'
+              r"'"));
     });
 
     test('omits HTTP/2 pseudo-headers and internal tracking headers', () {

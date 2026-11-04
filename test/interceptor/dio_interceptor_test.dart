@@ -6,7 +6,8 @@ import 'package:fl_network_inspector/fl_network_inspector.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('NetworkInspectorDioInterceptor (INTC-04, D-33, D-34, D-35, DATA-04)', () {
+  group('NetworkInspectorDioInterceptor (INTC-04, D-33, D-34, D-35, DATA-04)',
+      () {
     late HttpServer server;
     late InMemoryNetworkInspectorRepository repository;
     late Dio dio;
@@ -43,7 +44,8 @@ void main() {
             final body = await utf8.decoder.bind(request).join();
             request.response.headers.contentType = ContentType.json;
             request.response.statusCode = HttpStatus.created;
-            request.response.write(jsonEncode({'created': true, 'payload': body}));
+            request.response
+                .write(jsonEncode({'created': true, 'payload': body}));
             await request.response.close();
           }
         } else if (request.uri.path == '/api/upload') {
@@ -56,7 +58,8 @@ void main() {
         } else if (request.uri.path == '/api/error-500') {
           request.response.statusCode = HttpStatus.internalServerError;
           request.response.headers.contentType = ContentType.json;
-          request.response.write(jsonEncode({'error': 'Internal Server Error'}));
+          request.response
+              .write(jsonEncode({'error': 'Internal Server Error'}));
           await request.response.close();
         } else {
           request.response.statusCode = HttpStatus.notFound;
@@ -80,7 +83,9 @@ void main() {
       NetworkInspector.resetForTesting();
     });
 
-    test('captures GET request and response lifecycle with NetworkStatus.success', () async {
+    test(
+        'captures GET request and response lifecycle with NetworkStatus.success',
+        () async {
       final response = await dio.get<dynamic>(
         '/api/users',
         queryParameters: {'role': 'admin', 'token': 'secret-token-123'},
@@ -115,7 +120,8 @@ void main() {
 
       // Verify synthetic tracking header was injected
       expect(
-        receivedHeaders.containsKey(NetworkInspectorConstants.headerInspectorId),
+        receivedHeaders
+            .containsKey(NetworkInspectorConstants.headerInspectorId),
         isTrue,
       );
     });
@@ -146,7 +152,9 @@ void main() {
       expect(record.requestBody!.body, contains('Charlie'));
     });
 
-    test('extracts FormData multipart metadata without raw binary bytes (DATA-04)', () async {
+    test(
+        'extracts FormData multipart metadata without raw binary bytes (DATA-04)',
+        () async {
       final formData = FormData.fromMap({
         'username': 'john_doe',
         'avatar': MultipartFile.fromBytes(
@@ -202,7 +210,9 @@ void main() {
       expect(record.requestBody!.body, contains('1 fields, 2 files'));
     });
 
-    test('captures DioException on HTTP 500 with NetworkStatus.failed (INTC-07)', () async {
+    test(
+        'captures DioException on HTTP 500 with NetworkStatus.failed (INTC-07)',
+        () async {
       try {
         await dio.get<dynamic>('/api/error-500');
         fail('Expected DioException');
@@ -223,7 +233,8 @@ void main() {
       expect(record.error!.statusCode, equals(500));
     });
 
-    test('guards against repeat registrations on the same Dio instance (D-34)', () async {
+    test('guards against repeat registrations on the same Dio instance (D-34)',
+        () async {
       // Intentionally register the interceptor a second time
       dio.interceptors.add(const NetworkInspectorDioInterceptor());
 
@@ -253,7 +264,8 @@ void main() {
       expect(count, equals(0));
     });
 
-    test('retried requests generate fresh records with distinct UUIDs (D-35)', () async {
+    test('retried requests generate fresh records with distinct UUIDs (D-35)',
+        () async {
       // Simulate retry interceptor: on error, retries once
       final retryDio = Dio(
         BaseOptions(baseUrl: 'http://${server.address.host}:${server.port}'),

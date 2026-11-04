@@ -52,13 +52,17 @@ void main() {
       await server.close(force: true);
     });
 
-    test('records every duplicate API call with distinct UUIDs and timestamps for tracing', () async {
+    test(
+        'records every duplicate API call with distinct UUIDs and timestamps for tracing',
+        () async {
       final client = NetworkInspectorHttpClient();
-      final url = Uri.parse('http://${server.address.host}:${server.port}/api/redundant-data');
+      final url = Uri.parse(
+          'http://${server.address.host}:${server.port}/api/redundant-data');
 
       // Execute 5 identical GET calls in rapid succession
       for (int i = 0; i < 5; i++) {
-        final response = await client.get(url, headers: {'X-Custom-Header': 'same-value'});
+        final response =
+            await client.get(url, headers: {'X-Custom-Header': 'same-value'});
         expect(response.statusCode, 200);
       }
 
@@ -83,7 +87,8 @@ void main() {
 
       // Verify every record has a unique UUID
       final recordIds = records.map((r) => r.id).toSet();
-      expect(recordIds.length, equals(8), reason: 'Each duplicate call must have a unique transaction ID');
+      expect(recordIds.length, equals(8),
+          reason: 'Each duplicate call must have a unique transaction ID');
 
       // Verify all 5 GET calls are recorded
       final getRecords = records.where((r) => r.method == 'GET').toList();

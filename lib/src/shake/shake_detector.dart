@@ -67,7 +67,8 @@ class ShakeDetector with WidgetsBindingObserver {
     if (_subscription != null) return;
 
     try {
-      final stream = _customStream ?? mockStream ?? userAccelerometerEventStream();
+      final stream =
+          _customStream ?? mockStream ?? userAccelerometerEventStream();
       _subscription = stream.listen(
         _handleEvent,
         onError: (Object error) {

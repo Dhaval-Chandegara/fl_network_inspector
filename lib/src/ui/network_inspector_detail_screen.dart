@@ -96,7 +96,8 @@ class NetworkInspectorDetailScreen extends StatelessWidget {
                 indicatorColor: Color(0xFF2563EB),
                 labelColor: Color(0xFF2563EB),
                 unselectedLabelColor: Color(0xFF64748B),
-                labelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                labelStyle:
+                    TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                 tabs: [
                   Tab(text: 'Overview'),
                   Tab(text: 'Request'),
@@ -156,7 +157,8 @@ class NetworkInspectorDetailScreen extends StatelessWidget {
                 status: record.status,
               ),
               const Spacer(),
-              if (record.status != NetworkStatus.pending && record.durationMs != null)
+              if (record.status != NetworkStatus.pending &&
+                  record.durationMs != null)
                 Text(
                   '${record.durationMs} ms',
                   style: const TextStyle(
@@ -169,7 +171,9 @@ class NetworkInspectorDetailScreen extends StatelessWidget {
                 _formatPayloadSize(),
                 style: TextStyle(
                   fontSize: 12,
-                  color: isDark ? const Color(0xFF9CA3AF) : const Color(0xFF6B7280),
+                  color: isDark
+                      ? const Color(0xFF9CA3AF)
+                      : const Color(0xFF6B7280),
                 ),
               ),
             ],
@@ -204,10 +208,12 @@ class NetworkInspectorDetailScreen extends StatelessWidget {
       MapEntry('Method', record.method),
       MapEntry('Status Code', record.statusCode?.toString() ?? 'Pending'),
       MapEntry('Status', record.status.name.toUpperCase()),
-      MapEntry('Duration', record.durationMs != null ? '${record.durationMs} ms' : 'In-flight'),
+      MapEntry('Duration',
+          record.durationMs != null ? '${record.durationMs} ms' : 'In-flight'),
       MapEntry('Request Time', _timeFormat.format(record.requestTimestamp)),
       if (record.responseTimestamp != null)
-        MapEntry('Response Time', _timeFormat.format(record.responseTimestamp!)),
+        MapEntry(
+            'Response Time', _timeFormat.format(record.responseTimestamp!)),
       MapEntry('Base URL', record.baseUrl),
       MapEntry('Path', record.path),
       if (record.requestContentType != null)
@@ -233,7 +239,8 @@ class NetworkInspectorDetailScreen extends StatelessWidget {
             ),
             child: Row(
               children: [
-                const Icon(Icons.error_outline_rounded, color: Color(0xFFDC2626)),
+                const Icon(Icons.error_outline_rounded,
+                    color: Color(0xFFDC2626)),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -277,10 +284,13 @@ class NetworkInspectorDetailScreen extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         if (headers.isEmpty)
-          const Text('No headers', style: TextStyle(fontStyle: FontStyle.italic))
+          const Text('No headers',
+              style: TextStyle(fontStyle: FontStyle.italic))
         else
           _buildKeyValueTable(
-            headers.entries.map((e) => MapEntry(e.key, e.value.toString())).toList(),
+            headers.entries
+                .map((e) => MapEntry(e.key, e.value.toString()))
+                .toList(),
             isDark,
           ),
         const SizedBox(height: 24),
@@ -293,7 +303,9 @@ class NetworkInspectorDetailScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           _buildKeyValueTable(
-            queryParams.entries.map((e) => MapEntry(e.key, e.value.toString())).toList(),
+            queryParams.entries
+                .map((e) => MapEntry(e.key, e.value.toString()))
+                .toList(),
             isDark,
           ),
           const SizedBox(height: 24),
@@ -343,10 +355,13 @@ class NetworkInspectorDetailScreen extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         if (headers == null || headers.isEmpty)
-          const Text('No headers recorded', style: TextStyle(fontStyle: FontStyle.italic))
+          const Text('No headers recorded',
+              style: TextStyle(fontStyle: FontStyle.italic))
         else
           _buildKeyValueTable(
-            headers.entries.map((e) => MapEntry(e.key, e.value.toString())).toList(),
+            headers.entries
+                .map((e) => MapEntry(e.key, e.value.toString()))
+                .toList(),
             isDark,
           ),
         const SizedBox(height: 24),
@@ -372,7 +387,8 @@ class NetworkInspectorDetailScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.check_circle_outline_rounded, size: 64, color: Color(0xFF16A34A)),
+              Icon(Icons.check_circle_outline_rounded,
+                  size: 64, color: Color(0xFF16A34A)),
               SizedBox(height: 16),
               Text(
                 'No errors encountered for this request',
@@ -394,11 +410,12 @@ class NetworkInspectorDetailScreen extends StatelessWidget {
       children: [
         _buildKeyValueTable([
           MapEntry('Error Message', error.message),
-          if (error.errorType != null) MapEntry('Exception Class', error.errorType!),
-          if (error.statusCode != null) MapEntry('Status Code', error.statusCode.toString()),
+          if (error.errorType != null)
+            MapEntry('Exception Class', error.errorType!),
+          if (error.statusCode != null)
+            MapEntry('Status Code', error.statusCode.toString()),
         ], isDark),
         const SizedBox(height: 24),
-
         if (error.stackTrace != null && error.stackTrace!.isNotEmpty) ...[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -420,7 +437,8 @@ class NetworkInspectorDetailScreen extends StatelessWidget {
               color: isDark ? const Color(0xFF2A1B1B) : const Color(0xFFFEF2F2),
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                color: isDark ? const Color(0xFF5A2A2A) : const Color(0xFFFCA5A5),
+                color:
+                    isDark ? const Color(0xFF5A2A2A) : const Color(0xFFFCA5A5),
               ),
             ),
             child: SingleChildScrollView(
@@ -430,7 +448,9 @@ class NetworkInspectorDetailScreen extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 12,
-                  color: isDark ? const Color(0xFFFCA5A5) : const Color(0xFF991B1B),
+                  color: isDark
+                      ? const Color(0xFFFCA5A5)
+                      : const Color(0xFF991B1B),
                 ),
               ),
             ),
@@ -466,16 +486,21 @@ class NetworkInspectorDetailScreen extends StatelessWidget {
           if (entry.contentType != null)
             Text(
               'MIME: ${entry.contentType}',
-              style: TextStyle(fontSize: 12, color: isDark ? Colors.white60 : Colors.black54),
+              style: TextStyle(
+                  fontSize: 12,
+                  color: isDark ? Colors.white60 : Colors.black54),
             ),
           Text(
             'Size: ${entry.byteSize} bytes',
-            style: TextStyle(fontSize: 12, color: isDark ? Colors.white60 : Colors.black54),
+            style: TextStyle(
+                fontSize: 12, color: isDark ? Colors.white60 : Colors.black54),
           ),
           if (entry.filePath != null)
             Text(
               'Path: ${entry.filePath}',
-              style: TextStyle(fontSize: 12, color: isDark ? Colors.white60 : Colors.black54),
+              style: TextStyle(
+                  fontSize: 12,
+                  color: isDark ? Colors.white60 : Colors.black54),
             ),
         ],
       ),
@@ -512,7 +537,9 @@ class NetworkInspectorDetailScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: isDark ? const Color(0xFF9CA3AF) : const Color(0xFF4B5563),
+                    color: isDark
+                        ? const Color(0xFF9CA3AF)
+                        : const Color(0xFF4B5563),
                   ),
                 ),
               ),

@@ -20,7 +20,8 @@ class TestRecordFixtures {
   }) {
     final now = timestamp ?? DateTime.now();
     final uri = Uri.parse(url);
-    final baseUrl = '${uri.scheme}://${uri.host}${uri.hasPort ? ':${uri.port}' : ''}';
+    final baseUrl =
+        '${uri.scheme}://${uri.host}${uri.hasPort ? ':${uri.port}' : ''}';
     final path = uri.path.isEmpty ? '/' : uri.path;
 
     return NetworkRecord(
@@ -33,7 +34,9 @@ class TestRecordFixtures {
       status: status,
       durationMs: status == NetworkStatus.pending ? null : durationMs,
       requestTimestamp: now,
-      responseTimestamp: status == NetworkStatus.pending ? null : now.add(Duration(milliseconds: durationMs)),
+      responseTimestamp: status == NetworkStatus.pending
+          ? null
+          : now.add(Duration(milliseconds: durationMs)),
       requestHeaders: const {'Content-Type': 'application/json'},
       responseHeaders: const {'Content-Type': 'application/json'},
       requestBody: PayloadData(
@@ -118,11 +121,11 @@ class TestRecordFixtures {
   static List<NetworkRecord> generateRecords(int count) {
     final now = DateTime.now();
     return List.generate(count, (index) {
-      final method = index % 3 == 0
-          ? 'POST'
-          : (index % 3 == 1 ? 'GET' : 'DELETE');
+      final method =
+          index % 3 == 0 ? 'POST' : (index % 3 == 1 ? 'GET' : 'DELETE');
       final statusCode = index % 5 == 0 ? 500 : 200;
-      final status = statusCode == 500 ? NetworkStatus.failed : NetworkStatus.success;
+      final status =
+          statusCode == 500 ? NetworkStatus.failed : NetworkStatus.success;
 
       return NetworkRecord(
         id: 'rec-$index',
@@ -134,7 +137,9 @@ class TestRecordFixtures {
         status: status,
         durationMs: 20 + index,
         requestTimestamp: now.subtract(Duration(minutes: index)),
-        responseTimestamp: now.subtract(Duration(minutes: index)).add(Duration(milliseconds: 20 + index)),
+        responseTimestamp: now
+            .subtract(Duration(minutes: index))
+            .add(Duration(milliseconds: 20 + index)),
         requestHeaders: const {},
         responseHeaders: const {},
       );

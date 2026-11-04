@@ -5,7 +5,8 @@ import 'package:fl_network_inspector/fl_network_inspector.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('Cross-Interceptor Deduplication & Header Stripping (INTC-06, D-33)', () {
+  group('Cross-Interceptor Deduplication & Header Stripping (INTC-06, D-33)',
+      () {
     late HttpServer server;
     late InMemoryNetworkInspectorRepository repository;
     final receivedHeaders = <String, List<String>>{};
@@ -34,15 +35,18 @@ void main() {
       NetworkInspector.resetForTesting();
     });
 
-    test('strips x-network-inspector-id before wire transmission and suppresses duplicate record',
+    test(
+        'strips x-network-inspector-id before wire transmission and suppresses duplicate record',
         () async {
       final client = HttpClient();
 
-      final url = Uri.parse('http://${server.address.host}:${server.port}/test');
+      final url =
+          Uri.parse('http://${server.address.host}:${server.port}/test');
       final request = await client.getUrl(url);
 
       const trackingId = 'uuid-dedup-12345';
-      request.headers.add(NetworkInspectorConstants.headerInspectorId, trackingId);
+      request.headers
+          .add(NetworkInspectorConstants.headerInspectorId, trackingId);
       request.headers.add('x-custom-app-header', 'keep-me');
 
       final response = await request.close();
@@ -53,9 +57,13 @@ void main() {
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       // Assert wire transmission: remote server NEVER received the tracking header
-      expect(receivedHeaders.containsKey(NetworkInspectorConstants.headerInspectorId), isFalse);
       expect(
-        receivedHeaders.containsKey(NetworkInspectorConstants.internalTrackingHeader),
+          receivedHeaders
+              .containsKey(NetworkInspectorConstants.headerInspectorId),
+          isFalse);
+      expect(
+        receivedHeaders
+            .containsKey(NetworkInspectorConstants.internalTrackingHeader),
         isFalse,
       );
       // But normal headers remain intact
@@ -66,10 +74,12 @@ void main() {
       expect(count, equals(0));
     });
 
-    test('strips x-fl-net-inspector-tracked-id and suppresses record creation', () async {
+    test('strips x-fl-net-inspector-tracked-id and suppresses record creation',
+        () async {
       final client = HttpClient();
 
-      final url = Uri.parse('http://${server.address.host}:${server.port}/test');
+      final url =
+          Uri.parse('http://${server.address.host}:${server.port}/test');
       final request = await client.getUrl(url);
 
       request.headers.add(
@@ -86,7 +96,8 @@ void main() {
 
       // Assert stripped over wire
       expect(
-        receivedHeaders.containsKey(NetworkInspectorConstants.internalTrackingHeader),
+        receivedHeaders
+            .containsKey(NetworkInspectorConstants.internalTrackingHeader),
         isFalse,
       );
       expect(receivedHeaders['x-client-platform'], equals(['flutter']));
@@ -96,10 +107,12 @@ void main() {
       expect(count, equals(0));
     });
 
-    test('handles case-insensitive tracking header names (e.g. capitalized)', () async {
+    test('handles case-insensitive tracking header names (e.g. capitalized)',
+        () async {
       final client = HttpClient();
 
-      final url = Uri.parse('http://${server.address.host}:${server.port}/test');
+      final url =
+          Uri.parse('http://${server.address.host}:${server.port}/test');
       final request = await client.getUrl(url);
 
       request.headers.add('X-Network-Inspector-Id', 'uuid-capitalized-999');
@@ -121,7 +134,8 @@ void main() {
     test('captures normally when no tracking header is present', () async {
       final client = HttpClient();
 
-      final url = Uri.parse('http://${server.address.host}:${server.port}/test');
+      final url =
+          Uri.parse('http://${server.address.host}:${server.port}/test');
       final request = await client.getUrl(url);
 
       request.headers.add('x-normal-header', 'normal-value');

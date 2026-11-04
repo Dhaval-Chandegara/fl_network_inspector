@@ -71,7 +71,9 @@ class PayloadData {
     }
 
     final rawSize = map['byte_size'] ?? map['byteSize'] ?? 0;
-    final int byteSize = (rawSize is num) ? rawSize.toInt() : int.tryParse(rawSize.toString()) ?? 0;
+    final int byteSize = (rawSize is num)
+        ? rawSize.toInt()
+        : int.tryParse(rawSize.toString()) ?? 0;
 
     return PayloadData(
       body: map['body'] as String?,

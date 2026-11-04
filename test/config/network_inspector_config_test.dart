@@ -10,20 +10,32 @@ void main() {
       NetworkInspector.resetForTesting();
     });
 
-    test('default constructor matches architectural decisions D-01, D-02, D-04, D-15, D-36', () {
+    test(
+        'default constructor matches architectural decisions D-01, D-02, D-04, D-15, D-36',
+        () {
       const config = NetworkInspectorConfig();
 
-      expect(config.maxRecords, equals(500), reason: 'Default maxRecords should be 500 per D-01');
-      expect(config.maxBodyBytes, equals(1048576), reason: 'Default maxBodyBytes should be 1MB per D-02');
-      expect(config.enableAutoCapture, isTrue, reason: 'enableAutoCapture defaults to true per D-04');
-      expect(config.enableShakeDetection, isTrue, reason: 'enableShakeDetection defaults to true per D-04');
-      expect(config.shakeThreshold, equals(15.0), reason: 'shakeThreshold defaults to 15.0 m/s² per SHAKE-01');
-      expect(config.shakeDebounceMs, equals(1500), reason: 'shakeDebounceMs defaults to 1500ms per SHAKE-02');
-      expect(config.enableDatabase, isTrue, reason: 'enableDatabase defaults to true per D-04');
-      expect(config.includeMultipartFilePaths, isFalse, reason: 'includeMultipartFilePaths defaults to false per D-15');
+      expect(config.maxRecords, equals(500),
+          reason: 'Default maxRecords should be 500 per D-01');
+      expect(config.maxBodyBytes, equals(1048576),
+          reason: 'Default maxBodyBytes should be 1MB per D-02');
+      expect(config.enableAutoCapture, isTrue,
+          reason: 'enableAutoCapture defaults to true per D-04');
+      expect(config.enableShakeDetection, isTrue,
+          reason: 'enableShakeDetection defaults to true per D-04');
+      expect(config.shakeThreshold, equals(15.0),
+          reason: 'shakeThreshold defaults to 15.0 m/s² per SHAKE-01');
+      expect(config.shakeDebounceMs, equals(1500),
+          reason: 'shakeDebounceMs defaults to 1500ms per SHAKE-02');
+      expect(config.enableDatabase, isTrue,
+          reason: 'enableDatabase defaults to true per D-04');
+      expect(config.includeMultipartFilePaths, isFalse,
+          reason: 'includeMultipartFilePaths defaults to false per D-15');
       expect(config.customRedactionKeys, isEmpty);
-      expect(config.ignoredHosts, isEmpty, reason: 'ignoredHosts defaults to empty per D-36');
-      expect(config.ignoredUrls, isEmpty, reason: 'ignoredUrls defaults to empty per D-36');
+      expect(config.ignoredHosts, isEmpty,
+          reason: 'ignoredHosts defaults to empty per D-36');
+      expect(config.ignoredUrls, isEmpty,
+          reason: 'ignoredUrls defaults to empty per D-36');
       expect(config.hasExplicitEnabled, isFalse);
     });
 
@@ -53,10 +65,13 @@ void main() {
       expect(config.enableAutoCapture, isFalse);
       expect(config.enableShakeDetection, isFalse);
       expect(config.enableDatabase, isFalse);
-      expect(config.maxRecords, equals(NetworkInspectorConstants.defaultMaxRecords));
+      expect(config.maxRecords,
+          equals(NetworkInspectorConstants.defaultMaxRecords));
     });
 
-    test('copyWith creates modified copy with exact overrides including blacklists (D-36)', () {
+    test(
+        'copyWith creates modified copy with exact overrides including blacklists (D-36)',
+        () {
       const original = NetworkInspectorConfig(
         maxRecords: 100,
         customRedactionKeys: ['secret_token'],

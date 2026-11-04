@@ -71,26 +71,34 @@ void main() {
       await server.close(force: true);
     });
 
-    test('captures HTTP client traffic and persists into SQLite with query retrieval', () async {
+    test(
+        'captures HTTP client traffic and persists into SQLite with query retrieval',
+        () async {
       final client = NetworkInspectorHttpClient();
-      final url = Uri.parse('http://${server.address.host}:${server.port}/api/users');
+      final url =
+          Uri.parse('http://${server.address.host}:${server.port}/api/users');
 
       // 1. Execute GET request
-      final getResponse = await client.get(url, headers: {'X-Client-App': 'Tester'});
+      final getResponse =
+          await client.get(url, headers: {'X-Client-App': 'Tester'});
       expect(getResponse.statusCode, 200);
       expect(getResponse.body, contains('Alice'));
 
       // 2. Execute POST request with payload
       final postResponse = await client.post(
         url,
-        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer test-token'},
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer test-token'
+        },
         body: jsonEncode({'name': 'Charlie', 'password': 'super-secret'}),
       );
       expect(postResponse.statusCode, 201);
       expect(postResponse.body, contains('Charlie'));
 
       // 3. Execute 404 request
-      final errorUrl = Uri.parse('http://${server.address.host}:${server.port}/api/error');
+      final errorUrl =
+          Uri.parse('http://${server.address.host}:${server.port}/api/error');
       final errResponse = await client.get(errorUrl);
       expect(errResponse.statusCode, 404);
 
@@ -112,7 +120,8 @@ void main() {
       expect(allRecords[1].responseStatusCode, 201);
       expect(allRecords[1].status, NetworkStatus.success);
       // Redaction engine check: password redacted
-      expect(allRecords[1].requestBody?.body, contains(NetworkInspectorConstants.redactedPlaceholder));
+      expect(allRecords[1].requestBody?.body,
+          contains(NetworkInspectorConstants.redactedPlaceholder));
       expect(allRecords[1].requestHeaders['Authorization'], '[REDACTED]');
 
       expect(allRecords[2].url, contains('/api/users'));

@@ -27,7 +27,8 @@ class _MockParentHttpOverrides extends HttpOverrides {
 }
 
 void main() {
-  group('HttpOverrides Chaining & Lifecycle (INTC-01, INTC-02, D-38, D-40)', () {
+  group('HttpOverrides Chaining & Lifecycle (INTC-01, INTC-02, D-38, D-40)',
+      () {
     late HttpOverrides? originalGlobalOverrides;
 
     setUp(() {
@@ -40,7 +41,8 @@ void main() {
       HttpOverrides.global = originalGlobalOverrides;
     });
 
-    test('InspectorHttpOverrides delegates createHttpClient and findProxy to parent overrides',
+    test(
+        'InspectorHttpOverrides delegates createHttpClient and findProxy to parent overrides',
         () {
       final parentOverrides = _MockParentHttpOverrides();
       const config = NetworkInspectorConfig(enabled: true);
@@ -61,17 +63,20 @@ void main() {
         null,
       );
       expect(parentOverrides.findProxyCalled, isTrue);
-      expect(parentOverrides.capturedUrl?.toString(), equals('https://example.com/api'));
+      expect(parentOverrides.capturedUrl?.toString(),
+          equals('https://example.com/api'));
       expect(proxy, equals('PROXY mock.corporate.proxy:8080'));
     });
 
-    test('startAutoCapture installs InspectorHttpOverrides and preserves previous overrides',
+    test(
+        'startAutoCapture installs InspectorHttpOverrides and preserves previous overrides',
         () async {
       final customParent = _MockParentHttpOverrides();
       HttpOverrides.global = customParent;
 
       await NetworkInspector.initialize(
-        config: const NetworkInspectorConfig(enabled: true, enableAutoCapture: false),
+        config: const NetworkInspectorConfig(
+            enabled: true, enableAutoCapture: false),
         repository: InMemoryNetworkInspectorRepository(),
       );
 
@@ -89,12 +94,15 @@ void main() {
       expect(HttpOverrides.current, same(customParent));
     });
 
-    test('dispose() and resetForTesting() cleanly restore pre-existing HttpOverrides', () async {
+    test(
+        'dispose() and resetForTesting() cleanly restore pre-existing HttpOverrides',
+        () async {
       final initialParent = _MockParentHttpOverrides();
       HttpOverrides.global = initialParent;
 
       await NetworkInspector.initialize(
-        config: const NetworkInspectorConfig(enabled: true, enableAutoCapture: true),
+        config: const NetworkInspectorConfig(
+            enabled: true, enableAutoCapture: true),
         repository: InMemoryNetworkInspectorRepository(),
       );
 
@@ -105,13 +113,15 @@ void main() {
       expect(HttpOverrides.current, same(initialParent));
     });
 
-    test('runZoned executes within zone-scoped InspectorHttpOverrides without mutating global',
+    test(
+        'runZoned executes within zone-scoped InspectorHttpOverrides without mutating global',
         () async {
       final initialParent = _MockParentHttpOverrides();
       HttpOverrides.global = initialParent;
 
       await NetworkInspector.initialize(
-        config: const NetworkInspectorConfig(enabled: true, enableAutoCapture: false),
+        config: const NetworkInspectorConfig(
+            enabled: true, enableAutoCapture: false),
         repository: InMemoryNetworkInspectorRepository(),
       );
 

@@ -10,7 +10,8 @@ class CurlGenerator {
   /// Set [includeHeaders] to `false` to omit request headers (e.g. for privacy).
   static String fromRecord(NetworkRecord record, {bool includeHeaders = true}) {
     final buffer = StringBuffer();
-    buffer.write("curl -X ${record.method.toUpperCase()} \\\n  '${_escapeBash(record.url)}'");
+    buffer.write(
+        "curl -X ${record.method.toUpperCase()} \\\n  '${_escapeBash(record.url)}'");
 
     if (includeHeaders) {
       for (final entry in record.requestHeaders.entries) {
@@ -18,8 +19,11 @@ class CurlGenerator {
         final lowerKey = key.toLowerCase();
         // Omit HTTP/2 pseudo-headers and internal inspector correlation headers
         if (key.startsWith(':') ||
-            lowerKey == NetworkInspectorConstants.internalTrackingHeader.toLowerCase() ||
-            lowerKey == NetworkInspectorConstants.headerInspectorId.toLowerCase()) {
+            lowerKey ==
+                NetworkInspectorConstants.internalTrackingHeader
+                    .toLowerCase() ||
+            lowerKey ==
+                NetworkInspectorConstants.headerInspectorId.toLowerCase()) {
           continue;
         }
         final value = entry.value?.toString() ?? '';

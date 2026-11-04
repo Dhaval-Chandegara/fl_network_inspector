@@ -10,13 +10,16 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('Clipboard Copy Tests', () {
-    testWidgets('CopyButton copies text to clipboard and shows SnackBar', (tester) async {
+    testWidgets('CopyButton copies text to clipboard and shows SnackBar',
+        (tester) async {
       String? copiedData;
 
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(SystemChannels.platform, (MethodCall methodCall) async {
+          .setMockMethodCallHandler(SystemChannels.platform,
+              (MethodCall methodCall) async {
         if (methodCall.method == 'Clipboard.setData') {
-          copiedData = (methodCall.arguments as Map<dynamic, dynamic>)['text'] as String?;
+          copiedData = (methodCall.arguments as Map<dynamic, dynamic>)['text']
+              as String?;
           return null;
         }
         return null;
@@ -41,13 +44,16 @@ void main() {
       expect(find.text('Copied cURL Command to clipboard'), findsOneWidget);
     });
 
-    testWidgets('NetworkInspectorDetailScreen URL copy button copies full URL', (tester) async {
+    testWidgets('NetworkInspectorDetailScreen URL copy button copies full URL',
+        (tester) async {
       String? copiedData;
 
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(SystemChannels.platform, (MethodCall methodCall) async {
+          .setMockMethodCallHandler(SystemChannels.platform,
+              (MethodCall methodCall) async {
         if (methodCall.method == 'Clipboard.setData') {
-          copiedData = (methodCall.arguments as Map<dynamic, dynamic>)['text'] as String?;
+          copiedData = (methodCall.arguments as Map<dynamic, dynamic>)['text']
+              as String?;
           return null;
         }
         return null;

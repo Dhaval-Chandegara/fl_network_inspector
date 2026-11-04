@@ -7,7 +7,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('WriteBufferQueue', () {
-    test('Test 1: Debounces writes for 200ms before triggering onFlush (D-21)', () async {
+    test('Test 1: Debounces writes for 200ms before triggering onFlush (D-21)',
+        () async {
       final flushedBatches = <List<NetworkRecord>>[];
       final queue = WriteBufferQueue(
         onFlush: (batch) async {
@@ -55,7 +56,9 @@ void main() {
       queue.dispose();
     });
 
-    test('Test 2: Two-phase in-memory coalescing merges pending and completed records (D-22)', () async {
+    test(
+        'Test 2: Two-phase in-memory coalescing merges pending and completed records (D-22)',
+        () async {
       final flushedRecords = <NetworkRecord>[];
       final queue = WriteBufferQueue(
         onFlush: (batch) async {
@@ -101,7 +104,9 @@ void main() {
       queue.dispose();
     });
 
-    test('Test 3: High-water mark immediately flushes upon reaching 20 items (D-23)', () async {
+    test(
+        'Test 3: High-water mark immediately flushes upon reaching 20 items (D-23)',
+        () async {
       final flushedBatches = <List<NetworkRecord>>[];
       final completer = Completer<void>();
 
@@ -136,7 +141,8 @@ void main() {
       queue.dispose();
     });
 
-    test('Test 4: Explicit flush drains all pending records immediately (D-24)', () async {
+    test('Test 4: Explicit flush drains all pending records immediately (D-24)',
+        () async {
       final flushedRecords = <NetworkRecord>[];
       final queue = WriteBufferQueue(
         onFlush: (batch) async {
@@ -172,7 +178,8 @@ void main() {
       queue.dispose();
     });
 
-    test('Test 5: Error isolation protects isolate from sink failures', () async {
+    test('Test 5: Error isolation protects isolate from sink failures',
+        () async {
       int attempts = 0;
       final queue = WriteBufferQueue(
         onFlush: (batch) async {

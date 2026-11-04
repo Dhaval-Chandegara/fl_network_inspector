@@ -38,7 +38,9 @@ class ShareExporter {
   static Rect calculateAnchor(BuildContext context) {
     try {
       final renderObject = context.findRenderObject();
-      if (renderObject is RenderBox && renderObject.hasSize && renderObject.attached) {
+      if (renderObject is RenderBox &&
+          renderObject.hasSize &&
+          renderObject.attached) {
         return renderObject.localToGlobal(Offset.zero) & renderObject.size;
       }
     } catch (_) {
@@ -54,7 +56,8 @@ class ShareExporter {
   }
 
   /// Formats [record] as a structured Markdown document.
-  static String formatMarkdown(NetworkRecord record, {bool excludeHeaders = false}) {
+  static String formatMarkdown(NetworkRecord record,
+      {bool excludeHeaders = false}) {
     final buffer = StringBuffer();
     buffer.writeln('# Network Request Inspection');
     buffer.writeln();
@@ -64,7 +67,8 @@ class ShareExporter {
     if (record.durationMs != null) {
       buffer.writeln('- **Duration**: ${record.durationMs} ms');
     }
-    buffer.writeln('- **Timestamp**: ${record.requestTimestamp.toIso8601String()}');
+    buffer.writeln(
+        '- **Timestamp**: ${record.requestTimestamp.toIso8601String()}');
     buffer.writeln();
 
     if (!excludeHeaders) {
@@ -123,14 +127,16 @@ class ShareExporter {
   }
 
   /// Formats [record] into a terminal-executable cURL command.
-  static String formatCurl(NetworkRecord record, {bool excludeHeaders = false}) {
+  static String formatCurl(NetworkRecord record,
+      {bool excludeHeaders = false}) {
     return CurlGenerator.fromRecord(record, includeHeaders: !excludeHeaders);
   }
 
   /// Formats [record] into a pretty-printed JSON document.
   ///
   /// Strips `'request_headers'` and `'response_headers'` when [excludeHeaders] is `true`.
-  static String formatJson(NetworkRecord record, {bool excludeHeaders = false}) {
+  static String formatJson(NetworkRecord record,
+      {bool excludeHeaders = false}) {
     final rawMap = record.toMap();
     final map = <String, dynamic>{};
 
@@ -177,8 +183,9 @@ class ShareExporter {
     }
 
     final origin = sharePositionOrigin ?? calculateAnchor(context);
-    final statusStr =
-        record.responseStatusCode != null ? '${record.responseStatusCode}' : 'In-Flight';
+    final statusStr = record.responseStatusCode != null
+        ? '${record.responseStatusCode}'
+        : 'In-Flight';
     final subject = '${record.method} ${record.path} ($statusStr)';
 
     if (mockShareDelegate != null) {

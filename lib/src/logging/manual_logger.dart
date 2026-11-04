@@ -65,7 +65,9 @@ abstract final class ManualLogger {
 
     // 1. Raw byte buffer (Uint8List or List<int>)
     if (rawBody is Uint8List || rawBody is List<int>) {
-      final bytes = rawBody is Uint8List ? rawBody : Uint8List.fromList(rawBody as List<int>);
+      final bytes = rawBody is Uint8List
+          ? rawBody
+          : Uint8List.fromList(rawBody as List<int>);
       final effectiveMime = contentType ?? 'application/octet-stream';
       final truncated = PayloadTruncator.truncateBytes(
         bytes: bytes,
@@ -160,7 +162,8 @@ abstract final class ManualLogger {
       final id = UuidGenerator.v4();
       final reqTimestamp = timestamp ?? DateTime.now();
       final durationMs = duration?.inMilliseconds ?? 0;
-      final respTimestamp = reqTimestamp.add(Duration(milliseconds: durationMs));
+      final respTimestamp =
+          reqTimestamp.add(Duration(milliseconds: durationMs));
 
       final uri = Uri.tryParse(url);
       final baseUrl = uri != null ? '${uri.scheme}://${uri.authority}' : '';
@@ -168,10 +171,14 @@ abstract final class ManualLogger {
       final queryParams = uri?.queryParameters ?? const {};
 
       final sanitizedReqHeaders = requestHeaders != null
-          ? engine.redactHeaders(requestHeaders).map((k, v) => MapEntry(k, v.toString()))
+          ? engine
+              .redactHeaders(requestHeaders)
+              .map((k, v) => MapEntry(k, v.toString()))
           : null;
       final sanitizedRespHeaders = responseHeaders != null
-          ? engine.redactHeaders(responseHeaders).map((k, v) => MapEntry(k, v.toString()))
+          ? engine
+              .redactHeaders(responseHeaders)
+              .map((k, v) => MapEntry(k, v.toString()))
           : null;
       final sanitizedQueryParams = engine.redactQueryParams(queryParams);
 
@@ -191,7 +198,8 @@ abstract final class ManualLogger {
 
       final multipartEntries = extractMultipartEntries(requestBody);
 
-      final status = error != null ? NetworkStatus.failed : NetworkStatus.success;
+      final status =
+          error != null ? NetworkStatus.failed : NetworkStatus.success;
 
       final record = NetworkRecord(
         id: id,
@@ -205,9 +213,12 @@ abstract final class ManualLogger {
         responseHeaders: sanitizedRespHeaders,
         requestQueryParams: sanitizedQueryParams,
         requestBody: reqPayload.bodyType != BodyType.empty ? reqPayload : null,
-        responseBody: respPayload.bodyType != BodyType.empty ? respPayload : null,
-        requestContentType: reqContentType ?? (reqPayload.bodyType == BodyType.json ? 'application/json' : null),
-        responseContentType: respContentType ?? (respPayload.bodyType == BodyType.json ? 'application/json' : null),
+        responseBody:
+            respPayload.bodyType != BodyType.empty ? respPayload : null,
+        requestContentType: reqContentType ??
+            (reqPayload.bodyType == BodyType.json ? 'application/json' : null),
+        responseContentType: respContentType ??
+            (respPayload.bodyType == BodyType.json ? 'application/json' : null),
         requestSize: reqPayload.byteSize,
         responseSize: respPayload.byteSize,
         error: error,
@@ -259,7 +270,9 @@ abstract final class ManualLogger {
             );
           }
           final sanitizedRespHeaders = headers != null
-              ? engine.redactHeaders(headers).map((k, v) => MapEntry(k, v.toString()))
+              ? engine
+                  .redactHeaders(headers)
+                  .map((k, v) => MapEntry(k, v.toString()))
               : null;
 
           final now = DateTime.now();
@@ -269,10 +282,12 @@ abstract final class ManualLogger {
             responseStatusCode: statusCode ?? existing.responseStatusCode,
             responseHeaders: sanitizedRespHeaders ?? existing.responseHeaders,
             responseBody: responsePayload ?? existing.responseBody,
-            responseContentType: findContentType(headers) ?? existing.responseContentType,
+            responseContentType:
+                findContentType(headers) ?? existing.responseContentType,
             responseSize: responsePayload?.byteSize ?? existing.responseSize,
             responseTimestamp: now,
-            durationMs: now.difference(existing.requestTimestamp).inMilliseconds,
+            durationMs:
+                now.difference(existing.requestTimestamp).inMilliseconds,
           );
           await repository.save(updated);
           return;
@@ -288,7 +303,9 @@ abstract final class ManualLogger {
       final queryParams = uri?.queryParameters ?? const {};
 
       final sanitizedHeaders = headers != null
-          ? engine.redactHeaders(headers).map((k, v) => MapEntry(k, v.toString()))
+          ? engine
+              .redactHeaders(headers)
+              .map((k, v) => MapEntry(k, v.toString()))
           : null;
       final sanitizedQueryParams = engine.redactQueryParams(queryParams);
 

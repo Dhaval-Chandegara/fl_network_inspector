@@ -36,7 +36,8 @@ void main() {
   });
 
   group('ShareExporter Formatting', () {
-    test('formatMarkdown formats complete report including headers and body', () {
+    test('formatMarkdown formats complete report including headers and body',
+        () {
       final md = ShareExporter.formatMarkdown(sampleRecord);
 
       expect(md, contains('# Network Request Inspection'));
@@ -53,7 +54,8 @@ void main() {
     });
 
     test('formatMarkdown omits headers when excludeHeaders is true', () {
-      final md = ShareExporter.formatMarkdown(sampleRecord, excludeHeaders: true);
+      final md =
+          ShareExporter.formatMarkdown(sampleRecord, excludeHeaders: true);
 
       expect(md, isNot(contains('## Request Headers')));
       expect(md, isNot(contains('`Authorization`: Bearer [REDACTED]')));
@@ -63,16 +65,21 @@ void main() {
     });
 
     test('formatCurl delegates to CurlGenerator respecting excludeHeaders', () {
-      final curlWithHeaders = ShareExporter.formatCurl(sampleRecord, excludeHeaders: false);
-      expect(curlWithHeaders, contains("-H 'Authorization: Bearer [REDACTED]'"));
+      final curlWithHeaders =
+          ShareExporter.formatCurl(sampleRecord, excludeHeaders: false);
+      expect(
+          curlWithHeaders, contains("-H 'Authorization: Bearer [REDACTED]'"));
 
-      final curlWithoutHeaders = ShareExporter.formatCurl(sampleRecord, excludeHeaders: true);
+      final curlWithoutHeaders =
+          ShareExporter.formatCurl(sampleRecord, excludeHeaders: true);
       expect(curlWithoutHeaders, isNot(contains("-H 'Authorization")));
-      expect(curlWithoutHeaders, contains("curl -X GET \\\n  'https://api.example.com/v1/users/42'"));
+      expect(curlWithoutHeaders,
+          contains("curl -X GET \\\n  'https://api.example.com/v1/users/42'"));
     });
 
     test('formatJson formats valid JSON with redactions preserved', () {
-      final jsonStr = ShareExporter.formatJson(sampleRecord, excludeHeaders: false);
+      final jsonStr =
+          ShareExporter.formatJson(sampleRecord, excludeHeaders: false);
       final decoded = jsonDecode(jsonStr) as Map<String, dynamic>;
 
       expect(decoded['id'], 'test-share-123');
@@ -88,8 +95,11 @@ void main() {
       expect(resBody['body'], contains('[REDACTED]'));
     });
 
-    test('formatJson strips request and response headers when excludeHeaders is true', () {
-      final jsonStr = ShareExporter.formatJson(sampleRecord, excludeHeaders: true);
+    test(
+        'formatJson strips request and response headers when excludeHeaders is true',
+        () {
+      final jsonStr =
+          ShareExporter.formatJson(sampleRecord, excludeHeaders: true);
       final decoded = jsonDecode(jsonStr) as Map<String, dynamic>;
 
       expect(decoded.containsKey('request_headers'), isFalse);
@@ -101,7 +111,8 @@ void main() {
   });
 
   group('ShareExporter calculateAnchor', () {
-    testWidgets('calculates valid anchor rect from attached widget context', (tester) async {
+    testWidgets('calculates valid anchor rect from attached widget context',
+        (tester) async {
       late Rect anchor;
 
       await tester.pumpWidget(
@@ -133,7 +144,8 @@ void main() {
   });
 
   group('ExportActionSheet Widget', () {
-    testWidgets('renders all share options and exclude headers checkbox', (tester) async {
+    testWidgets('renders all share options and exclude headers checkbox',
+        (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -149,12 +161,15 @@ void main() {
       expect(find.text('Share as Full JSON'), findsOneWidget);
     });
 
-    testWidgets('dispatches shareRecord with selected format and excludeHeaders state', (tester) async {
+    testWidgets(
+        'dispatches shareRecord with selected format and excludeHeaders state',
+        (tester) async {
       String? sharedText;
       String? sharedSubject;
       Rect? sharedOrigin;
 
-      ShareExporter.mockShareDelegate = (text, {subject, sharePositionOrigin}) async {
+      ShareExporter.mockShareDelegate =
+          (text, {subject, sharePositionOrigin}) async {
         sharedText = text;
         sharedSubject = subject;
         sharedOrigin = sharePositionOrigin;

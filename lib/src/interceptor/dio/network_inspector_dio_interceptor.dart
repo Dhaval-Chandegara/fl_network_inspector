@@ -71,7 +71,8 @@ class NetworkInspectorDioInterceptor extends Interceptor {
     PayloadData? requestPayload;
     List<MultipartEntry>? multipartEntries;
     int requestSize = 0;
-    final contentType = options.contentType ?? options.headers['content-type']?.toString();
+    final contentType =
+        options.contentType ?? options.headers['content-type']?.toString();
 
     if (options.data != null) {
       if (options.data is FormData) {
@@ -100,7 +101,8 @@ class NetworkInspectorDioInterceptor extends Interceptor {
               fileName: f.filename,
               contentType: f.contentType?.mimeType,
               byteSize: f.length,
-              filePath: null, // Dio MultipartFile does not expose source file path
+              filePath:
+                  null, // Dio MultipartFile does not expose source file path
             ),
           );
         }
@@ -181,7 +183,8 @@ class NetworkInspectorDioInterceptor extends Interceptor {
   }
 
   @override
-  void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
+  void onResponse(
+      Response<dynamic> response, ResponseInterceptorHandler handler) {
     if (!NetworkInspector.isEnabled) {
       return handler.next(response);
     }
@@ -192,8 +195,10 @@ class NetworkInspectorDioInterceptor extends Interceptor {
     response.requestOptions.extra[_completedKey] = true;
 
     final id = response.requestOptions.extra[_recordIdKey] as String?;
-    final startTimestamp = response.requestOptions.extra[_startTimeKey] as DateTime?;
-    final pendingRecord = response.requestOptions.extra[_pendingRecordKey] as NetworkRecord?;
+    final startTimestamp =
+        response.requestOptions.extra[_startTimeKey] as DateTime?;
+    final pendingRecord =
+        response.requestOptions.extra[_pendingRecordKey] as NetworkRecord?;
 
     if (id != null && startTimestamp != null) {
       final endTimestamp = DateTime.now();
@@ -302,7 +307,8 @@ class NetworkInspectorDioInterceptor extends Interceptor {
 
     final id = err.requestOptions.extra[_recordIdKey] as String?;
     final startTimestamp = err.requestOptions.extra[_startTimeKey] as DateTime?;
-    final pendingRecord = err.requestOptions.extra[_pendingRecordKey] as NetworkRecord?;
+    final pendingRecord =
+        err.requestOptions.extra[_pendingRecordKey] as NetworkRecord?;
 
     if (id != null && startTimestamp != null) {
       final endTimestamp = DateTime.now();

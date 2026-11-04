@@ -79,10 +79,14 @@ class _JsonViewerWidgetState extends State<JsonViewerWidget> {
 
   List<TextSpan> _buildJsonSpans(String json, bool isDark) {
     final keyColor = isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB);
-    final stringColor = isDark ? const Color(0xFF4ADE80) : const Color(0xFF16A34A);
-    final numberColor = isDark ? const Color(0xFFFBBF24) : const Color(0xFFD97706);
-    final boolColor = isDark ? const Color(0xFFA78BFA) : const Color(0xFF7C3AED);
-    final nullColor = isDark ? const Color(0xFF9CA3AF) : const Color(0xFF64748B);
+    final stringColor =
+        isDark ? const Color(0xFF4ADE80) : const Color(0xFF16A34A);
+    final numberColor =
+        isDark ? const Color(0xFFFBBF24) : const Color(0xFFD97706);
+    final boolColor =
+        isDark ? const Color(0xFFA78BFA) : const Color(0xFF7C3AED);
+    final nullColor =
+        isDark ? const Color(0xFF9CA3AF) : const Color(0xFF64748B);
     final defaultColor = isDark ? Colors.white70 : const Color(0xFF1F2937);
 
     final spans = <TextSpan>[];
@@ -193,7 +197,8 @@ class _JsonViewerWidgetState extends State<JsonViewerWidget> {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
               color: isDark ? const Color(0xFF252525) : const Color(0xFFF3F4F6),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(8)),
             ),
             child: Row(
               children: [
@@ -209,7 +214,9 @@ class _JsonViewerWidgetState extends State<JsonViewerWidget> {
                   '(${payload.length} chars)',
                   style: TextStyle(
                     fontSize: 12,
-                    color: isDark ? const Color(0xFF9CA3AF) : const Color(0xFF6B7280),
+                    color: isDark
+                        ? const Color(0xFF9CA3AF)
+                        : const Color(0xFF6B7280),
                   ),
                 ),
                 const Spacer(),
@@ -234,7 +241,8 @@ class _JsonViewerWidgetState extends State<JsonViewerWidget> {
               color: const Color(0xFFFEF3C7),
               child: const Row(
                 children: [
-                  Icon(Icons.warning_amber_rounded, size: 18, color: Color(0xFFD97706)),
+                  Icon(Icons.warning_amber_rounded,
+                      size: 18, color: Color(0xFFD97706)),
                   SizedBox(width: 8),
                   Text(
                     '[Body truncated at 1MB]',
@@ -294,7 +302,8 @@ class _JsonViewerWidgetState extends State<JsonViewerWidget> {
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
                           height: 1.4,
-                          color: isDark ? Colors.white70 : const Color(0xFF1F2937),
+                          color:
+                              isDark ? Colors.white70 : const Color(0xFF1F2937),
                         ),
                       ),
               ),

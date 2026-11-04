@@ -47,7 +47,8 @@ void main() {
       expect(retrieved.responseStatusCode, equals(200));
     });
 
-    test('saveBatch and getRecords supports pagination (limit and offset)', () async {
+    test('saveBatch and getRecords supports pagination (limit and offset)',
+        () async {
       final baseTime = DateTime.parse('2026-10-31T12:00:00.000Z');
       final records = List.generate(
         5,
@@ -69,7 +70,9 @@ void main() {
       expect(page[1].path, equals('/item/2'));
     });
 
-    test('filters records by HTTP method, status code, search query, and errorOnly', () async {
+    test(
+        'filters records by HTTP method, status code, search query, and errorOnly',
+        () async {
       final r1 = NetworkRecord(
         url: 'https://api.example.com/users',
         baseUrl: 'https://api.example.com',
@@ -161,7 +164,8 @@ void main() {
       expect(sorted.last.durationMs, equals(50));
     });
 
-    test('getRecordCount returns accurate counts with and without filter', () async {
+    test('getRecordCount returns accurate counts with and without filter',
+        () async {
       final r1 = NetworkRecord(
         url: 'https://api.example.com/1',
         baseUrl: 'https://api.example.com',
@@ -191,7 +195,8 @@ void main() {
       expect(postCount, equals(1));
     });
 
-    test('clearAll removes all records and allows subsequent writes (D-28)', () async {
+    test('clearAll removes all records and allows subsequent writes (D-28)',
+        () async {
       final record = NetworkRecord(
         url: 'https://api.example.com/clear',
         baseUrl: 'https://api.example.com',
@@ -211,7 +216,8 @@ void main() {
       expect(await repository.getRecordCount(), equals(1));
     });
 
-    test('flush and dispose lifecycle methods execute cleanly (D-24)', () async {
+    test('flush and dispose lifecycle methods execute cleanly (D-24)',
+        () async {
       final record = NetworkRecord(
         url: 'https://api.example.com/lifecycle',
         baseUrl: 'https://api.example.com',

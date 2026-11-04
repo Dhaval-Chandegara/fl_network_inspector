@@ -16,7 +16,8 @@ abstract final class DatabaseQueryBuilder {
     int offset = 0,
   }) {
     final (whereClause, whereArgs) = _buildWhereClause(filter);
-    final sortColumn = _resolveSortColumn(sort?.field ?? RecordSortField.timestamp);
+    final sortColumn =
+        _resolveSortColumn(sort?.field ?? RecordSortField.timestamp);
     final sortDirection = (sort?.order == SortOrder.ascending) ? 'ASC' : 'DESC';
 
     final sql = StringBuffer('SELECT * FROM ${DatabaseConstants.tableName}');
@@ -40,7 +41,8 @@ abstract final class DatabaseQueryBuilder {
   }) {
     final (whereClause, whereArgs) = _buildWhereClause(filter);
 
-    final sql = StringBuffer('SELECT COUNT(*) FROM ${DatabaseConstants.tableName}');
+    final sql =
+        StringBuffer('SELECT COUNT(*) FROM ${DatabaseConstants.tableName}');
     if (whereClause.isNotEmpty) {
       sql.write(' WHERE $whereClause');
     }
@@ -49,7 +51,8 @@ abstract final class DatabaseQueryBuilder {
     return (sql.toString(), whereArgs);
   }
 
-  static (String whereClause, List<Object?> args) _buildWhereClause(RecordFilter? filter) {
+  static (String whereClause, List<Object?> args) _buildWhereClause(
+      RecordFilter? filter) {
     if (filter == null || !filter.hasActiveFilters) {
       return ('', <Object?>[]);
     }
@@ -71,15 +74,18 @@ abstract final class DatabaseQueryBuilder {
 
     // HTTP method filter
     if (filter.httpMethods != null && filter.httpMethods!.isNotEmpty) {
-      final placeholders = List.filled(filter.httpMethods!.length, '?').join(', ');
+      final placeholders =
+          List.filled(filter.httpMethods!.length, '?').join(', ');
       clauses.add('${DatabaseConstants.columnMethod} IN ($placeholders)');
       args.addAll(filter.httpMethods!.map((m) => m.toUpperCase()));
     }
 
     // HTTP status code filter
     if (filter.statusCodes != null && filter.statusCodes!.isNotEmpty) {
-      final placeholders = List.filled(filter.statusCodes!.length, '?').join(', ');
-      clauses.add('${DatabaseConstants.columnResponseStatusCode} IN ($placeholders)');
+      final placeholders =
+          List.filled(filter.statusCodes!.length, '?').join(', ');
+      clauses.add(
+          '${DatabaseConstants.columnResponseStatusCode} IN ($placeholders)');
       args.addAll(filter.statusCodes!);
     }
 

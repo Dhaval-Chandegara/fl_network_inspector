@@ -11,7 +11,8 @@ import 'helpers/test_record_fixtures.dart';
 
 void main() {
   group('NetworkInspectorDetailScreen 4-Tab Tests', () {
-    testWidgets('renders Header Summary Card and Overview tab details', (tester) async {
+    testWidgets('renders Header Summary Card and Overview tab details',
+        (tester) async {
       final record = TestRecordFixtures.getSuccessRecord;
 
       await tester.pumpWidget(
@@ -43,7 +44,8 @@ void main() {
       expect(find.text('/v1/users'), findsOneWidget);
     });
 
-    testWidgets('Request tab displays headers and query parameters', (tester) async {
+    testWidgets('Request tab displays headers and query parameters',
+        (tester) async {
       final record = TestRecordFixtures.createRecord(
         url: 'https://api.example.com/search?q=flutter&page=1',
         method: 'GET',
@@ -84,7 +86,8 @@ void main() {
       expect(find.text('File: profile.png'), findsOneWidget);
     });
 
-    testWidgets('Response tab displays response headers and body', (tester) async {
+    testWidgets('Response tab displays response headers and body',
+        (tester) async {
       final record = TestRecordFixtures.getSuccessRecord;
 
       await tester.pumpWidget(
@@ -103,7 +106,8 @@ void main() {
       expect(find.text('Response Body'), findsOneWidget);
     });
 
-    testWidgets('Error tab shows checkmark when request has no errors', (tester) async {
+    testWidgets('Error tab shows checkmark when request has no errors',
+        (tester) async {
       final record = TestRecordFixtures.getSuccessRecord;
 
       await tester.pumpWidget(
@@ -117,11 +121,13 @@ void main() {
       await tester.tap(find.text('Error'));
       await tester.pumpAndSettle();
 
-      expect(find.text('No errors encountered for this request'), findsOneWidget);
+      expect(
+          find.text('No errors encountered for this request'), findsOneWidget);
       expect(find.byIcon(Icons.check_circle_outline_rounded), findsOneWidget);
     });
 
-    testWidgets('Error tab shows message, exception, and stack trace when failed',
+    testWidgets(
+        'Error tab shows message, exception, and stack trace when failed',
         (tester) async {
       final record = TestRecordFixtures.createRecord(
         url: 'https://api.example.com/fail',
@@ -152,10 +158,12 @@ void main() {
       expect(find.text('Error at line 42 in main.dart'), findsOneWidget);
     });
 
-    testWidgets('AppBar Copy cURL action copies bash cURL and shows SnackBar', (tester) async {
+    testWidgets('AppBar Copy cURL action copies bash cURL and shows SnackBar',
+        (tester) async {
       String? clipboardData;
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(SystemChannels.platform, (MethodCall methodCall) async {
+          .setMockMethodCallHandler(SystemChannels.platform,
+              (MethodCall methodCall) async {
         if (methodCall.method == 'Clipboard.setData') {
           clipboardData = (methodCall.arguments as Map)['text'] as String?;
           return null;
@@ -177,14 +185,16 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(clipboardData, isNotNull);
-      expect(clipboardData, contains("curl -X GET \\\n  'https://api.example.com/v1/users'"));
+      expect(clipboardData,
+          contains("curl -X GET \\\n  'https://api.example.com/v1/users'"));
       expect(find.text('Copied cURL to clipboard'), findsOneWidget);
 
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(SystemChannels.platform, null);
     });
 
-    testWidgets('AppBar Share action opens ExportActionSheet bottom sheet', (tester) async {
+    testWidgets('AppBar Share action opens ExportActionSheet bottom sheet',
+        (tester) async {
       final record = TestRecordFixtures.getSuccessRecord;
 
       await tester.pumpWidget(

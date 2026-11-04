@@ -44,13 +44,15 @@ void main() {
       );
       await repository.save(completed);
 
-      expect(await repository.getRecordCount(), equals(1)); // count does not increase
+      expect(await repository.getRecordCount(),
+          equals(1)); // count does not increase
       final fetchedCompleted = await repository.getById(testId);
       expect(fetchedCompleted?.status, equals(NetworkStatus.success));
       expect(fetchedCompleted?.responseStatusCode, equals(200));
     });
 
-    test('evicts oldest records via FIFO ring-buffer when exceeding maxRecords', () async {
+    test('evicts oldest records via FIFO ring-buffer when exceeding maxRecords',
+        () async {
       final r1 = NetworkRecord(
         id: 'r1',
         url: 'https://api.example.com/1',
@@ -97,7 +99,8 @@ void main() {
       expect(await repository.getById('r4'), isNotNull);
     });
 
-    test('filters records by search query, method, status code, and errorOnly', () async {
+    test('filters records by search query, method, status code, and errorOnly',
+        () async {
       final repo = InMemoryNetworkInspectorRepository(maxRecords: 10);
       final r1 = NetworkRecord(
         url: 'https://api.example.com/search?q=flutter',

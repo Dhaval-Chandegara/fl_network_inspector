@@ -34,7 +34,8 @@ abstract final class PayloadTruncator {
     final lowerMime = contentType?.toLowerCase() ?? '';
 
     // Handle binary streams without keeping raw binary buffers in memory (D-14)
-    if (_isBinaryMime(lowerMime) && !body.startsWith(BodyTypeDetector.binarySummaryPrefix)) {
+    if (_isBinaryMime(lowerMime) &&
+        !body.startsWith(BodyTypeDetector.binarySummaryPrefix)) {
       final originalBytes = utf8.encode(body);
       final summary = formatBinarySummary(
         contentType ?? 'application/octet-stream',
@@ -50,7 +51,8 @@ abstract final class PayloadTruncator {
 
     final bytes = utf8.encode(body);
     final originalSize = bytes.length;
-    final detectedType = BodyTypeDetector.detect(body: body, contentType: contentType);
+    final detectedType =
+        BodyTypeDetector.detect(body: body, contentType: contentType);
 
     if (originalSize <= maxBytes) {
       return PayloadData(
@@ -105,12 +107,15 @@ abstract final class PayloadTruncator {
     final bool isTruncated = totalSize > maxBytes;
     final slice = isTruncated ? bytes.sublist(0, maxBytes) : bytes;
     final decodedText = utf8.decode(slice, allowMalformed: true);
-    final finalBody = isTruncated ? '$decodedText${formatTruncationBanner(maxBytes)}' : decodedText;
+    final finalBody = isTruncated
+        ? '$decodedText${formatTruncationBanner(maxBytes)}'
+        : decodedText;
 
     return PayloadData(
       body: finalBody,
       byteSize: totalSize,
-      bodyType: BodyTypeDetector.detect(body: finalBody, contentType: contentType),
+      bodyType:
+          BodyTypeDetector.detect(body: finalBody, contentType: contentType),
       isTruncated: isTruncated,
     );
   }

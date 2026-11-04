@@ -22,7 +22,9 @@ void main() {
       await dbManager.close();
     });
 
-    test('verifies PRAGMA journal_mode and synchronous execute without errors (D-19)', () async {
+    test(
+        'verifies PRAGMA journal_mode and synchronous execute without errors (D-19)',
+        () async {
       final db = await dbManager.database;
       expect(db.isOpen, isTrue);
 
@@ -34,9 +36,12 @@ void main() {
       expect(syncResult, isNotEmpty);
     });
 
-    test('verifies all 21 table columns, data types, and primary key via PRAGMA table_info (D-17)', () async {
+    test(
+        'verifies all 21 table columns, data types, and primary key via PRAGMA table_info (D-17)',
+        () async {
       final db = await dbManager.database;
-      final columnsInfo = await db.rawQuery('PRAGMA table_info(${DatabaseConstants.tableName});');
+      final columnsInfo = await db
+          .rawQuery('PRAGMA table_info(${DatabaseConstants.tableName});');
 
       expect(columnsInfo, hasLength(21));
 
@@ -59,25 +64,79 @@ void main() {
       expect((idCol['type'] as String).toUpperCase(), equals('TEXT'));
 
       // Check types of key columns
-      expect((columnMap[DatabaseConstants.columnUrl]!['type'] as String).toUpperCase(), equals('TEXT'));
-      expect((columnMap[DatabaseConstants.columnBaseUrl]!['type'] as String).toUpperCase(), equals('TEXT'));
-      expect((columnMap[DatabaseConstants.columnPath]!['type'] as String).toUpperCase(), equals('TEXT'));
-      expect((columnMap[DatabaseConstants.columnMethod]!['type'] as String).toUpperCase(), equals('TEXT'));
-      expect((columnMap[DatabaseConstants.columnRequestHeaders]!['type'] as String).toUpperCase(), equals('TEXT'));
-      expect((columnMap[DatabaseConstants.columnRequestQueryParams]!['type'] as String).toUpperCase(), equals('TEXT'));
-      expect((columnMap[DatabaseConstants.columnRequestBody]!['type'] as String).toUpperCase(), equals('TEXT'));
-      expect((columnMap[DatabaseConstants.columnRequestSize]!['type'] as String).toUpperCase(), equals('INTEGER'));
-      expect((columnMap[DatabaseConstants.columnResponseStatusCode]!['type'] as String).toUpperCase(), equals('INTEGER'));
-      expect((columnMap[DatabaseConstants.columnResponseHeaders]!['type'] as String).toUpperCase(), equals('TEXT'));
-      expect((columnMap[DatabaseConstants.columnResponseBody]!['type'] as String).toUpperCase(), equals('TEXT'));
-      expect((columnMap[DatabaseConstants.columnResponseSize]!['type'] as String).toUpperCase(), equals('INTEGER'));
-      expect((columnMap[DatabaseConstants.columnDurationMs]!['type'] as String).toUpperCase(), equals('INTEGER'));
-      expect((columnMap[DatabaseConstants.columnStatus]!['type'] as String).toUpperCase(), equals('TEXT'));
-      expect((columnMap[DatabaseConstants.columnError]!['type'] as String).toUpperCase(), equals('TEXT'));
-      expect((columnMap[DatabaseConstants.columnMultipartEntries]!['type'] as String).toUpperCase(), equals('TEXT'));
+      expect(
+          (columnMap[DatabaseConstants.columnUrl]!['type'] as String)
+              .toUpperCase(),
+          equals('TEXT'));
+      expect(
+          (columnMap[DatabaseConstants.columnBaseUrl]!['type'] as String)
+              .toUpperCase(),
+          equals('TEXT'));
+      expect(
+          (columnMap[DatabaseConstants.columnPath]!['type'] as String)
+              .toUpperCase(),
+          equals('TEXT'));
+      expect(
+          (columnMap[DatabaseConstants.columnMethod]!['type'] as String)
+              .toUpperCase(),
+          equals('TEXT'));
+      expect(
+          (columnMap[DatabaseConstants.columnRequestHeaders]!['type'] as String)
+              .toUpperCase(),
+          equals('TEXT'));
+      expect(
+          (columnMap[DatabaseConstants.columnRequestQueryParams]!['type']
+                  as String)
+              .toUpperCase(),
+          equals('TEXT'));
+      expect(
+          (columnMap[DatabaseConstants.columnRequestBody]!['type'] as String)
+              .toUpperCase(),
+          equals('TEXT'));
+      expect(
+          (columnMap[DatabaseConstants.columnRequestSize]!['type'] as String)
+              .toUpperCase(),
+          equals('INTEGER'));
+      expect(
+          (columnMap[DatabaseConstants.columnResponseStatusCode]!['type']
+                  as String)
+              .toUpperCase(),
+          equals('INTEGER'));
+      expect(
+          (columnMap[DatabaseConstants.columnResponseHeaders]!['type']
+                  as String)
+              .toUpperCase(),
+          equals('TEXT'));
+      expect(
+          (columnMap[DatabaseConstants.columnResponseBody]!['type'] as String)
+              .toUpperCase(),
+          equals('TEXT'));
+      expect(
+          (columnMap[DatabaseConstants.columnResponseSize]!['type'] as String)
+              .toUpperCase(),
+          equals('INTEGER'));
+      expect(
+          (columnMap[DatabaseConstants.columnDurationMs]!['type'] as String)
+              .toUpperCase(),
+          equals('INTEGER'));
+      expect(
+          (columnMap[DatabaseConstants.columnStatus]!['type'] as String)
+              .toUpperCase(),
+          equals('TEXT'));
+      expect(
+          (columnMap[DatabaseConstants.columnError]!['type'] as String)
+              .toUpperCase(),
+          equals('TEXT'));
+      expect(
+          (columnMap[DatabaseConstants.columnMultipartEntries]!['type']
+                  as String)
+              .toUpperCase(),
+          equals('TEXT'));
     });
 
-    test('verifies presence of all 5 dedicated B-tree indexes in sqlite_master (D-18)', () async {
+    test(
+        'verifies presence of all 5 dedicated B-tree indexes in sqlite_master (D-18)',
+        () async {
       final db = await dbManager.database;
       final indexes = await db.rawQuery(
         "SELECT name, sql FROM sqlite_master WHERE type = 'index' AND tbl_name = ?;",
@@ -93,14 +152,16 @@ void main() {
       expect(indexNames, contains('idx_records_status'));
 
       // Verify timestamp index includes DESC
-      final timestampIndex = indexes.firstWhere((row) => row['name'] == 'idx_records_timestamp');
+      final timestampIndex =
+          indexes.firstWhere((row) => row['name'] == 'idx_records_timestamp');
       final sql = (timestampIndex['sql'] as String).toUpperCase();
       expect(sql, contains('DESC'));
     });
 
     test('verifies default values and non-null constraints', () async {
       final db = await dbManager.database;
-      final columnsInfo = await db.rawQuery('PRAGMA table_info(${DatabaseConstants.tableName});');
+      final columnsInfo = await db
+          .rawQuery('PRAGMA table_info(${DatabaseConstants.tableName});');
 
       final columnMap = {
         for (final row in columnsInfo) row['name'] as String: row,

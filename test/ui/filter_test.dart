@@ -8,11 +8,13 @@ import 'helpers/test_record_fixtures.dart';
 
 void main() {
   group('Filter Chips & Modal Bottom Sheet Tests', () {
-    testWidgets('FilterChipsBar toggles Errors Only and method filters', (tester) async {
+    testWidgets('FilterChipsBar toggles Errors Only and method filters',
+        (tester) async {
       final repository = InMemoryNetworkInspectorRepository();
       await repository.save(TestRecordFixtures.getSuccessRecord); // GET 200
       await repository.save(TestRecordFixtures.postSuccessRecord); // POST 201
-      await repository.save(TestRecordFixtures.serverErrorRecord); // POST 500 failed
+      await repository
+          .save(TestRecordFixtures.serverErrorRecord); // POST 500 failed
 
       final viewModel = InspectorViewModel(repository: repository);
 
@@ -52,12 +54,17 @@ void main() {
       expect(find.text('/v1/checkout'), findsNothing);
     });
 
-    testWidgets('FilterBottomSheet applies multi-parameter criteria', (tester) async {
+    testWidgets('FilterBottomSheet applies multi-parameter criteria',
+        (tester) async {
       final repository = InMemoryNetworkInspectorRepository();
-      await repository.save(TestRecordFixtures.getSuccessRecord); // GET 200, 45ms
-      await repository.save(TestRecordFixtures.clientErrorRecord); // GET 404, 82ms
-      await repository.save(TestRecordFixtures.serverErrorRecord); // POST 500, 310ms
-      await repository.save(TestRecordFixtures.socketFailedRecord); // GET failed, 1500ms
+      await repository
+          .save(TestRecordFixtures.getSuccessRecord); // GET 200, 45ms
+      await repository
+          .save(TestRecordFixtures.clientErrorRecord); // GET 404, 82ms
+      await repository
+          .save(TestRecordFixtures.serverErrorRecord); // POST 500, 310ms
+      await repository
+          .save(TestRecordFixtures.socketFailedRecord); // GET failed, 1500ms
 
       final viewModel = InspectorViewModel(repository: repository);
 

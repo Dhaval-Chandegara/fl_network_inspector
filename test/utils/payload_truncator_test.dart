@@ -14,7 +14,8 @@ void main() {
 
     test('detects json via MIME type or structural brackets', () {
       expect(
-        BodyTypeDetector.detect(body: '{"a":1}', contentType: 'application/json'),
+        BodyTypeDetector.detect(
+            body: '{"a":1}', contentType: 'application/json'),
         equals(BodyType.json),
       );
       expect(
@@ -121,10 +122,13 @@ void main() {
       expect(res.byteSize, equals(200));
       expect(res.body, contains('[Payload truncated at 50 bytes]'));
       expect(res.body!.startsWith('A' * 50), isTrue);
-      expect(res.body, equals('${"A" * 50}\n\n[Payload truncated at 50 bytes]'));
+      expect(
+          res.body, equals('${"A" * 50}\n\n[Payload truncated at 50 bytes]'));
     });
 
-    test('handles mid-codepoint slicing on multi-byte UTF-8 safely without FormatException', () {
+    test(
+        'handles mid-codepoint slicing on multi-byte UTF-8 safely without FormatException',
+        () {
       // Emojis are 4-byte UTF-8 sequences.
       // 🚀 is [0xF0, 0x9F, 0x9A, 0x80] (4 bytes)
       final emojiString = '🚀' * 20; // 80 bytes
@@ -167,7 +171,8 @@ void main() {
 
       expect(res.bodyType, equals(BodyType.binary));
       expect(res.byteSize, equals(100));
-      expect(res.body, equals('[Binary data: application/octet-stream, 100 bytes]'));
+      expect(res.body,
+          equals('[Binary data: application/octet-stream, 100 bytes]'));
     });
   });
 }

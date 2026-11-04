@@ -20,8 +20,10 @@ void main() {
       final id1 = UuidGenerator.v4();
       final id2 = UuidGenerator.v4();
 
-      expect(uuidRegex.hasMatch(id1), isTrue, reason: '$id1 should match RFC 4122 v4 format');
-      expect(uuidRegex.hasMatch(id2), isTrue, reason: '$id2 should match RFC 4122 v4 format');
+      expect(uuidRegex.hasMatch(id1), isTrue,
+          reason: '$id1 should match RFC 4122 v4 format');
+      expect(uuidRegex.hasMatch(id2), isTrue,
+          reason: '$id2 should match RFC 4122 v4 format');
       expect(id1, isNot(equals(id2)), reason: 'Generated UUIDs must be unique');
     });
   });
@@ -173,7 +175,8 @@ void main() {
       expect(restored.baseUrl, equals(original.baseUrl));
       expect(restored.path, equals(original.path));
       expect(restored.method, equals(original.method));
-      expect(restored.requestHeaders, equals({'Authorization': 'Bearer token'}));
+      expect(
+          restored.requestHeaders, equals({'Authorization': 'Bearer token'}));
       expect(restored.requestQueryParams, equals({'page': '1'}));
       expect(restored.requestBody, equals(original.requestBody));
       expect(restored.responseStatusCode, equals(201));

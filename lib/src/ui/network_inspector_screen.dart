@@ -135,10 +135,8 @@ class _NetworkInspectorScreenState extends State<NetworkInspectorScreen> {
           isDark ? const Color(0xFF121212) : const Color(0xFFF8F9FA),
       appBarTheme: AppBarTheme(
         elevation: 0,
-        backgroundColor:
-            isDark ? const Color(0xFF1E1E1E) : Colors.white,
-        foregroundColor:
-            isDark ? Colors.white : const Color(0xFF111827),
+        backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        foregroundColor: isDark ? Colors.white : const Color(0xFF111827),
       ),
       colorScheme: ColorScheme.fromSeed(
         seedColor: const Color(0xFF2563EB),
@@ -156,7 +154,9 @@ class _NetworkInspectorScreenState extends State<NetworkInspectorScreen> {
             MediaQuery.maybePlatformBrightnessOf(context) ?? Brightness.light;
         final activeBrightness = themeMode == ThemeMode.system
             ? platformBrightness
-            : (themeMode == ThemeMode.dark ? Brightness.dark : Brightness.light);
+            : (themeMode == ThemeMode.dark
+                ? Brightness.dark
+                : Brightness.light);
         final theme = _buildTheme(activeBrightness);
 
         return Theme(
@@ -316,7 +316,9 @@ class _NetworkInspectorScreenState extends State<NetworkInspectorScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          isFiltered ? 'No Matching Requests' : 'No Captured Traffic',
+                          isFiltered
+                              ? 'No Matching Requests'
+                              : 'No Captured Traffic',
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,

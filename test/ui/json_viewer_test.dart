@@ -15,7 +15,8 @@ void main() {
       expect(formatted, contains('  "active": true'));
     });
 
-    testWidgets('renders empty state "No payload body recorded" when null or empty',
+    testWidgets(
+        'renders empty state "No payload body recorded" when null or empty',
         (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
@@ -38,7 +39,8 @@ void main() {
       expect(find.text('No payload body recorded'), findsOneWidget);
     });
 
-    testWidgets('renders warning banner "[Body truncated at 1MB]" when isTruncated is true',
+    testWidgets(
+        'renders warning banner "[Body truncated at 1MB]" when isTruncated is true',
         (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
