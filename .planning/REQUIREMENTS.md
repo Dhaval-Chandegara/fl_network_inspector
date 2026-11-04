@@ -15,9 +15,9 @@ Requirements for pub.dev publication readiness. Each maps to roadmap phases.
 
 ### Code Standards & Static Quality (CODE)
 
-- [ ] **CODE-01**: Format all package Dart code, tests, and example code using `dart format` to satisfy pana code styling rules.
-- [ ] **CODE-02**: Run `flutter analyze` with zero warnings, errors, or lints across both root package and `example/`.
-- [ ] **CODE-03**: Verify all 210 existing automated tests pass cleanly under the new package name with zero regressions.
+- [x] **CODE-01**: Format all package Dart code, tests, and example code using `dart format` to satisfy pana code styling rules.
+- [x] **CODE-02**: Run `flutter analyze` with zero warnings, errors, or lints across both root package and `example/`.
+- [x] **CODE-03**: Verify all 210 existing automated tests pass cleanly under the new package name with zero regressions.
 
 ### Public API Documentation & Metadata (DOC)
 
@@ -59,9 +59,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PKG-01 | Phase 7 | Complete |
 | PKG-02 | Phase 7 | Complete |
 | PKG-03 | Phase 7 | Complete |
-| CODE-01 | Phase 8 | Pending |
-| CODE-02 | Phase 8 | Pending |
-| CODE-03 | Phase 8 | Pending |
+| CODE-01 | Phase 8 | Complete |
+| CODE-02 | Phase 8 | Complete |
+| CODE-03 | Phase 8 | Complete |
 | DOC-01 | Phase 9 | Pending |
 | DOC-02 | Phase 9 | Pending |
 | DOC-03 | Phase 9 | Pending |
