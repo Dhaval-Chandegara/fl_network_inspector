@@ -21,6 +21,7 @@ GEMINI.md
 
 # Build, test coverage, and cache artifacts
 coverage/
+doc/api/
 .dart_tool/
 build/
 .pub/

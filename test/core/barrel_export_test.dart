@@ -63,6 +63,24 @@ void main() {
 
       final uuid = UuidGenerator.v4();
       expect(uuid, isNotEmpty);
+
+      // Client Adapters
+      final dioInterceptor = NetworkInspectorDioInterceptor();
+      expect(dioInterceptor, isNotNull);
+
+      final httpClient = NetworkInspectorHttpClient();
+      expect(httpClient, isNotNull);
+
+      // Manual Logging & Request Tracking
+      expect(const NoOpNetworkRequestTracker(), isA<NetworkRequestTracker>());
+
+      // UI Presentation & Widgets
+      expect(NetworkInspectorScreen, isNotNull);
+      expect(NetworkInspectorDetailScreen, isNotNull);
+      expect(NetworkInspectorWrapper, isNotNull);
+
+      // Shake Detection
+      expect(ShakeDetector, isNotNull);
     });
   });
 }
