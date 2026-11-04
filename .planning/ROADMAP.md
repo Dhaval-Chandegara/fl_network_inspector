@@ -40,7 +40,10 @@
 **Plans:** 2 plans
 
 Plans:
+**Wave 1**
 - [ ] 07-01-PLAN.md — Manifest identity, root library rename, example wiring, and test import migration
+
+**Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 07-02-PLAN.md — Publication ignore rules (.pubignore) and dry-run packaging verification
 
 ### Phase 8: Code Standards & Static Quality

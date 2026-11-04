@@ -1,12 +1,63 @@
 {
   "contract": "1.0.0",
   "flavor": "core",
-  "milestone": "v1.1",
-  "phases": [],
+  "milestone": "v1.1 — Pub.dev Release Preparation",
+  "phases": [
+    {
+      "number": "1",
+      "name": "Foundation & Models",
+      "status": "complete"
+    },
+    {
+      "number": "2",
+      "name": "SQLite Persistence",
+      "status": "complete"
+    },
+    {
+      "number": "3",
+      "name": "Network Capture & Interceptors",
+      "status": "complete"
+    },
+    {
+      "number": "4",
+      "name": "Inspector UI",
+      "status": "complete"
+    },
+    {
+      "number": "5",
+      "name": "Shake & Developer Experience",
+      "status": "complete"
+    },
+    {
+      "number": "6",
+      "name": "Quality, Testing & Release",
+      "status": "complete"
+    },
+    {
+      "number": "7",
+      "name": "Packaging & Identity",
+      "status": "pending"
+    },
+    {
+      "number": "8",
+      "name": "Code Standards & Static Quality",
+      "status": "pending"
+    },
+    {
+      "number": "9",
+      "name": "Public API Documentation & Metadata",
+      "status": "pending"
+    },
+    {
+      "number": "10",
+      "name": "Publish Verification & Dry Run",
+      "status": "pending"
+    }
+  ],
   "next": {
-    "command": "/gsd-discuss-phase",
-    "label": "Discuss the first phase",
-    "reason": "Project initialized — plan your first phase"
+    "command": "/gsd-progress --next",
+    "label": "Advance to the next step",
+    "reason": "Phase 1 of 4 · 0% · executing"
   },
-  "updated_at": "2026-11-03T17:33:51.820Z"
+  "updated_at": "2026-11-04T16:42:49.404Z"
 }
