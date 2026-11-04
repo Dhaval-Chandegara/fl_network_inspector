@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 
 import '../core/constants.dart';
 
-/// Immutable configuration for the flutter_network_inspector package.
+/// Immutable configuration for the fl_network_inspector package.
 @immutable
 class NetworkInspectorConfig {
   /// Internal storage for explicit enablement.

@@ -1,4 +1,4 @@
-/// Package-wide constants for flutter_network_inspector.
+/// Package-wide constants for fl_network_inspector.
 abstract final class NetworkInspectorConstants {
   const NetworkInspectorConstants._();
 
