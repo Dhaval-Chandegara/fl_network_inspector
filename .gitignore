@@ -31,3 +31,10 @@ build/
 
 # FVM
 .fvm/
+
+# AI Agent Workspaces & Tool Configuration
+.agents/
+.claude/
+.codex/
+.opencode/
+
