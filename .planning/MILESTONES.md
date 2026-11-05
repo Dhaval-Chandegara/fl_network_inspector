@@ -1,5 +1,16 @@
 # Milestones
 
+## v1.1 Pub.dev Release Preparation (Shipped: 2026-11-05)
+
+**Phases completed:** 4 phases, 5 plans, 6 tasks
+
+**Key accomplishments:**
+- Package renamed to `fl_network_inspector` v1.0.0 with canonical `lib/fl_network_inspector.dart` entry point, example consumer wiring, and 100% passing test suite across all 210 tests.
+- Strict `.pubignore` configuration created and package publishing boundaries validated with `flutter pub publish --dry-run` achieving 0 warnings and 0 errors under the `fl_network_inspector` v1.0.0 identity.
+- Enforced official Dart code formatting across 74 workspace files, resolved analyzer lint in barrel export test, verified 0 static analysis issues on root and example app, and passed all 210 regression tests.
+
+---
+
 ## v1.0 Initial Release (Shipped: 2026-11-03)
 
 **Phases completed:** 6 phases, 17 plans, 66+ commits, 15,390 lines of code
