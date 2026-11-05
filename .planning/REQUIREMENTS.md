@@ -28,9 +28,9 @@ Requirements for pub.dev publication readiness. Each maps to roadmap phases.
 
 ### Publish Verification & Dry Run (PUB)
 
-- [ ] **PUB-01**: Execute `flutter pub publish --dry-run` and verify 0 errors, 0 warnings, 0 hints, and clean archive size.
-- [ ] **PUB-02**: Audit package with pana checklist (140/140 potential pub points) covering platforms, SDK constraints, dependencies, and doc coverage.
-- [ ] **PUB-03**: Provide finalized step-by-step publisher execution checklist and git release tagging instructions.
+- [x] **PUB-01**: Execute `flutter pub publish --dry-run` and verify 0 errors, 0 warnings, 0 hints, and clean archive size.
+- [x] **PUB-02**: Audit package with pana checklist (140/140 potential pub points) covering platforms, SDK constraints, dependencies, and doc coverage.
+- [x] **PUB-03**: Provide finalized step-by-step publisher execution checklist and git release tagging instructions.
 
 ## Future Requirements
 
@@ -66,9 +66,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DOC-02 | Phase 9 | Complete |
 | DOC-03 | Phase 9 | Complete |
 | DOC-04 | Phase 9 | Complete |
-| PUB-01 | Phase 10 | Pending |
-| PUB-02 | Phase 10 | Pending |
-| PUB-03 | Phase 10 | Pending |
+| PUB-01 | Phase 10 | Complete |
+| PUB-02 | Phase 10 | Complete |
+| PUB-03 | Phase 10 | Complete |
 
 **Coverage:**
 - v1.1 requirements: 13 total
