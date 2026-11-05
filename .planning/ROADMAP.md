@@ -77,8 +77,7 @@ Plans:
   1. `flutter pub publish --dry-run` executes with 0 warnings, 0 errors, and confirms archive size is compact and free of excluded development directories.
   2. Package satisfies all pana checklist criteria (platforms detected, sound null safety, valid constraints, zero analyzer issues, full doc comments).
   3. Publisher checklist and git release tagging instructions are verified and documented for the release operator.
-**Plans**: 1/1 plan complete
-- [x] 09-01-PLAN.md — Dartdoc reference fixes, README, CHANGELOG, and LICENSE metadata alignment
+**Plans**: TBD
 
 ## Progress
 
