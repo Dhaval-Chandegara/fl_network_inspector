@@ -128,12 +128,13 @@ After publication completes, perform the following validation checks:
 - [ ] **Package Listing Page**: Visit `https://pub.dev/packages/fl_network_inspector` and confirm version `1.0.0` is live.
 - [ ] **Pana Score Report**: Wait 5–15 minutes for the pub.dev analysis worker to complete. Check the **Scores** tab and confirm **140 / 140 points** and platform badges (**Android**, **iOS**, **Linux**, **macOS**, **Web**, **Windows**).
 - [ ] **API Documentation**: Navigate to `https://pub.dev/documentation/fl_network_inspector/latest/` and verify that the API reference documentation rendered without defects.
-- [ ] **Consumer Smoke Test**: Create a clean test Flutter project and verify dependency installation:
+- [ ] **Consumer Smoke Test**: Create a clean test Flutter project and verify dependency installation and code import:
   ```bash
   cd /tmp
   flutter create test_consumer_app
   cd test_consumer_app
   flutter pub add fl_network_inspector
+  echo "import 'package:fl_network_inspector/fl_network_inspector.dart';" >> lib/main.dart
   flutter analyze
   ```
 - [ ] **GitHub Milestone**: Close Milestone `v1.1` in the GitHub repository.
