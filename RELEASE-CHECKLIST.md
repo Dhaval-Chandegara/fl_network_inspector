@@ -76,9 +76,10 @@ git status
 *Expected Result:* `nothing to commit, working tree clean` on branch `main`.
 
 ### 3.2 Create Annotated Release Tag
-Create an annotated git tag matching the version specified in `pubspec.yaml` (`1.0.0`):
+Create an annotated git tag matching the version specified in `pubspec.yaml` (`1.0.0`). If tag `v1.0.0` already exists locally, update or replace it:
 ```bash
-git tag -a v1.0.0 -m "Release fl_network_inspector v1.0.0"
+# If tag v1.0.0 already exists locally, update or replace it:
+git tag -fa v1.0.0 -m "Release fl_network_inspector v1.0.0"
 ```
 
 ### 3.3 Push Release to Remote
