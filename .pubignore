@@ -9,6 +9,7 @@
 
 # Internal instructions and prompts
 GEMINI.md
+RELEASE-CHECKLIST.md
 
 # IDE metadata and operating system artifacts
 .idea/
