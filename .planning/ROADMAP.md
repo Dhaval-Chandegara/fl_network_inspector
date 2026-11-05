@@ -25,7 +25,7 @@
 
 - [x] **Phase 7: Packaging & Identity** - Align package naming to fl_network_inspector, update imports, and configure publishing rules. (completed 2026-11-04)
 - [x] **Phase 8: Code Standards & Static Quality** - Apply code formatting, resolve all static analysis issues, and verify all automated tests. (completed 2026-11-04)
-- [ ] **Phase 9: Public API Documentation & Metadata** - Complete dartdoc documentation for all public APIs, polish README, CHANGELOG, and license.
+- [x] **Phase 9: Public API Documentation & Metadata** - Complete dartdoc documentation for all public APIs, polish README, CHANGELOG, and license. (completed 2026-11-04)
 - [ ] **Phase 10: Publish Verification & Dry Run** - Verify package via flutter pub publish dry run and complete pana audit checklist.
 
 ## Phase Details
@@ -77,7 +77,8 @@ Plans:
   1. `flutter pub publish --dry-run` executes with 0 warnings, 0 errors, and confirms archive size is compact and free of excluded development directories.
   2. Package satisfies all pana checklist criteria (platforms detected, sound null safety, valid constraints, zero analyzer issues, full doc comments).
   3. Publisher checklist and git release tagging instructions are verified and documented for the release operator.
-**Plans**: TBD
+**Plans**: 1/1 plan complete
+- [x] 09-01-PLAN.md — Dartdoc reference fixes, README, CHANGELOG, and LICENSE metadata alignment
 
 ## Progress
 
@@ -94,5 +95,5 @@ Phases execute in numeric order: 7 → 8 → 9 → 10
 | 6. Quality, Testing & Release | v1.0 | 2/2 | Complete | 2026-11-03 |
 | 7. Packaging & Identity | v1.1 | 2/2 | Complete    | 2026-11-04 |
 | 8. Code Standards & Static Quality | v1.1 | 1/1 | Complete | 2026-11-04 |
-| 9. Public API Documentation & Metadata | v1.1 | 1/1 | In Progress | - |
+| 9. Public API Documentation & Metadata | v1.1 | 1/1 | Complete | 2026-11-04 |
 | 10. Publish Verification & Dry Run | v1.1 | 0/TBD | Not started | - |
