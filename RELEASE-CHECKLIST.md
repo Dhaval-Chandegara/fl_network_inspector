@@ -85,7 +85,8 @@ git tag -fa v1.0.0 -m "Release fl_network_inspector v1.0.0"
 ### 3.3 Push Release to Remote
 Push both the main branch commit and the annotated release tag to GitHub:
 ```bash
-git push origin main --tags
+git push origin main
+git push origin v1.0.0
 ```
 
 *(Optional)* Create a GitHub Release corresponding to `v1.0.0` with release notes copied from `CHANGELOG.md ## [1.0.0]`.
