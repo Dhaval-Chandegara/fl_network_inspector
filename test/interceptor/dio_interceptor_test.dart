@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:fl_network_inspector/fl_network_inspector.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http_parser/http_parser.dart';
 
 void main() {
   group('NetworkInspectorDioInterceptor (INTC-04, D-33, D-34, D-35, DATA-04)',
@@ -160,12 +161,12 @@ void main() {
         'avatar': MultipartFile.fromBytes(
           List.generate(1024, (i) => i % 256),
           filename: 'avatar.png',
-          contentType: DioMediaType('image', 'png'),
+          contentType: MediaType('image', 'png'),
         ),
         'document': MultipartFile.fromBytes(
           List.generate(2048, (i) => i % 256),
           filename: 'report.pdf',
-          contentType: DioMediaType('application', 'pdf'),
+          contentType: MediaType('application', 'pdf'),
         ),
       });
 
