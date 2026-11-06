@@ -31,6 +31,18 @@ Deliver a comprehensive in-app debugging and traffic inspection experience simil
 
 ---
 
+## Screenshots
+
+| Request Listing | Filter Sheet | Request Overview |
+| :---: | :---: | :---: |
+| <img src="screenshots/1.jpeg" width="240" alt="Request Listing" /> | <img src="screenshots/2.jpeg" width="240" alt="Filter Sheet" /> | <img src="screenshots/3.jpeg" width="240" alt="Request Overview" /> |
+
+| Request Body & Redaction | Response Headers & Body | Error Diagnostics | Share Export |
+| :---: | :---: | :---: | :---: |
+| <img src="screenshots/4.jpeg" width="240" alt="Request Body & Redaction" /> | <img src="screenshots/5.jpeg" width="240" alt="Response Headers & Body" /> | <img src="screenshots/6.jpeg" width="240" alt="Error Diagnostics" /> | <img src="screenshots/7.jpeg" width="240" alt="Share Export" /> |
+
+---
+
 ## Platform Support
 
 | Platform | Traffic Capture | Storage Engine | Shake-to-Open | Native Share Sheet |
@@ -52,7 +64,7 @@ Add `fl_network_inspector` to your `pubspec.yaml`:
 dependencies:
   flutter:
     sdk: flutter
-  fl_network_inspector: ^1.0.0
+  fl_network_inspector: ^1.0.1
 ```
 
 Then run:

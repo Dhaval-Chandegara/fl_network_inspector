@@ -1,6 +1,6 @@
 name: fl_network_inspector
 description: "A lightweight, modular in-app HTTP network inspector for Flutter applications with shake-to-open and SQLite persistence"
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/Dhaval-Chandegara/fl_network_inspector
 repository: https://github.com/Dhaval-Chandegara/fl_network_inspector
 issue_tracker: https://github.com/Dhaval-Chandegara/fl_network_inspector/issues
@@ -10,6 +10,21 @@ topics:
   - inspector
   - logging
   - debugging
+screenshots:
+  - description: 'Network request listing with search, filtering, and status badges'
+    path: screenshots/1.jpeg
+  - description: 'Multi-parameter request filter modal sheet'
+    path: screenshots/2.jpeg
+  - description: 'Request details overview with timing and payload metrics'
+    path: screenshots/3.jpeg
+  - description: 'Request headers and redacted JSON body inspection'
+    path: screenshots/4.jpeg
+  - description: 'Response headers and formatted JSON body inspection'
+    path: screenshots/5.jpeg
+  - description: 'Detailed network error and exception callout diagnostics'
+    path: screenshots/6.jpeg
+  - description: 'Native share sheet export as Markdown, cURL, or JSON'
+    path: screenshots/7.jpeg
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
