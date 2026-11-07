@@ -4,10 +4,10 @@ milestone: v1.1
 milestone_name: Pub.dev Release Preparation
 status: Awaiting next milestone
 stopped_at: Completed Phase 10 verification
-last_updated: "2026-11-05T05:17:38.628Z"
-last_activity: 2026-11-05
-last_activity_desc: Milestone v1.1 completed and archived
-state_head: 90bdfbac7e911be78ea162bce89016711f371ea2
+last_updated: "2026-11-06T19:46:57.925Z"
+last_activity: 2026-11-07
+last_activity_desc: Completed quick task 261107-0dx (release 1.0.1 preparation)
+state_head: 42d6018728b7af79a52aac3fc4f9ebcb2729763a
 progress:
   total_phases: 4
   completed_phases: 4
@@ -32,7 +32,7 @@ See: .planning/PROJECT.md (updated 2026-11-03)
 Phase: Milestone v1.1 complete
 Plan: —
 Status: Awaiting next milestone
-Last activity: 2026-11-05 — Milestone v1.1 completed and archived
+Last activity: 2026-11-07 — Completed quick task 261107-0dx: increase release version to 1.0.1 and add changelog and screenshots into readme
 
 ## Performance Metrics
 
@@ -102,6 +102,12 @@ None yet.
 ### Blockers/Concerns
 
 None yet.
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 261107-0dx | increase release version to 1.0.1 and add changelog and screenshots into readme | 2026-11-07 | 42d6018 | [261107-0dx-increase-release-version-to-1-0-1-and-ad](./quick/261107-0dx-increase-release-version-to-1-0-1-and-ad/) |
 
 ## Deferred Items
 
