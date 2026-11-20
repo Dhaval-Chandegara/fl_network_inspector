@@ -8,17 +8,15 @@ A reusable, modular, lightweight, and production-safe Flutter/Dart package that 
 
 Reliably capture, persist, and inspect HTTP requests and responses directly inside a Flutter application without breaking or modifying existing network streams, degrading app performance, or leaking sensitive data.
 
-## Current Milestone: v1.1 Pub.dev Release Preparation
+## Current Milestone: v1.2 Backward Compatibility & Multi-Version Flutter Support
 
-**Goal:** Prepare the package for publication on pub.dev under `fl_network_inspector` v1.0.0, achieving maximum pana score, complete public documentation, clean packaging, and verified dry-run.
+**Goal:** Expand Flutter SDK and dependency compatibility to seamlessly support a wide matrix of Flutter versions (from Flutter 3.35/3.40 up through latest 3.50+) without pubspec dependency conflicts.
 
 **Target features:**
-- Package rename to `fl_network_inspector` and version bump to `1.0.0`
-- Complete public API documentation (`///` doc comments) across all exported symbols
-- Complete code formatting (`dart format`) and zero analysis issues
-- Configure `.pubignore` to prevent leaking internal files/artifacts
-- Polish README, CHANGELOG, pubspec metadata, and example project
-- Verify with `dart pub publish --dry-run` and pana score readiness
+- Audit and widen dependency version constraints (`share_plus`, `sensors_plus`, `intl`, `sqflite`, `dio`, `http`, `uuid`) to eliminate pubgrub solver conflicts
+- Verify API backwards compatibility across all widened dependency versions and older Flutter SDKs
+- Configure multi-version CI test matrix validating pub resolution and regression test suites across target Flutter versions
+- Update example app and documentation with compatibility guidelines and troubleshooting
 
 ## Requirements
 
@@ -67,7 +65,10 @@ Reliably capture, persist, and inspect HTTP requests and responses directly insi
 
 ### Active
 
-(None currently active — milestone v1.0 shipped)
+- [ ] **COMPAT-01**: Widen core dependency constraints in pubspec.yaml with verified backward-compatible ranges (`share_plus`, `sensors_plus`, `intl`, `sqflite`, `uuid`, etc.)
+- [ ] **COMPAT-02**: Verify API backwards compatibility across all widened dependency versions and older Flutter SDKs
+- [ ] **COMPAT-03**: Verify pub dependency resolution across target Flutter versions (3.35 to 3.50+) without version solving failures
+- [ ] **COMPAT-04**: Establish automated multi-version Flutter CI workflow and compatibility documentation
 
 ### Out of Scope
 
@@ -129,4 +130,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-11-03 after v1.0 milestone completion*
+*Last updated: 2026-11-20 after starting milestone v1.2*

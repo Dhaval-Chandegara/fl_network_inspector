@@ -1,21 +1,16 @@
 ---
 gsd_state_version: "1.0"
-milestone: v1.1
-milestone_name: Pub.dev Release Preparation
-status: Awaiting next milestone
-stopped_at: Completed Phase 10 verification
-last_updated: "2026-11-06T19:46:57.925Z"
-last_activity: 2026-11-07
-last_activity_desc: Completed quick task 261107-0dx (release 1.0.1 preparation)
-state_head: 42d6018728b7af79a52aac3fc4f9ebcb2729763a
+milestone: v1.2
+milestone_name: Backward Compatibility & Multi-Version Flutter Support
+status: planning
+last_updated: "2026-11-20T16:29:57.637Z"
+last_activity: 2026-11-20
 progress:
-  total_phases: 4
-  completed_phases: 4
-  total_plans: 5
-  completed_plans: 5
-  percent: 100
-current_phase: 10
-current_phase_name: Publish Verification & Dry Run
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -29,10 +24,11 @@ See: .planning/PROJECT.md (updated 2026-11-03)
 
 ## Current Position
 
-Phase: Milestone v1.1 complete
+Phase: Not started (defining requirements)
 Plan: —
-Status: Awaiting next milestone
-Last activity: 2026-11-07 — Completed quick task 261107-0dx: increase release version to 1.0.1 and add changelog and screenshots into readme
+Status: Defining requirements
+Last activity: 2026-11-20 — Milestone v1.2 started
+
 
 ## Performance Metrics
 
