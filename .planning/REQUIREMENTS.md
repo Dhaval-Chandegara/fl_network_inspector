@@ -1,40 +1,42 @@
 # Requirements: fl_network_inspector
 
-**Defined:** 2026-11-03
+**Defined:** 2026-11-20
 **Core Value:** Reliably capture, persist, and inspect HTTP requests and responses directly inside a Flutter application without breaking or modifying existing network streams, degrading app performance, or leaking sensitive data.
 
-## Milestone v1.1 Requirements
+## Milestone v1.2 Requirements
 
-Requirements for pub.dev publication readiness. Each maps to roadmap phases.
+Requirements for backward compatibility and multi-version Flutter support (Flutter 3.35 - 3.50+). Each maps to roadmap phases.
 
-### Packaging & Identity (PKG)
+### Dependency Bounds Widening (BOUND)
 
-- [x] **PKG-01**: Rename package in `pubspec.yaml` to `fl_network_inspector` with version `1.0.0` and align repository, homepage, and issue tracker URLs.
-- [x] **PKG-02**: Update all internal imports and example app dependency to reference `fl_network_inspector`.
-- [x] **PKG-03**: Create `.pubignore` to prevent uploading internal development and planning artifacts (`.planning/`, `.agents/`, `.cursor/`, `.gemini/`, `.vscode/`, `.idea/`, test coverage) while retaining the package source and `example/`.
+- [ ] **BOUND-01**: Audit and relax lower and upper version bounds for `share_plus` (e.g. `>=9.0.0 <14.0.0`) without breaking public sharing APIs.
+- [ ] **BOUND-02**: Audit and relax lower and upper version bounds for `sensors_plus` (e.g. `>=4.0.0 <8.0.0`) while retaining `userAccelerometerEventStream()`.
+- [ ] **BOUND-03**: Relax `intl` constraint to `>=0.18.0 <0.21.0` to eliminate conflicts with `flutter_localizations` in older Flutter SDKs.
+- [ ] **BOUND-04**: Relax `sqflite` and `sqflite_common_ffi` constraints (e.g. `>=2.2.0 <3.0.0`) and `uuid` (`>=3.0.0 <5.0.0` or `^4.0.0`) for wide consumer compatibility.
+- [ ] **BOUND-05**: Ensure `dio` (`>=5.0.0 <6.0.0`) and `http` (`>=1.0.0 <2.0.0`) maintain maximum client versatility.
 
-### Code Standards & Static Quality (CODE)
+### API Compatibility & Resilient Implementation (API)
 
-- [x] **CODE-01**: Format all package Dart code, tests, and example code using `dart format` to satisfy pana code styling rules.
-- [x] **CODE-02**: Run `flutter analyze` with zero warnings, errors, or lints across both root package and `example/`.
-- [x] **CODE-03**: Verify all 210 existing automated tests pass cleanly under the new package name with zero regressions.
+- [ ] **API-01**: Verify and adapt all `share_plus` calls so they execute identically across both older and newer `share_plus` versions (handling `sharePositionOrigin` and `Share.share` / `Share.shareXFiles`).
+- [ ] **API-02**: Verify and adapt `sensors_plus` calls for stream subscription across older and newer plugin versions with graceful null/sensor-absent handling.
+- [ ] **API-03**: Verify Dart and Flutter language/SDK feature compatibility across Flutter 3.35+ (Dart 3.x) to ensure no newer-only language features or SDK methods break on older toolchains.
+- [ ] **API-04**: Ensure all 210+ package tests pass under the lowest resolved dependency matrix using `sqflite_common_ffi`.
 
-### Public API Documentation & Metadata (DOC)
+### Multi-Version Resolution & CI Validation Matrix (MATRIX)
 
-- [x] **DOC-01**: Provide comprehensive `///` dartdoc documentation on all publicly exported symbols in `lib/fl_network_inspector.dart` (classes, constructors, methods, properties, and typedefs) to achieve 100% dartdoc scoring.
-- [x] **DOC-02**: Polish `README.md` with pub.dev badges, feature overview, setup guide, shake detection usage, client adapters, and platform support matrix.
-- [x] **DOC-03**: Format `CHANGELOG.md` following standard semantic versioning and Keep a Changelog conventions for `1.0.0`.
-- [x] **DOC-04**: Validate `LICENSE` file for MIT open-source compatibility and valid copyright attribution.
+- [ ] **MATRIX-01**: Test and verify `pub get` resolution against simulated consumer pubspec environments for target Flutter releases (Flutter 3.35, 3.40, 3.45, 3.50+).
+- [ ] **MATRIX-02**: Create an automated GitHub Actions CI workflow with a Flutter version matrix testing across target Flutter channels/versions.
+- [ ] **MATRIX-03**: Validate dependency resolution with `--dry-run` and verify `pana` analysis score remains at 140/140 with widened bounds.
 
-### Publish Verification & Dry Run (PUB)
+### Documentation & Consumer Guidance (DOC)
 
-- [x] **PUB-01**: Execute `flutter pub publish --dry-run` and verify 0 errors, 0 warnings, 0 hints, and clean archive size.
-- [x] **PUB-02**: Audit package with pana checklist (140/140 potential pub points) covering platforms, SDK constraints, dependencies, and doc coverage.
-- [x] **PUB-03**: Provide finalized step-by-step publisher execution checklist and git release tagging instructions.
+- [ ] **DOC-01**: Document supported Flutter version matrix in `README.md` and pubspec compatibility guide.
+- [ ] **DOC-02**: Provide dependency conflict troubleshooting guide and recommended `pubspec.yaml` setups in `README.md`.
+- [ ] **DOC-03**: Update `CHANGELOG.md` with milestone v1.2 release notes detailing widened compatibility.
 
 ## Future Requirements
 
-### Post-Publish Features (v1.2+)
+### Post-v1.2 Features (v1.3+)
 
 - **EXP-01**: In-memory ring buffer mode option (`enableDatabase: false`) without requiring SQLite.
 - **EXP-02**: GraphQL operation name and query extraction in detail view.
@@ -46,6 +48,8 @@ Explicitly excluded. Documented to prevent scope creep.
 
 | Feature | Reason |
 |---------|--------|
+| Supporting Dart 2 / non-null-safe Flutter (<3.0.0) | Dart 3 sound null-safety is a hard constraint for package reliability and modern Dart idioms. |
+| Vendoring / copy-pasting third-party plugin source code into package | Maintenance nightmare; package should rely on clean semantic version ranges rather than vendoring C/Java/Kotlin code. |
 | Network traffic tampering / mock responses | Inspector is strictly observational; proxy interception tampering is out of scope. |
 | Remote cloud telemetry sync | Privacy-first local SQLite architecture only. |
 | Code generation dependencies (`build_runner`) | Avoid adding heavy build-time dependencies to consumer Flutter apps. |
@@ -56,25 +60,27 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PKG-01 | Phase 7 | Complete |
-| PKG-02 | Phase 7 | Complete |
-| PKG-03 | Phase 7 | Complete |
-| CODE-01 | Phase 8 | Complete |
-| CODE-02 | Phase 8 | Complete |
-| CODE-03 | Phase 8 | Complete |
-| DOC-01 | Phase 9 | Complete |
-| DOC-02 | Phase 9 | Complete |
-| DOC-03 | Phase 9 | Complete |
-| DOC-04 | Phase 9 | Complete |
-| PUB-01 | Phase 10 | Complete |
-| PUB-02 | Phase 10 | Complete |
-| PUB-03 | Phase 10 | Complete |
+| BOUND-01 | Phase 11 | Pending |
+| BOUND-02 | Phase 11 | Pending |
+| BOUND-03 | Phase 11 | Pending |
+| BOUND-04 | Phase 11 | Pending |
+| BOUND-05 | Phase 11 | Pending |
+| API-01 | Phase 12 | Pending |
+| API-02 | Phase 12 | Pending |
+| API-03 | Phase 12 | Pending |
+| API-04 | Phase 12 | Pending |
+| MATRIX-01 | Phase 13 | Pending |
+| MATRIX-02 | Phase 13 | Pending |
+| MATRIX-03 | Phase 13 | Pending |
+| DOC-01 | Phase 14 | Pending |
+| DOC-02 | Phase 14 | Pending |
+| DOC-03 | Phase 14 | Pending |
 
 **Coverage:**
-- v1.1 requirements: 13 total
-- Mapped to phases: 13
+- v1.2 requirements: 15 total
+- Mapped to phases: 15
 - Unmapped: 0 ✓
 
 ---
-*Requirements defined: 2026-11-03*
-*Last updated: 2026-11-03 for milestone v1.1 initialization*
+*Requirements defined: 2026-11-20*
+*Last updated: 2026-11-20 for milestone v1.2 initialization*
