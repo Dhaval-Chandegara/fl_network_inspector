@@ -3,10 +3,10 @@ gsd_state_version: "1.0"
 milestone: v1.2
 milestone_name: Backward Compatibility & Multi-Version Flutter Support
 status: planning
-last_updated: "2026-11-20T16:29:57.637Z"
+last_updated: "2026-11-20T16:45:00.000Z"
 last_activity: 2026-11-20
 progress:
-  total_phases: 0
+  total_phases: 4
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -17,25 +17,26 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-11-03)
+See: .planning/PROJECT.md (updated 2026-11-20)
 
 **Core value:** Reliably capture, persist, and inspect HTTP requests and responses directly inside a Flutter application without breaking or modifying existing network streams, degrading app performance, or leaking sensitive data.
-**Current focus:** Phase 7 — Packaging & Identity
+**Current focus:** Phase 11 — Dependency Bounds Widening
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-11-20 — Milestone v1.2 started
+Phase: Phase 11 of 14 (Dependency Bounds Widening)
+Plan: Ready to plan
+Status: Ready to plan Phase 11
+Last activity: 2026-11-20 — Milestone v1.2 roadmap created
 
+Progress: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 19
-- Average duration: 11 min
-- Total execution time: 1.7 hours
+- Total plans completed: 24
+- Average duration: 9 min
+- Total execution time: 2.1 hours
 
 **By Phase:**
 
@@ -47,26 +48,20 @@ Last activity: 2026-11-20 — Milestone v1.2 started
 | 4. Inspector UI | 4 | - | - |
 | 5. Shake & Developer Experience | 2 | - | - |
 | 6. Quality, Testing & Release | 2 | - | - |
-| 7. Packaging & Identity | - | - | - |
-| 8. Code Standards & Static Quality | - | - | - |
-| 9. Public API Documentation & Metadata | - | - | - |
-| 10. Publish Verification & Dry Run | - | - | - |
-| 7 | 2 | - | - |
+| 7. Packaging & Identity | 2 | 18m | 9m |
+| 8. Code Standards & Static Quality | 1 | 5m | 5m |
+| 9. Public API Documentation & Metadata | 1 | 4m | 4m |
+| 10. Publish Verification & Dry Run | 1 | 4m | 4m |
+| 11. Dependency Bounds Widening | - | - | - |
+| 12. API & Backward Compatibility Layer | - | - | - |
+| 13. Multi-Version Resolution & CI Test Matrix | - | - | - |
+| 14. Documentation & Publication Readiness | - | - | - |
 
 **Recent Trend:**
-- Last 5 plans: 04-03, 04-04, 05-01, 05-02, 06-01
+- Last 5 plans: 07-02, 08-01, 09-01, 10-01
 - Trend: Consistent high velocity
 
 *Updated after each plan completion*
-**Per-Plan Metrics:**
-
-| Plan | Duration | Tasks | Files |
-|------|----------|-------|-------|
-| Phase 07 P01 | 11m | 2 tasks | 47 files |
-| Phase 7 P2 | 7m | 2 tasks | 1 files |
-| Phase 08 P01 | 5m | 2 tasks | 74 files |
-| Phase 09 P01 | 4m | 2 tasks | 4 files |
-| Phase 10 P01 | 4m | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -75,21 +70,10 @@ Last activity: 2026-11-20 — Milestone v1.2 started
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-- [Milestone v1.1]: Package rename to `fl_network_inspector` v1.0.0 aligned with pub.dev publication target.
-- [Phase 06]: Full suite passing 210/210 tests with zero analyzer issues; baseline established.
-- [Phase 04 P04]: ExportActionSheet modal sheet enables exporting as Markdown, cURL, or Full JSON with sensitive header exclusion (UI-11, D-62, D-63)
-- [Phase 04 P04]: ShareExporter calculates safe iPadOS/macOS RenderBox anchor origin with screen-center fallback, preventing fatal NSGenericException crashes (UI-11, D-64)
-- [Phase 07]: Renamed package to fl_network_inspector v1.0.0 and canonical entry point lib/fl_network_inspector.dart without legacy forwarders (D-01, PKG-01, PKG-02)
-- [Phase 07]: Batch-migrated all 41 test files across test/ and example/ to import from package:fl_network_inspector/ with zero regressions (D-02, PKG-02)
-- [Phase 7]: Configured strict .pubignore excluding internal planning docs, agent configs, and IDE files while preserving test/ and example/ (D-03, D-04, PKG-03)
-- [Phase 08]: Resolved prefer_const_constructors lint in test/core/barrel_export_test.dart with const constructor
-- [Phase 08]: Standardized 74 Dart files across package and example workspace using dart format
-- [Phase 09]: Scoped unresolved dartdoc config properties to [NetworkInspectorConfig.*] and backticked `InspectorHttpOverrides`
-- [Phase 09]: Replaced package references from flutter_network_inspector to fl_network_inspector v1.0.0
-- [Phase 09]: Added dedicated Platform Support matrix to README.md
-- [Phase 10]: Confirmed flutter pub publish --dry-run completes with 0 warnings, 0 errors, and ~120 KB compact archive size excluding internal docs and configs (PUB-01)
-- [Phase 10]: Audited all 6 pana dimensions confirming full readiness for maximum 140/140 pub points (PUB-02)
-- [Phase 10]: Created RELEASE-CHECKLIST.md detailing pre-flight quality gates, annotated git tagging (v1.0.0), live flutter pub publish, and post-publish verification (PUB-03)
+- [Milestone v1.2]: Expand Flutter compatibility across 3.35 - 3.50+ by widening dependency bounds without breaking existing APIs.
+- [Milestone v1.1]: Package renamed to `fl_network_inspector` v1.0.0 with canonical `lib/fl_network_inspector.dart` entry point.
+- [Milestone v1.1]: Publication boundary verified with `flutter pub publish --dry-run` passing with 0 warnings and 140/140 pana readiness.
+- [Milestone v1.0]: Baseline test suite passing 210/210 tests with zero static analyzer warnings.
 
 ### Pending Todos
 
@@ -98,12 +82,6 @@ None yet.
 ### Blockers/Concerns
 
 None yet.
-
-### Quick Tasks Completed
-
-| # | Description | Date | Commit | Directory |
-|---|-------------|------|--------|-----------|
-| 261107-0dx | increase release version to 1.0.1 and add changelog and screenshots into readme | 2026-11-07 | 42d6018 | [261107-0dx-increase-release-version-to-1-0-1-and-ad](./quick/261107-0dx-increase-release-version-to-1-0-1-and-ad/) |
 
 ## Deferred Items
 
@@ -115,11 +93,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-05T03:38:12.613Z
-Stopped at: Completed 10-01-PLAN.md
+Last session: 2026-11-20
+Stopped at: Milestone v1.2 roadmap created; ready to plan Phase 11
 Resume file: None
-
-## Operator Next Steps
-
-
-- Start the next milestone with /gsd-new-milestone

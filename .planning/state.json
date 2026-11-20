@@ -52,12 +52,32 @@
       "number": "10",
       "name": "Publish Verification & Dry Run",
       "status": "complete"
+    },
+    {
+      "number": "11",
+      "name": "Dependency Bounds Widening",
+      "status": "pending"
+    },
+    {
+      "number": "12",
+      "name": "API & Backward Compatibility Layer",
+      "status": "pending"
+    },
+    {
+      "number": "13",
+      "name": "Multi-Version Resolution & CI Test Matrix",
+      "status": "pending"
+    },
+    {
+      "number": "14",
+      "name": "Documentation & Publication Readiness",
+      "status": "pending"
     }
   ],
   "next": {
-    "command": "/gsd-discuss-phase",
-    "label": "Discuss the first phase",
-    "reason": "Project initialized — plan your first phase"
+    "command": "/gsd-plan-phase 11",
+    "label": "Plan Phase 11",
+    "reason": "Roadmap created — plan Phase 11: Dependency Bounds Widening"
   },
-  "updated_at": "2026-11-20T16:29:57.640Z"
+  "updated_at": "2026-11-20T16:45:00.000Z"
 }

@@ -1,9 +1,10 @@
-# Roadmap: flutter_network_inspector
+# Roadmap: fl_network_inspector
 
 ## Milestones
 
 - ✅ **v1.0 Initial Release** — Phases 1-6 (shipped 2026-11-03)
-- 🚧 **v1.1 Pub.dev Release Preparation** — Phases 7-10 (in progress)
+- ✅ **v1.1 Pub.dev Release Preparation** — Phases 7-10 (shipped 2026-11-05)
+- 🚧 **v1.2 Backward Compatibility & Multi-Version Flutter Support** — Phases 11-14 (in progress)
 
 ## Phases
 
@@ -19,71 +20,72 @@
 
 </details>
 
-### 🚧 v1.1 Pub.dev Release Preparation (In Progress)
+<details>
+<summary>✅ v1.1 Pub.dev Release Preparation (Phases 7-10) — SHIPPED 2026-11-05</summary>
 
-**Milestone Goal:** Prepare the package for publication on pub.dev under `fl_network_inspector` v1.0.0, achieving maximum pana score, complete public documentation, clean packaging, and verified dry-run.
+- [x] **Phase 7: Packaging & Identity** (2/2 plans) — completed 2026-11-04
+- [x] **Phase 8: Code Standards & Static Quality** (1/1 plans) — completed 2026-11-04
+- [x] **Phase 9: Public API Documentation & Metadata** (1/1 plans) — completed 2026-11-04
+- [x] **Phase 10: Publish Verification & Dry Run** (1/1 plans) — completed 2026-11-05
 
-- [x] **Phase 7: Packaging & Identity** - Align package naming to fl_network_inspector, update imports, and configure publishing rules. (completed 2026-11-04)
-- [x] **Phase 8: Code Standards & Static Quality** - Apply code formatting, resolve all static analysis issues, and verify all automated tests. (completed 2026-11-04)
-- [x] **Phase 9: Public API Documentation & Metadata** - Complete dartdoc documentation for all public APIs, polish README, CHANGELOG, and license. (completed 2026-11-04)
-- [x] **Phase 10: Publish Verification & Dry Run** - Verify package via flutter pub publish dry run and complete pana audit checklist. (completed 2026-11-05)
+</details>
+
+### 🚧 v1.2 Backward Compatibility & Multi-Version Flutter Support (In Progress)
+
+**Milestone Goal:** Expand Flutter SDK and dependency compatibility to seamlessly support a wide matrix of Flutter versions (from Flutter 3.35/3.40 up through latest 3.50+) without pubspec dependency conflicts.
+
+- [ ] **Phase 11: Dependency Bounds Widening** - Audit and relax version constraints for core dependencies and client adapters.
+- [ ] **Phase 12: API & Backward Compatibility Layer** - Implement resilient adapters and shims ensuring zero runtime crashes across dependency versions.
+- [ ] **Phase 13: Multi-Version Resolution & CI Test Matrix** - Validate pub resolution across target Flutter SDKs and establish multi-version CI automation.
+- [ ] **Phase 14: Documentation & Publication Readiness** - Document supported version matrices, troubleshooting guidelines, and release notes for publication.
 
 ## Phase Details
 
-### Phase 7: Packaging & Identity
-**Goal**: Establish official package identity as `fl_network_inspector` v1.0.0 across all package manifests, import declarations, and publish exclusion rules.
-**Depends on**: Phase 6
-**Requirements**: PKG-01, PKG-02, PKG-03
+### Phase 11: Dependency Bounds Widening
+**Goal**: Audit and widen version constraints across core dependencies (`share_plus`, `sensors_plus`, `intl`, `sqflite`, `uuid`) and client adapters (`dio`, `http`) in `pubspec.yaml` to eliminate pub solver conflicts across Flutter 3.35 through 3.50+.
+**Depends on**: Phase 10
+**Requirements**: BOUND-01, BOUND-02, BOUND-03, BOUND-04, BOUND-05
 **Success Criteria** (what must be TRUE):
-  1. `pubspec.yaml` specifies package name `fl_network_inspector`, version `1.0.0`, valid description, and verified repository, issue tracker, and homepage URLs.
-  2. All Dart source files in `lib/`, `test/`, and `example/` import from `package:fl_network_inspector/` with zero unresolved URI errors or references to the old package name.
-**Plans:** 2/2 plans complete
+  1. `pubspec.yaml` specifies widened semantic version constraints for `share_plus` (e.g. `>=9.0.0 <14.0.0`), `sensors_plus` (e.g. `>=4.0.0 <8.0.0`), `intl` (`>=0.18.0 <0.21.0`), `sqflite` / `sqflite_common_ffi` (`>=2.2.0 <3.0.0`), and `uuid` (`>=3.0.0 <5.0.0`).
+  2. Client adapter constraints for `dio` (`>=5.0.0 <6.0.0`) and `http` (`>=1.0.0 <2.0.0`) allow host projects to resolve without version locking.
+  3. `dart pub get` completes successfully in the development workspace with the widened bounds without solver conflicts or resolution errors.
+**Plans**: TBD
 
-Plans:
-**Wave 1**
-- [x] 07-01-PLAN.md — Manifest identity, root library rename, example wiring, and test import migration
-
-**Wave 2** *(blocked on Wave 1 completion)*
-- [x] 07-02-PLAN.md — Publication ignore rules (.pubignore) and dry-run packaging verification
-
-### Phase 8: Code Standards & Static Quality
-**Goal**: Enforce strict code formatting, resolve all static analysis issues across the workspace, and confirm the entire automated test suite passes with zero regressions.
-**Depends on**: Phase 7
-**Requirements**: CODE-01, CODE-02, CODE-03
+### Phase 12: API & Backward Compatibility Layer
+**Goal**: Implement resilient adapters, shims, and runtime guards ensuring zero compilation breaks or runtime exceptions across the entire supported dependency version spectrum and older Flutter SDKs.
+**Depends on**: Phase 11
+**Requirements**: API-01, API-02, API-03, API-04
 **Success Criteria** (what must be TRUE):
-  1. `dart format --output=none --set-exit-if-changed .` exits with code 0 across the entire package, test suite, and example application.
-  2. `flutter analyze` reports 0 issues, 0 warnings, and 0 lint violations across both the root package and `example/`.
-  3. `flutter test` executes all 210 existing unit, integration, and widget tests cleanly with 100% passing and zero regressions under the new package identity.
-**Plans**: 1/1 plans executed
-- [x] 08-01-PLAN.md
+  1. Share export functionality executes identically without runtime crashes or deprecated API exceptions across both minimum and latest supported `share_plus` versions (including iPadOS/macOS `sharePositionOrigin`).
+  2. Shake detection initializes and listens via `userAccelerometerEventStream()` across minimum and latest supported `sensors_plus` versions with graceful fallback when hardware is missing or stream emits null.
+  3. Package source code compiles and executes cleanly without unsupported Dart/Flutter language constructs on Flutter 3.35+ (Dart 3.x baseline).
+  4. All 210+ package automated unit, integration, and widget tests pass 100% when running against lowest resolved dependency bounds using `sqflite_common_ffi`.
+**Plans**: TBD
 
-### Phase 9: Public API Documentation & Metadata
-**Goal**: Deliver complete public API dartdoc documentation, a developer-friendly README, structured CHANGELOG, and verified open-source LICENSE for pub.dev.
-**Depends on**: Phase 8
-**Requirements**: DOC-01, DOC-02, DOC-03, DOC-04
+### Phase 13: Multi-Version Resolution & CI Test Matrix
+**Goal**: Validate pub dependency resolution across simulated consumer environments and configure an automated multi-version CI test matrix.
+**Depends on**: Phase 12
+**Requirements**: MATRIX-01, MATRIX-02, MATRIX-03
 **Success Criteria** (what must be TRUE):
-  1. `dart doc` generates API documentation with 100% documentation coverage across all exported symbols in `lib/fl_network_inspector.dart` without missing doc warnings.
-  2. `README.md` provides pub.dev badges, feature highlights, installation and initialization guides, shake detection usage, client adapter code samples, and platform compatibility table.
-  3. `CHANGELOG.md` documents `1.0.0` release notes adhering to Keep a Changelog and Semantic Versioning standards.
-  4. `LICENSE` contains standard MIT license text with accurate copyright holder and year.
-**Plans**: 1/1 plans executed
-- [x] 09-01-PLAN.md
+  1. `pub get` resolves successfully in simulated consumer pubspecs matching target Flutter releases (Flutter 3.35, 3.40, 3.45, and 3.50+) without dependency solver conflicts.
+  2. Automated GitHub Actions CI workflow runs across a multi-version Flutter matrix (min, intermediate, latest stable) and reports passing status for test and analysis runs.
+  3. `flutter pub publish --dry-run` and `pana` analysis pass with 0 errors, 0 warnings, and maintain a full 140/140 quality score.
+**Plans**: TBD
 
-### Phase 10: Publish Verification & Dry Run
-**Goal**: Verify pub.dev publishing readiness with zero-warning dry run, pana 140/140 audit readiness, and documented release workflow.
-**Depends on**: Phase 9
-**Requirements**: PUB-01, PUB-02, PUB-03
+### Phase 14: Documentation & Publication Readiness
+**Goal**: Publish comprehensive developer guidance for version compatibility, dependency troubleshooting, and release documentation for milestone v1.2.
+**Depends on**: Phase 13
+**Requirements**: DOC-01, DOC-02, DOC-03
 **Success Criteria** (what must be TRUE):
-  1. `flutter pub publish --dry-run` executes with 0 warnings, 0 errors, and confirms archive size is compact and free of excluded development directories.
-  2. Package satisfies all pana checklist criteria (platforms detected, sound null safety, valid constraints, zero analyzer issues, full doc comments).
-  3. Publisher checklist and git release tagging instructions are verified and documented for the release operator.
-**Plans**: 1/1 plans executed
-- [x] 10-01-PLAN.md
+  1. `README.md` features a comprehensive Flutter & dependency compatibility matrix documenting supported versions for all core dependencies.
+  2. `README.md` includes a dedicated dependency troubleshooting and resolution guide detailing recommended dependency overrides or constraint alignments.
+  3. `CHANGELOG.md` contains clear release notes for milestone v1.2 detailing the widened compatibility ranges and migration/upgrade guidance.
+**Plans**: TBD
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 7 → 8 → 9 → 10
+Phases execute in numeric order: 11 → 12 → 13 → 14
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -93,7 +95,11 @@ Phases execute in numeric order: 7 → 8 → 9 → 10
 | 4. Inspector UI | v1.0 | 4/4 | Complete | 2026-11-02 |
 | 5. Shake & Developer Experience | v1.0 | 2/2 | Complete | 2026-11-03 |
 | 6. Quality, Testing & Release | v1.0 | 2/2 | Complete | 2026-11-03 |
-| 7. Packaging & Identity | v1.1 | 2/2 | Complete    | 2026-11-04 |
+| 7. Packaging & Identity | v1.1 | 2/2 | Complete | 2026-11-04 |
 | 8. Code Standards & Static Quality | v1.1 | 1/1 | Complete | 2026-11-04 |
 | 9. Public API Documentation & Metadata | v1.1 | 1/1 | Complete | 2026-11-04 |
 | 10. Publish Verification & Dry Run | v1.1 | 1/1 | Complete | 2026-11-05 |
+| 11. Dependency Bounds Widening | v1.2 | 0/TBD | Not started | - |
+| 12. API & Backward Compatibility Layer | v1.2 | 0/TBD | Not started | - |
+| 13. Multi-Version Resolution & CI Test Matrix | v1.2 | 0/TBD | Not started | - |
+| 14. Documentation & Publication Readiness | v1.2 | 0/TBD | Not started | - |
