@@ -49,7 +49,11 @@
   1. `pubspec.yaml` specifies widened semantic version constraints for `share_plus` (e.g. `>=9.0.0 <14.0.0`), `sensors_plus` (e.g. `>=4.0.0 <8.0.0`), `intl` (`>=0.18.0 <0.21.0`), `sqflite` / `sqflite_common_ffi` (`>=2.2.0 <3.0.0`), and `uuid` (`>=3.0.0 <5.0.0`).
   2. Client adapter constraints for `dio` (`>=5.0.0 <6.0.0`) and `http` (`>=1.0.0 <2.0.0`) allow host projects to resolve without version locking.
   3. `dart pub get` completes successfully in the development workspace with the widened bounds without solver conflicts or resolution errors.
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 11-01-PLAN.md — Widen dependency constraints across core libraries and client adapters in pubspec.yaml with resolution tracer
+- [ ] 11-02-PLAN.md — Reinforce iPadOS popover share anchor fallback geometry and complete publication dry-run quality gates
 
 ### Phase 12: API & Backward Compatibility Layer
 **Goal**: Implement resilient adapters, shims, and runtime guards ensuring zero compilation breaks or runtime exceptions across the entire supported dependency version spectrum and older Flutter SDKs.
