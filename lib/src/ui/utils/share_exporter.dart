@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../models/network_record.dart';
@@ -32,6 +33,27 @@ class ShareExporter {
   @visibleForTesting
   static ShareDelegate? mockShareDelegate;
 
+  /// Sanitizes [origin] to ensure it is non-null, finite, and has positive width and height (D-03).
+  ///
+  /// If [origin] is invalid or null, falls back to a 1x1 point rect centered on screen
+  /// using [context]. If querying [context] fails, returns a safe default rect at (0, 0, 1, 1).
+  static Rect sanitizeOrigin(Rect? origin, BuildContext context) {
+    if (origin != null &&
+        origin.isFinite &&
+        !origin.isEmpty &&
+        origin.width > 0 &&
+        origin.height > 0) {
+      return origin;
+    }
+
+    try {
+      final size = MediaQuery.maybeSizeOf(context) ?? const Size(800, 600);
+      return size.center(Offset.zero) & const Size(1, 1);
+    } catch (_) {
+      return const Rect.fromLTWH(0, 0, 1, 1);
+    }
+  }
+
   /// Safely calculates a [Rect] anchor origin from [context] to prevent iPadOS/macOS popover crashes (D-64).
   ///
   /// Falls back to the center of the screen if the widget's [RenderBox] is not attached or has no size.
@@ -41,18 +63,15 @@ class ShareExporter {
       if (renderObject is RenderBox &&
           renderObject.hasSize &&
           renderObject.attached) {
-        return renderObject.localToGlobal(Offset.zero) & renderObject.size;
+        final origin =
+            renderObject.localToGlobal(Offset.zero) & renderObject.size;
+        return sanitizeOrigin(origin, context);
       }
     } catch (_) {
       // Fallback to screen center
     }
 
-    try {
-      final size = MediaQuery.sizeOf(context);
-      return size.center(Offset.zero) & const Size(1, 1);
-    } catch (_) {
-      return const Rect.fromLTWH(0, 0, 1, 1);
-    }
+    return sanitizeOrigin(null, context);
   }
 
   /// Formats [record] as a structured Markdown document.
@@ -182,27 +201,41 @@ class ShareExporter {
         break;
     }
 
-    final origin = sharePositionOrigin ?? calculateAnchor(context);
+    final origin =
+        sanitizeOrigin(sharePositionOrigin ?? calculateAnchor(context), context);
     final statusStr = record.responseStatusCode != null
         ? '${record.responseStatusCode}'
         : 'In-Flight';
     final subject = '${record.method} ${record.path} ($statusStr)';
 
-    if (mockShareDelegate != null) {
-      await mockShareDelegate!(
-        text,
-        subject: subject,
-        sharePositionOrigin: origin,
-      );
-      return;
-    }
+    try {
+      if (mockShareDelegate != null) {
+        await mockShareDelegate!(
+          text,
+          subject: subject,
+          sharePositionOrigin: origin,
+        );
+        return;
+      }
 
-    await SharePlus.instance.share(
-      ShareParams(
-        text: text,
-        subject: subject,
-        sharePositionOrigin: origin,
-      ),
-    );
+      await SharePlus.instance.share(
+        ShareParams(
+          text: text,
+          subject: subject,
+          sharePositionOrigin: origin,
+        ),
+      );
+    } catch (_) {
+      await Clipboard.setData(ClipboardData(text: text));
+      if (context.mounted) {
+        ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+          const SnackBar(
+            content:
+                Text('Sharing unavailable. Report copied to clipboard instead.'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
+    }
   }
 }

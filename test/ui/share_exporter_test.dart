@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fl_network_inspector/fl_network_inspector.dart';
 import 'package:fl_network_inspector/src/ui/components/export_action_sheet.dart';
 import 'package:fl_network_inspector/src/ui/utils/share_exporter.dart';
@@ -236,6 +237,178 @@ void main() {
       expect(sharedOrigin, isNotNull);
       // Because excludeHeaders was toggled, cURL should have no -H
       expect(sharedText, isNot(contains("-H 'Authorization")));
+    });
+  });
+
+  group('ShareExporter sanitizeOrigin', () {
+    testWidgets('returns original Rect when origin has positive dimensions and is finite',
+        (tester) async {
+      late BuildContext testContext;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(builder: (ctx) {
+              testContext = ctx;
+              return const SizedBox();
+            }),
+          ),
+        ),
+      );
+
+      const validRect = Rect.fromLTWH(10, 20, 100, 50);
+      final result = ShareExporter.sanitizeOrigin(validRect, testContext);
+      expect(result, equals(validRect));
+    });
+
+    testWidgets('sanitizes null, zero-dimension, empty, or non-finite rects into screen center rect',
+        (tester) async {
+      late BuildContext testContext;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(builder: (ctx) {
+              testContext = ctx;
+              return const SizedBox();
+            }),
+          ),
+        ),
+      );
+
+      // Null origin
+      final nullResult = ShareExporter.sanitizeOrigin(null, testContext);
+      expect(nullResult.isFinite, isTrue);
+      expect(nullResult.width, greaterThan(0));
+      expect(nullResult.height, greaterThan(0));
+
+      // Zero-width rect
+      final zeroWResult = ShareExporter.sanitizeOrigin(
+        const Rect.fromLTWH(50, 50, 0, 100),
+        testContext,
+      );
+      expect(zeroWResult.isFinite, isTrue);
+      expect(zeroWResult.width, greaterThan(0));
+      expect(zeroWResult.height, greaterThan(0));
+
+      // Zero-height rect
+      final zeroHResult = ShareExporter.sanitizeOrigin(
+        const Rect.fromLTWH(50, 50, 100, 0),
+        testContext,
+      );
+      expect(zeroHResult.isFinite, isTrue);
+      expect(zeroHResult.width, greaterThan(0));
+      expect(zeroHResult.height, greaterThan(0));
+
+      // Negative dimension / empty rect
+      final negResult = ShareExporter.sanitizeOrigin(
+        const Rect.fromLTWH(50, 50, -10, -10),
+        testContext,
+      );
+      expect(negResult.isFinite, isTrue);
+      expect(negResult.width, greaterThan(0));
+      expect(negResult.height, greaterThan(0));
+    });
+  });
+
+  group('ShareExporter shareRecord Fallback', () {
+    testWidgets(
+        'copies formatted report to clipboard and displays SnackBar when share throws PlatformException',
+        (tester) async {
+      String? clipboardData;
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform,
+              (MethodCall methodCall) async {
+        if (methodCall.method == 'Clipboard.setData') {
+          clipboardData = (methodCall.arguments as Map<dynamic, dynamic>)['text']
+              as String?;
+          return null;
+        }
+        return null;
+      });
+
+      ShareExporter.mockShareDelegate =
+          (text, {subject, sharePositionOrigin}) async {
+        throw PlatformException(
+          code: 'SHARE_UNAVAILABLE',
+          message: 'The platform share sheet is not supported on this device.',
+        );
+      };
+
+      late BuildContext testContext;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(
+              builder: (context) {
+                testContext = context;
+                return const Text('Ready');
+              },
+            ),
+          ),
+        ),
+      );
+
+      await ShareExporter.shareRecord(
+        context: testContext,
+        record: sampleRecord,
+        format: ShareFormat.markdown,
+      );
+
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      expect(clipboardData, isNotNull);
+      expect(clipboardData, contains('# Network Request Inspection'));
+      expect(find.text('Sharing unavailable. Report copied to clipboard instead.'),
+          findsOneWidget);
+    });
+
+    testWidgets(
+        'copies formatted report to clipboard and displays SnackBar when share throws generic Exception',
+        (tester) async {
+      String? clipboardData;
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform,
+              (MethodCall methodCall) async {
+        if (methodCall.method == 'Clipboard.setData') {
+          clipboardData = (methodCall.arguments as Map<dynamic, dynamic>)['text']
+              as String?;
+          return null;
+        }
+        return null;
+      });
+
+      ShareExporter.mockShareDelegate =
+          (text, {subject, sharePositionOrigin}) async {
+        throw Exception('Generic share failure');
+      };
+
+      late BuildContext testContext;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(
+              builder: (context) {
+                testContext = context;
+                return const Text('Ready');
+              },
+            ),
+          ),
+        ),
+      );
+
+      await ShareExporter.shareRecord(
+        context: testContext,
+        record: sampleRecord,
+        format: ShareFormat.json,
+      );
+
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      expect(clipboardData, isNotNull);
+      expect(clipboardData, contains('"url": "https://api.example.com/v1/users/42"'));
+      expect(find.text('Sharing unavailable. Report copied to clipboard instead.'),
+          findsOneWidget);
     });
   });
 }
