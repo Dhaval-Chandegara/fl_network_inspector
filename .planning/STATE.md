@@ -5,8 +5,8 @@ milestone_name: Backward Compatibility & Multi-Version Flutter Support
 current_phase: 12
 current_phase_name: API & Backward Compatibility Layer
 status: ready_to_plan
-stopped_at: Phase 11 completed and verified
-last_updated: "2026-11-21T12:55:00.000Z"
+stopped_at: Phase 12 context gathered
+last_updated: "2026-11-21T14:20:42.050Z"
 last_activity: 2026-11-21
 last_activity_desc: Phase 11 Dependency Bounds Widening completed and verified
 progress:
@@ -98,6 +98,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-21T12:55:00.000Z
-Stopped at: Phase 11 completed and verified
-Resume file: .planning/ROADMAP.md
+Last session: 2026-11-21T14:20:42.028Z
+Stopped at: Phase 12 context gathered
+Resume file: .planning/phases/12-api-backward-compatibility-layer/12-CONTEXT.md
