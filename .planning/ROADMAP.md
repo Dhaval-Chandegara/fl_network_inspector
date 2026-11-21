@@ -34,7 +34,7 @@
 
 **Milestone Goal:** Expand Flutter SDK and dependency compatibility to seamlessly support a wide matrix of Flutter versions (from Flutter 3.35/3.40 up through latest 3.50+) without pubspec dependency conflicts.
 
-- [ ] **Phase 11: Dependency Bounds Widening** - Audit and relax version constraints for core dependencies and client adapters.
+- [x] **Phase 11: Dependency Bounds Widening** - Audit and relax version constraints for core dependencies and client adapters. (completed 2026-11-21)
 - [ ] **Phase 12: API & Backward Compatibility Layer** - Implement resilient adapters and shims ensuring zero runtime crashes across dependency versions.
 - [ ] **Phase 13: Multi-Version Resolution & CI Test Matrix** - Validate pub resolution across target Flutter SDKs and establish multi-version CI automation.
 - [ ] **Phase 14: Documentation & Publication Readiness** - Document supported version matrices, troubleshooting guidelines, and release notes for publication.
@@ -52,8 +52,11 @@
 **Plans:** 2 plans
 
 Plans:
-- [ ] 11-01-PLAN.md — Widen dependency constraints across core libraries and client adapters in pubspec.yaml with resolution tracer
-- [ ] 11-02-PLAN.md — Reinforce iPadOS popover share anchor fallback geometry and complete publication dry-run quality gates
+**Wave 1**
+- [x] 11-01-PLAN.md — Widen dependency constraints across core libraries and client adapters in pubspec.yaml with resolution tracer
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [x] 11-02-PLAN.md — Reinforce iPadOS popover share anchor fallback geometry and complete publication dry-run quality gates
 
 ### Phase 12: API & Backward Compatibility Layer
 **Goal**: Implement resilient adapters, shims, and runtime guards ensuring zero compilation breaks or runtime exceptions across the entire supported dependency version spectrum and older Flutter SDKs.
@@ -103,7 +106,7 @@ Phases execute in numeric order: 11 → 12 → 13 → 14
 | 8. Code Standards & Static Quality | v1.1 | 1/1 | Complete | 2026-11-04 |
 | 9. Public API Documentation & Metadata | v1.1 | 1/1 | Complete | 2026-11-04 |
 | 10. Publish Verification & Dry Run | v1.1 | 1/1 | Complete | 2026-11-05 |
-| 11. Dependency Bounds Widening | v1.2 | 0/TBD | Not started | - |
+| 11. Dependency Bounds Widening | v1.2 | 2/2 | Complete | 2026-11-21 |
 | 12. API & Backward Compatibility Layer | v1.2 | 0/TBD | Not started | - |
 | 13. Multi-Version Resolution & CI Test Matrix | v1.2 | 0/TBD | Not started | - |
 | 14. Documentation & Publication Readiness | v1.2 | 0/TBD | Not started | - |

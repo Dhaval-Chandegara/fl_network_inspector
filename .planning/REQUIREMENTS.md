@@ -9,11 +9,11 @@ Requirements for backward compatibility and multi-version Flutter support (Flutt
 
 ### Dependency Bounds Widening (BOUND)
 
-- [ ] **BOUND-01**: Audit and relax lower and upper version bounds for `share_plus` (e.g. `>=9.0.0 <14.0.0`) without breaking public sharing APIs.
-- [ ] **BOUND-02**: Audit and relax lower and upper version bounds for `sensors_plus` (e.g. `>=4.0.0 <8.0.0`) while retaining `userAccelerometerEventStream()`.
-- [ ] **BOUND-03**: Relax `intl` constraint to `>=0.18.0 <0.21.0` to eliminate conflicts with `flutter_localizations` in older Flutter SDKs.
-- [ ] **BOUND-04**: Relax `sqflite` and `sqflite_common_ffi` constraints (e.g. `>=2.2.0 <3.0.0`) and `uuid` (`>=3.0.0 <5.0.0` or `^4.0.0`) for wide consumer compatibility.
-- [ ] **BOUND-05**: Ensure `dio` (`>=5.0.0 <6.0.0`) and `http` (`>=1.0.0 <2.0.0`) maintain maximum client versatility.
+- [x] **BOUND-01**: Audit and relax lower and upper version bounds for `share_plus` (e.g. `>=9.0.0 <14.0.0`) without breaking public sharing APIs.
+- [x] **BOUND-02**: Audit and relax lower and upper version bounds for `sensors_plus` (e.g. `>=4.0.0 <8.0.0`) while retaining `userAccelerometerEventStream()`.
+- [x] **BOUND-03**: Relax `intl` constraint to `>=0.18.0 <0.21.0` to eliminate conflicts with `flutter_localizations` in older Flutter SDKs.
+- [x] **BOUND-04**: Relax `sqflite` and `sqflite_common_ffi` constraints (e.g. `>=2.2.0 <3.0.0`) and `uuid` (`>=3.0.0 <5.0.0` or `^4.0.0`) for wide consumer compatibility.
+- [x] **BOUND-05**: Ensure `dio` (`>=5.0.0 <6.0.0`) and `http` (`>=1.0.0 <2.0.0`) maintain maximum client versatility.
 
 ### API Compatibility & Resilient Implementation (API)
 
@@ -60,11 +60,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BOUND-01 | Phase 11 | Pending |
-| BOUND-02 | Phase 11 | Pending |
-| BOUND-03 | Phase 11 | Pending |
-| BOUND-04 | Phase 11 | Pending |
-| BOUND-05 | Phase 11 | Pending |
+| BOUND-01 | Phase 11 | Complete |
+| BOUND-02 | Phase 11 | Complete |
+| BOUND-03 | Phase 11 | Complete |
+| BOUND-04 | Phase 11 | Complete |
+| BOUND-05 | Phase 11 | Complete |
 | API-01 | Phase 12 | Pending |
 | API-02 | Phase 12 | Pending |
 | API-03 | Phase 12 | Pending |

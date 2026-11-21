@@ -375,12 +375,9 @@ dependencies:
 |---|-------|---------|---------------|
 | A1 | Minimum bounds resolution in consumers on Flutter 3.22+ will pick latest compatible versions within the range. | Standard Stack | Low — Pubgrub resolves to latest compatible by default unless downgrade is forced. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Does `share_plus` require fallback to `Share.share` in Phase 12?**
-   - What we know: `SharePlus.instance` was introduced in `share_plus 11.0.0`. In 10.x, only `Share.share` existed.
-   - What's unclear: If a consumer locks `share_plus: 10.x`, will `ShareExporter` compile?
-   - Recommendation: In Phase 12, implement API-01 to ensure `ShareExporter` handles both versions gracefully or investigate `Share.share` delegation.
+1. **Does `share_plus` require fallback to `Share.share` in Phase 12?** — RESOLVED: Deferred to Phase 12 requirement API-01 for dual-compatibility handling. In Phase 11, default pub resolution resolves to latest `share_plus` (13.3.1), allowing the package to pass all analyzer and test suites cleanly. Phase 12 explicitly addresses backward compatibility adapter shims for host apps pinning `share_plus` 10.x.
 
 ## Environment Availability
 
