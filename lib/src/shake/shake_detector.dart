@@ -17,6 +17,12 @@ class ShakeDetector with WidgetsBindingObserver {
   /// Debounce window in milliseconds to suppress repeat firings (SHAKE-02).
   final int debounceMs;
 
+  /// Optional sampling period passed to [userAccelerometerEventStream] (D-06).
+  final Duration? samplingPeriod;
+
+  /// Optional error callback invoked when accelerometer stream emits an error or fails initialization (D-07).
+  final void Function(Object error)? onSensorError;
+
   /// Custom sensor stream for testing or platform overrides.
   final Stream<UserAccelerometerEvent>? _customStream;
 
@@ -32,15 +38,21 @@ class ShakeDetector with WidgetsBindingObserver {
   bool _isStarted = false;
   bool _isPaused = false;
   bool _hasReportedError = false;
+  bool _isSensorAvailable = true;
 
   ShakeDetector({
     required this.onShake,
     this.threshold = NetworkInspectorConstants.defaultShakeThreshold,
     this.debounceMs = NetworkInspectorConstants.defaultShakeDebounceMs,
+    this.samplingPeriod,
+    this.onSensorError,
     Stream<UserAccelerometerEvent>? customStream,
     DateTime Function()? clock,
   })  : _customStream = customStream,
         _clock = clock ?? DateTime.now;
+
+  /// Returns whether the accelerometer sensor hardware is currently available (D-07).
+  bool get isSensorAvailable => _isSensorAvailable;
 
   /// Returns whether the detector is currently actively listening.
   bool get isListening => _isStarted && !_isPaused && _subscription != null;
@@ -64,6 +76,8 @@ class ShakeDetector with WidgetsBindingObserver {
     if (_isStarted) return;
     _isStarted = true;
     _isPaused = false;
+    _isSensorAvailable = true;
+    _hasReportedError = false;
 
     // Register lifecycle observer
     _binding?.addObserver(this);
@@ -80,11 +94,16 @@ class ShakeDetector with WidgetsBindingObserver {
     }
 
     try {
-      final stream =
-          _customStream ?? mockStream ?? userAccelerometerEventStream();
+      final stream = _customStream ??
+          mockStream ??
+          (samplingPeriod != null
+              ? userAccelerometerEventStream(samplingPeriod: samplingPeriod!)
+              : userAccelerometerEventStream());
       _subscription = stream.listen(
         _handleEvent,
         onError: (Object error) {
+          _isSensorAvailable = false;
+          onSensorError?.call(error);
           if (!_hasReportedError) {
             _hasReportedError = true;
             if (kDebugMode) {
@@ -98,6 +117,8 @@ class ShakeDetector with WidgetsBindingObserver {
         cancelOnError: true,
       );
     } catch (error) {
+      _isSensorAvailable = false;
+      onSensorError?.call(error);
       if (!_hasReportedError) {
         _hasReportedError = true;
         if (kDebugMode) {
@@ -111,6 +132,10 @@ class ShakeDetector with WidgetsBindingObserver {
 
   void _handleEvent(UserAccelerometerEvent event) {
     if (!_isStarted || _isPaused) return;
+
+    if (!event.x.isFinite || !event.y.isFinite || !event.z.isFinite) {
+      return;
+    }
 
     final magnitude = math.sqrt(
       event.x * event.x + event.y * event.y + event.z * event.z,

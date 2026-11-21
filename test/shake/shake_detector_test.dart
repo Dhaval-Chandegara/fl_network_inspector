@@ -132,6 +132,77 @@ void main() {
       expect(detector.isListening, isFalse);
     });
 
+    test(
+        'discards NaN and infinite sensor readings without throwing or firing onShake (D-05)',
+        () async {
+      detector.start();
+
+      // Emit NaN in x
+      controller.add(
+          UserAccelerometerEvent(double.nan, 20.0, 20.0, DateTime.now()));
+      await Future<void>.delayed(const Duration(milliseconds: 10));
+      expect(shakeEvents, isEmpty);
+
+      // Emit positive infinity in y
+      controller.add(UserAccelerometerEvent(
+          20.0, double.infinity, 20.0, DateTime.now()));
+      await Future<void>.delayed(const Duration(milliseconds: 10));
+      expect(shakeEvents, isEmpty);
+
+      // Emit negative infinity in z
+      controller.add(UserAccelerometerEvent(
+          20.0, 20.0, double.negativeInfinity, DateTime.now()));
+      await Future<void>.delayed(const Duration(milliseconds: 10));
+      expect(shakeEvents, isEmpty);
+
+      // Subsequent valid event triggers onShake normally
+      controller.add(UserAccelerometerEvent(10.0, 10.0, 5.0, DateTime.now()));
+      await Future<void>.delayed(const Duration(milliseconds: 10));
+      expect(shakeEvents.length, equals(1));
+    });
+
+    test(
+        'tracks isSensorAvailable and invokes onSensorError callback on stream error (D-07)',
+        () async {
+      Object? capturedError;
+      final errorDetector = ShakeDetector(
+        onShake: () {},
+        customStream: controller.stream,
+        onSensorError: (error) => capturedError = error,
+      );
+
+      expect(errorDetector.isSensorAvailable, isTrue);
+
+      errorDetector.start();
+      expect(errorDetector.isListening, isTrue);
+
+      controller.addError(Exception('Platform sensor channel error'));
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+
+      expect(errorDetector.isSensorAvailable, isFalse);
+      expect(errorDetector.isListening, isFalse);
+      expect(capturedError, isA<Exception>());
+
+      errorDetector.dispose();
+    });
+
+    test(
+        'supports optional samplingPeriod parameter without breaking subscription (D-06)',
+        () {
+      final periodDetector = ShakeDetector(
+        onShake: () {},
+        samplingPeriod: const Duration(milliseconds: 50),
+        customStream: controller.stream,
+      );
+
+      expect(periodDetector.samplingPeriod,
+          equals(const Duration(milliseconds: 50)));
+      periodDetector.start();
+      expect(periodDetector.isListening, isTrue);
+
+      periodDetector.dispose();
+    });
+
     test('stop and dispose cleanly cancel subscription', () {
       detector.start();
       expect(detector.isStarted, isTrue);
