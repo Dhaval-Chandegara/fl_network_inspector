@@ -67,7 +67,14 @@ Plans:
   2. Shake detection initializes and listens via `userAccelerometerEventStream()` across minimum and latest supported `sensors_plus` versions with graceful fallback when hardware is missing or stream emits null.
   3. Package source code compiles and executes cleanly without unsupported Dart/Flutter language constructs on Flutter 3.35+ (Dart 3.x baseline).
   4. All 210+ package automated unit, integration, and widget tests pass 100% when running against lowest resolved dependency bounds using `sqflite_common_ffi`.
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+**Wave 1**
+- [ ] 12-01-PLAN.md — Harden ShareExporter and ShakeDetector runtime resilience across plugin versions
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 12-02-PLAN.md — Standardize Flutter SDK window metrics, align dependency floors, and implement lowest-bounds test pipeline
 
 ### Phase 13: Multi-Version Resolution & CI Test Matrix
 **Goal**: Validate pub dependency resolution across simulated consumer environments and configure an automated multi-version CI test matrix.
@@ -107,6 +114,6 @@ Phases execute in numeric order: 11 → 12 → 13 → 14
 | 9. Public API Documentation & Metadata | v1.1 | 1/1 | Complete | 2026-11-04 |
 | 10. Publish Verification & Dry Run | v1.1 | 1/1 | Complete | 2026-11-05 |
 | 11. Dependency Bounds Widening | v1.2 | 2/2 | Complete | 2026-11-21 |
-| 12. API & Backward Compatibility Layer | v1.2 | 0/TBD | Not started | - |
+| 12. API & Backward Compatibility Layer | v1.2 | 0/2 | Planned | - |
 | 13. Multi-Version Resolution & CI Test Matrix | v1.2 | 0/TBD | Not started | - |
 | 14. Documentation & Publication Readiness | v1.2 | 0/TBD | Not started | - |
