@@ -17,10 +17,10 @@ Requirements for backward compatibility and multi-version Flutter support (Flutt
 
 ### API Compatibility & Resilient Implementation (API)
 
-- [ ] **API-01**: Verify and adapt all `share_plus` calls so they execute identically across both older and newer `share_plus` versions (handling `sharePositionOrigin` and `Share.share` / `Share.shareXFiles`).
-- [ ] **API-02**: Verify and adapt `sensors_plus` calls for stream subscription across older and newer plugin versions with graceful null/sensor-absent handling.
-- [ ] **API-03**: Verify Dart and Flutter language/SDK feature compatibility across Flutter 3.35+ (Dart 3.x) to ensure no newer-only language features or SDK methods break on older toolchains.
-- [ ] **API-04**: Ensure all 210+ package tests pass under the lowest resolved dependency matrix using `sqflite_common_ffi`.
+- [x] **API-01**: Verify and adapt all `share_plus` calls so they execute identically across both older and newer `share_plus` versions (handling `sharePositionOrigin` and `Share.share` / `Share.shareXFiles`).
+- [x] **API-02**: Verify and adapt `sensors_plus` calls for stream subscription across older and newer plugin versions with graceful null/sensor-absent handling.
+- [x] **API-03**: Verify Dart and Flutter language/SDK feature compatibility across Flutter 3.35+ (Dart 3.x) to ensure no newer-only language features or SDK methods break on older toolchains.
+- [x] **API-04**: Ensure all 210+ package tests pass under the lowest resolved dependency matrix using `sqflite_common_ffi`.
 
 ### Multi-Version Resolution & CI Validation Matrix (MATRIX)
 
@@ -65,10 +65,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | BOUND-03 | Phase 11 | Complete |
 | BOUND-04 | Phase 11 | Complete |
 | BOUND-05 | Phase 11 | Complete |
-| API-01 | Phase 12 | Pending |
-| API-02 | Phase 12 | Pending |
-| API-03 | Phase 12 | Pending |
-| API-04 | Phase 12 | Pending |
+| API-01 | Phase 12 | Complete |
+| API-02 | Phase 12 | Complete |
+| API-03 | Phase 12 | Complete |
+| API-04 | Phase 12 | Complete |
 | MATRIX-01 | Phase 13 | Pending |
 | MATRIX-02 | Phase 13 | Pending |
 | MATRIX-03 | Phase 13 | Pending |

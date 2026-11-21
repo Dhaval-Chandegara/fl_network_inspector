@@ -735,17 +735,15 @@ class ShakeDetector with WidgetsBindingObserver {
 | A1 | Consumer apps targeting Flutter 3.35+ can resolve `share_plus: ">=11.0.0 <14.0.0"` without dependency conflicts. | Standard Stack | Low — `share_plus: 11.0.0` was released in August 2024, compatible with Flutter >=3.10 and all modern plus_plugins. |
 | A2 | Bumping `dio` lower bound to `>=5.2.0 <6.0.0` will not block consumer apps. | Standard Stack | Low — Dio 5.2.0 was published in June 2023. Nearly all Dio 5 applications use 5.2.0+ (current is 5.11.1). |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **`share_plus` Constraint Adjustment:**
-   - What we know: `SharePlus.instance.share(ShareParams(...))` requires `share_plus: ">=11.0.0"`. `10.0.x` only contains `Share.share(...)`.
-   - What's unclear: Does the package prioritize strict adherence to D-01 (`SharePlus.instance.share`), which requires `share_plus: ">=11.0.0 <14.0.0"`, OR should it maintain `share_plus: ">=10.0.0 <14.0.0"` using `Share.share(...)`?
-   - Recommendation: Update `pubspec.yaml` to `share_plus: ">=11.0.0 <14.0.0"`. Version 11.0.0 was released in August 2024 and is widely adopted. This aligns directly with D-01 without deprecation warnings.
+   - RESOLVED: Update `pubspec.yaml` to `share_plus: ">=11.0.0 <14.0.0"` per D-01. Version 11.0.0 was released in August 2024 and is widely adopted. This aligns directly with D-01 without deprecation warnings.
+   - Status: RESOLVED in Plan 12-02 Task 1.
 
 2. **`dio` Constraint Adjustment:**
-   - What we know: `DioException` requires `dio: ">=5.2.0"`. `dio: 5.0.0` used `DioError`.
-   - What's unclear: Should `pubspec.yaml` declare `dio: ">=5.2.0 <6.0.0"` or use `DioError` typedef?
-   - Recommendation: Update `pubspec.yaml` to `dio: ">=5.2.0 <6.0.0"`. Dio 5.2.0 is from June 2023 (over 3 years old), and modern Flutter applications will not encounter resolution conflicts.
+   - RESOLVED: Update `pubspec.yaml` to `dio: ">=5.2.0 <6.0.0"` per D-14. Dio 5.2.0 is from June 2023 (over 3 years old), guarantees `DioException` availability, and modern Flutter applications will not encounter resolution conflicts.
+   - Status: RESOLVED in Plan 12-02 Task 1.
 
 ## Environment Availability
 
