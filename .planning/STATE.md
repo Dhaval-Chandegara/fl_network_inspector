@@ -2,9 +2,13 @@
 gsd_state_version: "1.0"
 milestone: v1.2
 milestone_name: Backward Compatibility & Multi-Version Flutter Support
+current_phase: 11
+current_phase_name: Dependency Bounds Widening
 status: planning
-last_updated: "2026-11-20T16:45:00.000Z"
+stopped_at: Phase 11 context gathered
+last_updated: "2026-11-21T09:47:00.120Z"
 last_activity: 2026-11-20
+last_activity_desc: Milestone v1.2 roadmap created
 progress:
   total_phases: 4
   completed_phases: 0
@@ -93,6 +97,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-20
-Stopped at: Milestone v1.2 roadmap created; ready to plan Phase 11
-Resume file: None
+Last session: 2026-11-21T09:47:00.104Z
+Stopped at: Phase 11 context gathered
+Resume file: .planning/phases/11-dependency-bounds-widening/11-CONTEXT.md
