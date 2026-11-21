@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+// ignore: unnecessary_import
+import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 /// Initializes the desktop SQLite FFI database factory on Windows and Linux (D-31).

@@ -138,10 +138,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final mediaQuery = MediaQuery.of(context);
+    final size = MediaQuery.maybeSizeOf(context) ?? const Size(800, 600);
+    final padding = MediaQuery.maybePaddingOf(context) ?? EdgeInsets.zero;
+    final viewInsets = MediaQuery.maybeViewInsetsOf(context) ?? EdgeInsets.zero;
 
     // Limit bottom sheet height to at most 95% of screen safe area
-    final safeHeight = mediaQuery.size.height - mediaQuery.padding.top;
+    final safeHeight = size.height - padding.top;
     final maxSheetHeight = safeHeight * 0.95;
 
     return ConstrainedBox(
@@ -156,7 +158,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           top: false,
           child: Padding(
             padding: EdgeInsets.only(
-              bottom: mediaQuery.viewInsets.bottom,
+              bottom: viewInsets.bottom,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,

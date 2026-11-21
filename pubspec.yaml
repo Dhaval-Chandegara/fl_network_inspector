@@ -37,10 +37,10 @@ dependencies:
   sqflite: ">=2.2.0 <3.0.0"
   sqflite_common_ffi: ">=2.2.0 <3.0.0"
   path: ">=1.8.0 <2.0.0"
-  dio: ">=5.0.0 <6.0.0"
+  dio: ">=5.2.0 <6.0.0"
   http: ">=1.0.0 <2.0.0"
   intl: ">=0.18.0 <0.21.0"
-  share_plus: ">=10.0.0 <14.0.0"
+  share_plus: ">=11.0.0 <14.0.0"
   sensors_plus: ">=6.0.0 <8.0.0"
 
 dev_dependencies:
