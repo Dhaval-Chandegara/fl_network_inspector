@@ -141,6 +141,34 @@ void main() {
       expect(anchor.width, greaterThan(0));
       expect(anchor.height, greaterThan(0));
     });
+
+    testWidgets(
+        'calculates valid fallback anchor rect when context is unmounted or detached',
+        (tester) async {
+      late BuildContext savedContext;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(
+              builder: (context) {
+                savedContext = context;
+                return const Text('Mounted');
+              },
+            ),
+          ),
+        ),
+      );
+
+      // Unmount the widget tree
+      await tester.pumpWidget(const SizedBox());
+
+      final anchor = ShareExporter.calculateAnchor(savedContext);
+
+      expect(anchor, isNotNull);
+      expect(anchor.width, greaterThan(0));
+      expect(anchor.height, greaterThan(0));
+    });
   });
 
   group('ExportActionSheet Widget', () {
