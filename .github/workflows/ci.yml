@@ -76,3 +76,85 @@ jobs:
 
       - name: Run lowest bounds downgrade pipeline
         run: bash tool/verify_lowest_bounds.sh
+
+  test-matrix:
+    name: Test Matrix (${{ matrix.name }})
+    runs-on: ubuntu-latest
+    needs: [lint-and-quality]
+    continue-on-error: ${{ matrix.channel == 'beta' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: 'stable'
+            channel: 'stable'
+            version: 'any'
+          - name: 'beta'
+            channel: 'beta'
+            version: 'any'
+          - name: 'min-sdk (3.22.0)'
+            channel: 'stable'
+            version: '3.22.0'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter (${{ matrix.name }})
+        uses: subosito/flutter-action@v2
+        with:
+          channel: ${{ matrix.channel }}
+          flutter-version: ${{ matrix.version }}
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run package test suite
+        run: flutter test
+
+  multi-os-smoke:
+    name: Multi-OS Smoke (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    needs: [lint-and-quality]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run headless SQLite FFI and core tests
+        run: flutter test test/storage/ test/core/
+
+  all-checks-passed:
+    name: All Checks Passed
+    runs-on: ubuntu-latest
+    needs:
+      - lint-and-quality
+      - consumer-resolution
+      - lowest-bounds
+      - test-matrix
+      - multi-os-smoke
+    if: always()
+    steps:
+      - name: Evaluate upstream pipeline status
+        run: |
+          if [[ "${{ needs.lint-and-quality.result }}" != "success" ]] || \
+             [[ "${{ needs.consumer-resolution.result }}" != "success" ]] || \
+             [[ "${{ needs.lowest-bounds.result }}" != "success" ]] || \
+             [[ "${{ needs.test-matrix.result }}" != "success" ]] || \
+             [[ "${{ needs.multi-os-smoke.result }}" != "success" ]]; then
+            echo "One or more required upstream verification jobs failed."
+            exit 1
+          fi
+          echo "All required CI verification jobs passed successfully!"
