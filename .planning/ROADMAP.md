@@ -84,7 +84,14 @@ Plans:
   1. `pub get` resolves successfully in simulated consumer pubspecs matching target Flutter releases (Flutter 3.35, 3.40, 3.45, and 3.50+) without dependency solver conflicts.
   2. Automated GitHub Actions CI workflow runs across a multi-version Flutter matrix (min, intermediate, latest stable) and reports passing status for test and analysis runs.
   3. `flutter pub publish --dry-run` and `pana` analysis pass with 0 errors, 0 warnings, and maintain a full 140/140 quality score.
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+**Wave 1**
+- [ ] 13-01-PLAN.md — Ephemeral consumer resolution simulation and packaging pana quality gate scripts
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 13-02-PLAN.md — Multi-version GitHub Actions CI matrix and aggregate branch protection gate
 
 ### Phase 14: Documentation & Publication Readiness
 **Goal**: Publish comprehensive developer guidance for version compatibility, dependency troubleshooting, and release documentation for milestone v1.2.
@@ -115,5 +122,5 @@ Phases execute in numeric order: 11 → 12 → 13 → 14
 | 10. Publish Verification & Dry Run | v1.1 | 1/1 | Complete | 2026-11-05 |
 | 11. Dependency Bounds Widening | v1.2 | 2/2 | Complete | 2026-11-21 |
 | 12. API & Backward Compatibility Layer | v1.2 | 2/2 | Complete    | 2026-11-21 |
-| 13. Multi-Version Resolution & CI Test Matrix | v1.2 | 0/TBD | Not started | - |
+| 13. Multi-Version Resolution & CI Test Matrix | v1.2 | 0/2 | Not started | - |
 | 14. Documentation & Publication Readiness | v1.2 | 0/TBD | Not started | - |
