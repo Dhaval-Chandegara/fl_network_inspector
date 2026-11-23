@@ -404,11 +404,12 @@ dependencies:
 |---|-------|---------|---------------|
 | — | *(None)* | All sections | All claims in this research were verified directly against in-repo files (`pubspec.yaml`, `pubspec.lock`, `tool/verify_*.sh`, `test/`) or authoritative pub.dev documentation this session. Zero assumptions required. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Which 5 topics are best for pub.dev discoverability?**
+1. **Which 5 topics are best for pub.dev discoverability? (RESOLVED)**
    - What we know: Pub.dev allows a maximum of 5 topics. Current `pubspec.yaml` has `network`, `http`, `inspector`, `logging`, `debugging`.
    - Recommendation: Replace `logging` with `dio` (`network`, `http`, `dio`, `inspector`, `debugging`). Dio is the most widely used third-party HTTP client in Flutter (>10k stars), making `dio` a top-tier discoverability tag for developers seeking a Dio inspector.
+   - Resolution: RESOLVED per D-12 and planned in `14-02-PLAN.md` Task 1 — Set topics to `[network, http, dio, inspector, debugging]`.
 
 ## Environment Availability
 
