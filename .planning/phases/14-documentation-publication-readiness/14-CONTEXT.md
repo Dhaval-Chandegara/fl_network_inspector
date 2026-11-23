@@ -1,6 +1,6 @@
 # Phase 14: Documentation & Publication Readiness - Context
 
-**Gathered:** 2026-11-23
+**Gathered:** 2026-11-23 (Updated)
 **Status:** Ready for planning
 
 <domain>
@@ -8,35 +8,44 @@
 
 Publish comprehensive developer guidance for version compatibility, dependency troubleshooting, and release documentation for milestone v1.2 (satisfying DOC-01, DOC-02, DOC-03).
 This encompasses:
-1. Updating `README.md` with a structured Flutter & core dependency compatibility matrix.
-2. Adding a dedicated troubleshooting and conflict resolution cookbook to `README.md` with collapsible accordions.
-3. Updating `CHANGELOG.md` with comprehensive release notes for milestone v1.2, version bump to `1.2.0` in `pubspec.yaml`, and verifying pub.dev publication readiness via `tool/verify_pana.sh`.
+1. Updating `README.md` with a structured Flutter & core dependency compatibility matrix and progressive 3-step Quickstart guide.
+2. Adding a dedicated troubleshooting and conflict resolution cookbook to `README.md` with collapsible accordions covering PubGrub diagnostics and concrete recipes for intl, share_plus, dio, and desktop FFI.
+3. Updating `CHANGELOG.md` with comprehensive release notes for milestone v1.2, version bump to `1.2.0` and metadata refinement in `pubspec.yaml`, aligning `example/`, and verifying pub.dev publication readiness via `tool/verify_pana.sh`.
 
 </domain>
 
 <decisions>
 ## Implementation Decisions
 
-### Compatibility Matrix & Placement
+### Compatibility Matrix & Placement (DOC-01)
 - **D-01:** Two Focused Tables in `README.md` — A Flutter & Dart SDK compatibility table followed by a Client & Storage Ecosystem table (Dio, http, share_plus, sqflite, intl) for clean separation of concerns. — **Reversibility:** costly — README documentation structure drives consumer onboarding.
 - **D-02:** Three-Column Range Table — "Minimum Supported", "CI Tested Baseline", and "Allowed Constraint Range" (e.g. Min: 11.0.0, CI: 13.3.1, Allowed: >=11.0.0 <14.0.0). — **Reversibility:** reversible — clear presentation of floor vs ceiling bounds.
 - **D-03:** Immediately After Platform Support — Positioned right below the OS platform support grid so consumers immediately see Flutter SDK and library compatibility before installation. — **Reversibility:** reversible — layout positioning in markdown.
 - **D-04:** 5 Key Widened Dependencies — Focus on the packages consumers commonly conflict with (Dio, http, share_plus, intl, sqflite) with notes on internal utilities (uuid, path, sensors_plus). — **Reversibility:** reversible.
 
-### Troubleshooting Guide & Conflict Recipes
+### Troubleshooting Guide & Conflict Recipes (DOC-02)
 - **D-05:** Both General Diagnostics & 4 Concrete Recipes — General PubGrub resolution steps (`flutter pub outdated`, reading conflict trees) followed by copy-paste fix recipes for intl (`flutter_localizations`), `share_plus` (11.x–13.x migration), `dio` (5.x), and Desktop SQLite FFI setup. — **Reversibility:** reversible — provides immediate answers for common developer issues.
 - **D-06:** Safe Temporary Workaround with Caveats — Provide exact `dependency_overrides` snippets with a warning box explaining when it is safe and recommending constraint alignment first. — **Reversibility:** reversible — ensures consumers understand risks of overriding.
 - **D-07:** Collapsible `<details>` Accordions — Compact issue titles with expandable problem descriptions, error logs, and YAML solutions to preserve README readability. — **Reversibility:** reversible — UI cleanliness in GitHub markdown.
 - **D-08:** Consumer Diagnostics First + Contributor Verification Note — Standard developer commands (`flutter pub outdated`, cache repair) with a short link to local verification scripts (`verify_lowest_bounds.sh`, `verify_consumer_resolution.sh`) for contributors. — **Reversibility:** reversible.
 
-### Release & Versioning Strategy
-- **D-09:** Milestone Version Bump — Bump package version in `pubspec.yaml` from `1.0.1` to `1.2.0` representing Milestone v1.2: Backward Compatibility & Multi-Version Flutter Support. — **Reversibility:** costly — pub.dev release tag and version metadata.
-- **D-10:** Structured CHANGELOG.md Entry — Add `[1.2.0] - 2026-11-23` following Keep a Changelog standard detailing widened dependency bounds, backward compatibility adapters, multi-version CI test matrix, and migration guidance for upgrading consumers. — **Reversibility:** reversible.
-- **D-11:** Packaging & Pana Verification — Execute `bash tool/verify_pana.sh` as the final quality gate ensuring 0 publish dry-run warnings and score >= 140/140. — **Reversibility:** reversible.
+### Milestone Versioning & Changelog Structure (DOC-03)
+- **D-09:** Categorized Keep a Changelog with Migration Section — Sections for `Added`, `Changed`, and `Migration Guide` in `CHANGELOG.md` under `## [1.2.0] - 2026-11-23`. — **Reversibility:** reversible.
+- **D-10:** Explicit "Zero Breaking Changes" with Upgrade Checklist — Highlight that v1.2 is 100% backward-compatible and show how consumers can loosen/remove `dependency_overrides`. — **Reversibility:** reversible.
+- **D-11:** Version 1.2.0 Bump in `pubspec.yaml` — Bumps package version from `1.0.1` to `1.2.0` representing Milestone v1.2: Backward Compatibility & Multi-Version Flutter Support. — **Reversibility:** costly — pub.dev release tag and version metadata.
+- **D-12:** Refine pubspec.yaml Metadata & Topics — Audit topics (e.g. `http`, `dio`, `chucker`, `network-inspector`), homepage, repository, and description to maximize pub.dev discoverability and score. — **Reversibility:** reversible.
+
+### Example App & Quickstart Alignment
+- **D-13:** Modern Contemporary Client Ranges in Example — Keep `dio: ">=5.0.0 <6.0.0"` and `http: ">=1.0.0 <2.0.0"` in `example/pubspec.yaml` showcasing flexible unpinned dependency resolution. — **Reversibility:** reversible.
+- **D-14:** Retain Comprehensive Showcase with Clean Modern Polish — Keep GET (http), POST with redaction (dio), and Multipart uploads in `example/lib/main.dart`, ensuring zero static analysis warnings under modern Flutter SDKs. — **Reversibility:** reversible.
+- **D-15:** Progressive 3-Step Setup in README.md — Step 1: Initialize in `main()`, Step 2: Wrap `MaterialApp` / set `navigatorKey`, Step 3: Attach Dio interceptor or use http client adapter. — **Reversibility:** reversible.
+- **D-16:** Multi-Platform Run Guide in example/README.md — Standalone walkthrough explaining how to launch on Android, iOS, Desktop (macOS/Windows/Linux), and Web, and how to trigger inspection via shake or button. — **Reversibility:** reversible.
+
+### Quality Assurance Gate
+- **D-17:** Packaging & Pana Verification — Execute `bash tool/verify_pana.sh` as the final quality gate ensuring 0 publish dry-run warnings and score >= 140/140 points. — **Reversibility:** reversible.
 
 ### Agent Discretion
-- Formatting specifics of the markdown tables and badges.
-- Exact prose of troubleshooting error messages and diagnostic explanation.
+- Markdown formatting, shield badges, exact prose of diagnostics and recipes.
 - Specific phrasing of migration instructions in `CHANGELOG.md`.
 
 </decisions>
@@ -50,6 +59,9 @@ This encompasses:
 - `README.md` — Root package documentation and developer guide
 - `CHANGELOG.md` — Release history and migration notes
 - `pubspec.yaml` — Package metadata, version, and dependency constraints
+- `example/pubspec.yaml` — Example consumer package configuration
+- `example/lib/main.dart` — Example consumer application implementation
+- `example/README.md` — Example multi-platform run guide
 
 ### Verification & Testing Scripts
 - `tool/verify_lowest_bounds.sh` — Lowest-bounds downgrade test runner
@@ -84,6 +96,7 @@ This encompasses:
 - `README.md`: Insert "Troubleshooting & Conflict Resolution" right below "Pluggable Client Adapters" or before "License".
 - `CHANGELOG.md`: Insert `## [1.2.0] - 2026-11-23` at top of release entries.
 - `pubspec.yaml`: Update `version: 1.2.0`.
+- `example/README.md`: Update walkthrough for running across Android, iOS, Desktop, and Web.
 
 </code_context>
 
@@ -107,4 +120,4 @@ None — discussion stayed strictly within the phase scope.
 ---
 
 *Phase: 14-Documentation & Publication Readiness*  
-*Context gathered: 2026-11-23*  
+*Context gathered: 2026-11-23 (Updated)*  
