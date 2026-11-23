@@ -668,11 +668,11 @@ jobs:
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Should the Flutter beta channel job block PR merges if it fails?**
-   - *What we know:* Locked Decision D-04 explicitly mandates `continue-on-error: true` for the `beta` channel matrix job.
-   - *Recommendation:* Follow D-04: allow the beta job to alert on upcoming framework breaking changes without blocking active feature delivery.
+   - *Status:* RESOLVED: Follow D-04 — configure `continue-on-error: true` for the `beta` channel matrix job so upcoming framework regressions surface early without blocking active feature delivery.
+
 
 ---
 
