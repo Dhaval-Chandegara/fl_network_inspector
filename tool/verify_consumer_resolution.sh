@@ -9,12 +9,28 @@ echo "[verify_consumer] Created ephemeral workspace: $TEMP_DIR"
 
 cleanup() {
   local exit_code=$?
+  trap - EXIT INT TERM
   echo "[verify_consumer] Cleaning up ephemeral workspace: $TEMP_DIR"
   rm -rf "$TEMP_DIR"
   echo "[verify_consumer] Exiting with status $exit_code"
   exit "$exit_code"
 }
-trap cleanup EXIT INT TERM
+
+handle_signal() {
+  local sig="$1"
+  trap - EXIT INT TERM
+  echo "[verify_consumer] Caught signal $sig. Cleaning up ephemeral workspace: $TEMP_DIR"
+  rm -rf "$TEMP_DIR"
+  if [ "$sig" = "INT" ]; then
+    exit 130
+  else
+    exit 143
+  fi
+}
+
+trap cleanup EXIT
+trap 'handle_signal INT' INT
+trap 'handle_signal TERM' TERM
 
 run_archetype() {
   local name="$1"
@@ -38,7 +54,7 @@ dependencies:
   flutter:
     sdk: flutter
   fl_network_inspector:
-    path: $REPO_ROOT
+    path: "$REPO_ROOT"
 $extra_deps
 EOF
 

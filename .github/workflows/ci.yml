@@ -81,17 +81,16 @@ jobs:
     name: Test Matrix (${{ matrix.name }})
     runs-on: ubuntu-latest
     needs: [lint-and-quality]
-    continue-on-error: ${{ matrix.channel == 'beta' }}
     strategy:
       fail-fast: false
       matrix:
         include:
           - name: 'stable'
             channel: 'stable'
-            version: 'any'
+            version: ''
           - name: 'beta'
             channel: 'beta'
-            version: 'any'
+            version: ''
           - name: 'min-sdk (3.22.0)'
             channel: 'stable'
             version: '3.22.0'
@@ -110,6 +109,7 @@ jobs:
         run: flutter pub get
 
       - name: Run package test suite
+        continue-on-error: ${{ matrix.channel == 'beta' }}
         run: flutter test
 
   multi-os-smoke:
@@ -145,7 +145,7 @@ jobs:
       - lowest-bounds
       - test-matrix
       - multi-os-smoke
-    if: always()
+    if: '!cancelled()'
     steps:
       - name: Evaluate upstream pipeline status
         run: |
