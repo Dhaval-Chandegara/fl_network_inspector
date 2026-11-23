@@ -24,9 +24,9 @@ Requirements for backward compatibility and multi-version Flutter support (Flutt
 
 ### Multi-Version Resolution & CI Validation Matrix (MATRIX)
 
-- [ ] **MATRIX-01**: Test and verify `pub get` resolution against simulated consumer pubspec environments for target Flutter releases (Flutter 3.35, 3.40, 3.45, 3.50+).
-- [ ] **MATRIX-02**: Create an automated GitHub Actions CI workflow with a Flutter version matrix testing across target Flutter channels/versions.
-- [ ] **MATRIX-03**: Validate dependency resolution with `--dry-run` and verify `pana` analysis score remains at 140/140 with widened bounds.
+- [x] **MATRIX-01**: Test and verify `pub get` resolution against simulated consumer pubspec environments for target Flutter releases (Flutter 3.35, 3.40, 3.45, 3.50+).
+- [x] **MATRIX-02**: Create an automated GitHub Actions CI workflow with a Flutter version matrix testing across target Flutter channels/versions.
+- [x] **MATRIX-03**: Validate dependency resolution with `--dry-run` and verify `pana` analysis score remains at 140/140 with widened bounds.
 
 ### Documentation & Consumer Guidance (DOC)
 
@@ -69,9 +69,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | API-02 | Phase 12 | Complete |
 | API-03 | Phase 12 | Complete |
 | API-04 | Phase 12 | Complete |
-| MATRIX-01 | Phase 13 | Pending |
-| MATRIX-02 | Phase 13 | Pending |
-| MATRIX-03 | Phase 13 | Pending |
+| MATRIX-01 | Phase 13 | Complete |
+| MATRIX-02 | Phase 13 | Complete |
+| MATRIX-03 | Phase 13 | Complete |
 | DOC-01 | Phase 14 | Pending |
 | DOC-02 | Phase 14 | Pending |
 | DOC-03 | Phase 14 | Pending |
