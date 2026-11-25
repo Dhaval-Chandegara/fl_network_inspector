@@ -30,8 +30,8 @@ Requirements for backward compatibility and multi-version Flutter support (Flutt
 
 ### Documentation & Consumer Guidance (DOC)
 
-- [ ] **DOC-01**: Document supported Flutter version matrix in `README.md` and pubspec compatibility guide.
-- [ ] **DOC-02**: Provide dependency conflict troubleshooting guide and recommended `pubspec.yaml` setups in `README.md`.
+- [x] **DOC-01**: Document supported Flutter version matrix in `README.md` and pubspec compatibility guide.
+- [x] **DOC-02**: Provide dependency conflict troubleshooting guide and recommended `pubspec.yaml` setups in `README.md`.
 - [ ] **DOC-03**: Update `CHANGELOG.md` with milestone v1.2 release notes detailing widened compatibility.
 
 ## Future Requirements
@@ -72,8 +72,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | MATRIX-01 | Phase 13 | Complete |
 | MATRIX-02 | Phase 13 | Complete |
 | MATRIX-03 | Phase 13 | Complete |
-| DOC-01 | Phase 14 | Pending |
-| DOC-02 | Phase 14 | Pending |
+| DOC-01 | Phase 14 | Complete |
+| DOC-02 | Phase 14 | Complete |
 | DOC-03 | Phase 14 | Pending |
 
 **Coverage:**

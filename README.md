@@ -56,6 +56,29 @@ Deliver a comprehensive in-app debugging and traffic inspection experience simil
 
 ---
 
+## Flutter & Dependency Compatibility
+
+### Flutter & Dart SDK Compatibility
+
+| SDK | Minimum Supported | CI Tested Baseline | Status |
+| :--- | :---: | :---: | :---: |
+| **Flutter SDK** | `>=3.10.0` | `3.22.0` & `3.50.1` | ✅ Verified Stable across 3.10 – 3.50+ |
+| **Dart SDK** | `>=3.0.0` | `3.14.0` | ✅ Sound Null-Safety Required (`<4.0.0`) |
+
+### Client & Storage Ecosystem Compatibility
+
+| Dependency | Minimum Supported | CI Tested Baseline | Allowed Constraint Range |
+| :--- | :---: | :---: | :---: |
+| **`dio`** | `5.2.0` | `5.11.1` | `>=5.2.0 <6.0.0` |
+| **`http`** | `1.0.0` | `1.6.0` | `>=1.0.0 <2.0.0` |
+| **`share_plus`** | `11.0.0` | `13.3.1` | `>=11.0.0 <14.0.0` |
+| **`sqflite`** | `2.2.0` | `2.4.6` | `>=2.2.0 <3.0.0` |
+| **`intl`** | `0.18.0` | `0.20.3` | `>=0.18.0 <0.21.0` |
+
+> **Note on internal utilities:** `uuid` (`^4.0.0`), `path` (`>=1.8.0 <2.0.0`), `sensors_plus` (`>=6.0.0 <8.0.0`), and `sqflite_common_ffi` (`>=2.2.0 <3.0.0`) are widened to eliminate transitive resolution conflicts.
+
+---
+
 ## Installation
 
 Add `fl_network_inspector` to your `pubspec.yaml`:
@@ -64,7 +87,7 @@ Add `fl_network_inspector` to your `pubspec.yaml`:
 dependencies:
   flutter:
     sdk: flutter
-  fl_network_inspector: ^1.0.1
+  fl_network_inspector: ^1.2.0
 ```
 
 Then run:
@@ -100,7 +123,7 @@ void main() async {
 }
 ```
 
-### 2. Wrap your root widget with `NetworkInspectorWrapper`
+### 2. Wrap root widget with `NetworkInspectorWrapper`
 
 Wrap your `MaterialApp` with `NetworkInspectorWrapper` and set `navigatorKey: NetworkInspector.navigatorKey`. This enables shake gesture detection and captures navigation context with zero UI layout interference:
 
@@ -127,6 +150,26 @@ MaterialApp(
   builder: NetworkInspectorWrapper.builder(),
   home: const HomeScreen(),
 )
+```
+
+### 3. Attach Client Adapter
+
+Attach the interceptor for `dio`:
+
+```dart
+import 'package:dio/dio.dart';
+import 'package:fl_network_inspector/fl_network_inspector.dart';
+
+final dio = Dio()
+  ..interceptors.add(const NetworkInspectorDioInterceptor());
+```
+
+Or wrap standard `package:http` clients:
+
+```dart
+import 'package:fl_network_inspector/fl_network_inspector.dart';
+
+final client = NetworkInspectorHttpClient();
 ```
 
 ---
@@ -238,6 +281,103 @@ Every network call made by your application is recorded as an independent transa
 
 - **Duplicate Calls Detection:** If your application accidentally issues multiple identical requests (e.g., redundant background fetches or un-debounced button taps), each request is preserved in SQLite so you can pinpoint redundant network bandwidth and implement caching.
 - **Cross-Interceptor Safety:** While repeated app calls are always recorded, the inspector uses synthetic deduplication headers to prevent the *same* physical request from being double-counted if both `HttpOverrides` and `NetworkInspectorDioInterceptor` are active.
+
+---
+
+## Troubleshooting & Dependency Conflicts
+
+If PubGrub version solving encounters conflicts when adding `fl_network_inspector` to an existing project, follow this diagnostic guide and cookbook.
+
+### General PubGrub Diagnostics
+
+1. **Identify Conflict Source:** Run `flutter pub outdated` to inspect current vs resolvable packages.
+2. **Examine PubGrub Conflict Tree:** Run `flutter pub get` and trace the conflict path (e.g. `Because pkg_a depends on intl 0.18.0 and pkg_b depends on intl ^0.20.3...`).
+3. **Clean Cache if Stale:** Run `flutter pub cache repair` if local pub cache contains corrupt package manifests.
+
+> [!WARNING]
+> **Use `dependency_overrides` with Caution:**  
+> `dependency_overrides` forces the Dart pub solver to ignore semantic version bounds. This can lead to runtime `NoSuchMethodError` or ABI incompatibilities if major breaking changes are forced. Use `dependency_overrides` only as a temporary local workaround while aligning `dependencies` or requesting an upstream update.
+
+### Conflict Resolution Recipes
+
+<details>
+<summary><strong>Recipe 1: <code>intl</code> Conflict with <code>flutter_localizations</code></strong></summary>
+
+#### Problem
+Flutter SDK releases prior to 3.22 bundle `flutter_localizations` requiring `intl: 0.18.0` or `intl: 0.19.0`. Packages demanding `intl: ^0.20.3` break the PubGrub solver:
+```text
+Because flutter_localizations from sdk depends on intl 0.18.0 and fl_network_inspector <1.2.0 depended on intl ^0.20.3, version solving failed.
+```
+
+#### Solution
+`fl_network_inspector` v1.2.0 allows `intl: ">=0.18.0 <0.21.0"`, enabling seamless resolution with both older and newer Flutter SDKs. Align your `pubspec.yaml`:
+```yaml
+dependencies:
+  flutter_localizations:
+    sdk: flutter
+  intl: ">=0.18.0 <0.21.0"
+  fl_network_inspector: ^1.2.0
+```
+</details>
+
+<details>
+<summary><strong>Recipe 2: <code>share_plus</code> (11.x vs 13.x) Cross-Version Migration</strong></summary>
+
+#### Problem
+If your project or transitive dependencies still pin `share_plus: ^11.0.0` or `^12.0.0`, packages requiring `share_plus: ^13.3.1` trigger a version solving failure.
+
+#### Solution
+`fl_network_inspector` v1.2.0 provides an adaptive cross-version popover anchor abstraction supporting `share_plus: ">=11.0.0 <14.0.0"`. Align your `pubspec.yaml`:
+```yaml
+dependencies:
+  share_plus: ">=11.0.0 <14.0.0"
+  fl_network_inspector: ^1.2.0
+```
+</details>
+
+<details>
+<summary><strong>Recipe 3: <code>dio</code> 5.x Constraint Alignment</strong></summary>
+
+#### Problem
+Older projects pinned to `dio: ^5.0.0` or `5.1.0` fail resolution if an inspector strictly requires `dio: ^5.11.1`.
+
+#### Solution
+`fl_network_inspector` v1.2.0 widens its Dio constraint to `dio: ">=5.2.0 <6.0.0"`. Update your application's `pubspec.yaml`:
+```yaml
+dependencies:
+  dio: ">=5.2.0 <6.0.0"
+  fl_network_inspector: ^1.2.0
+```
+</details>
+
+<details>
+<summary><strong>Recipe 4: Desktop SQLite FFI Setup (macOS / Windows / Linux)</strong></summary>
+
+#### Problem
+Desktop applications may encounter `MissingPluginException` or dynamic library loading errors if native SQLite libraries are missing:
+```text
+Invalid argument(s): Failed to load dynamic library 'sqlite3.dll' / 'libsqlite3.so'
+```
+
+#### Solution
+1. `NetworkInspector.initialize()` automatically configures `databaseFactoryFfi` on desktop platforms.
+2. Ensure native SQLite libraries are present on the host OS:
+   - **Linux:** Install system sqlite (`sudo apt-get install -y libsqlite3-dev`).
+   - **Windows:** Ensure standard Windows SQLite DLL is available or use in-memory mode.
+3. If persistent storage is not required on desktop, switch to in-memory mode:
+```dart
+await NetworkInspector.initialize(
+  config: const NetworkInspectorConfig(enableDatabase: false),
+);
+```
+</details>
+
+### Contributor Verification Pipeline
+
+Contributors can verify multi-version resolution and backward compatibility locally using the test harness scripts:
+- `./tool/verify_lowest_bounds.sh` — Verifies package tests against downgraded minimum dependency floors.
+- `./tool/verify_consumer_resolution.sh` — Simulates clean PubGrub resolution across 4 consumer archetypes (`modern`, `legacy_floor`, `mid_tier`, `strict_localization`).
+- `./tool/verify_pana.sh` — Verifies packaging dry-run and pub.dev pana score (>= 140/140 points).
 
 ---
 
