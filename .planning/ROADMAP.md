@@ -37,7 +37,7 @@
 - [x] **Phase 11: Dependency Bounds Widening** - Audit and relax version constraints for core dependencies and client adapters. (completed 2026-11-21)
 - [x] **Phase 12: API & Backward Compatibility Layer** - Implement resilient adapters and shims ensuring zero runtime crashes across dependency versions. (completed 2026-11-21)
 - [x] **Phase 13: Multi-Version Resolution & CI Test Matrix** - Validate pub resolution across target Flutter SDKs and establish multi-version CI automation. (completed 2026-11-23)
-- [ ] **Phase 14: Documentation & Publication Readiness** - Document supported version matrices, troubleshooting guidelines, and release notes for publication.
+- [x] **Phase 14: Documentation & Publication Readiness** - Document supported version matrices, troubleshooting guidelines, and release notes for publication. (completed 2026-11-25)
 
 ## Phase Details
 
@@ -101,7 +101,7 @@ Plans:
   1. `README.md` features a comprehensive Flutter & dependency compatibility matrix documenting supported versions for all core dependencies.
   2. `README.md` includes a dedicated dependency troubleshooting and resolution guide detailing recommended dependency overrides or constraint alignments.
   3. `CHANGELOG.md` contains clear release notes for milestone v1.2 detailing the widened compatibility ranges and migration/upgrade guidance.
-**Plans:** 2/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
 **Wave 1**
@@ -130,4 +130,4 @@ Phases execute in numeric order: 11 → 12 → 13 → 14
 | 11. Dependency Bounds Widening | v1.2 | 2/2 | Complete | 2026-11-21 |
 | 12. API & Backward Compatibility Layer | v1.2 | 2/2 | Complete    | 2026-11-21 |
 | 13. Multi-Version Resolution & CI Test Matrix | v1.2 | 2/2 | Complete    | 2026-11-23 |
-| 14. Documentation & Publication Readiness | v1.2 | 2/2 | In Progress | - |
+| 14. Documentation & Publication Readiness | v1.2 | 2/2 | Complete    | 2026-11-25 |

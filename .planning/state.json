@@ -71,13 +71,13 @@
     {
       "number": "14",
       "name": "Documentation & Publication Readiness",
-      "status": "in_progress"
+      "status": "complete"
     }
   ],
   "next": {
-    "command": "/gsd-progress --next",
-    "label": "Advance to the next step (verify)",
-    "reason": "Phase 4 of 4 · 75% · ready to verify"
+    "command": "/gsd-new-milestone",
+    "label": "Start a new milestone",
+    "reason": "All phases complete — start a new milestone"
   },
-  "updated_at": "2026-11-25T14:54:00.234Z"
+  "updated_at": "2026-11-25T14:59:28.540Z"
 }
