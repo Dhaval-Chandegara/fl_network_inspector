@@ -5,7 +5,6 @@ import 'package:fl_network_inspector/src/models/record_filter.dart';
 import 'package:fl_network_inspector/src/models/record_sort.dart';
 import 'package:fl_network_inspector/src/repository/sqlite_network_inspector_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
