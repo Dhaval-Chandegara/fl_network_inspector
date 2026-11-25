@@ -1,4 +1,5 @@
 import 'dart:convert';
+// ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
@@ -201,8 +202,8 @@ class ShareExporter {
         break;
     }
 
-    final origin =
-        sanitizeOrigin(sharePositionOrigin ?? calculateAnchor(context), context);
+    final origin = sanitizeOrigin(
+        sharePositionOrigin ?? calculateAnchor(context), context);
     final statusStr = record.responseStatusCode != null
         ? '${record.responseStatusCode}'
         : 'In-Flight';
@@ -230,8 +231,8 @@ class ShareExporter {
       if (context.mounted) {
         ScaffoldMessenger.maybeOf(context)?.showSnackBar(
           const SnackBar(
-            content:
-                Text('Sharing unavailable. Report copied to clipboard instead.'),
+            content: Text(
+                'Sharing unavailable. Report copied to clipboard instead.'),
             duration: Duration(seconds: 3),
           ),
         );

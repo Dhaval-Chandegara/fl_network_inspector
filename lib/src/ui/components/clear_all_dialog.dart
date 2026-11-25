@@ -1,3 +1,4 @@
+// ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 
 /// Material 3 confirmation dialog before permanently clearing captured network records (UI-06, D-28).

@@ -1,3 +1,4 @@
+// ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 
 /// Persistent Material 3 search bar with debounced input and clear button (UI-03, D-54).

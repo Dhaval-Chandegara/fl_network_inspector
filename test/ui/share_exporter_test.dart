@@ -1,4 +1,5 @@
 import 'dart:convert';
+// ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fl_network_inspector/fl_network_inspector.dart';
@@ -241,7 +242,8 @@ void main() {
   });
 
   group('ShareExporter sanitizeOrigin', () {
-    testWidgets('returns original Rect when origin has positive dimensions and is finite',
+    testWidgets(
+        'returns original Rect when origin has positive dimensions and is finite',
         (tester) async {
       late BuildContext testContext;
       await tester.pumpWidget(
@@ -260,7 +262,8 @@ void main() {
       expect(result, equals(validRect));
     });
 
-    testWidgets('sanitizes null, zero-dimension, empty, or non-finite rects into screen center rect',
+    testWidgets(
+        'sanitizes null, zero-dimension, empty, or non-finite rects into screen center rect',
         (tester) async {
       late BuildContext testContext;
       await tester.pumpWidget(
@@ -318,8 +321,8 @@ void main() {
           .setMockMethodCallHandler(SystemChannels.platform,
               (MethodCall methodCall) async {
         if (methodCall.method == 'Clipboard.setData') {
-          clipboardData = (methodCall.arguments as Map<dynamic, dynamic>)['text']
-              as String?;
+          clipboardData = (methodCall.arguments
+              as Map<dynamic, dynamic>)['text'] as String?;
           return null;
         }
         return null;
@@ -358,7 +361,8 @@ void main() {
 
       expect(clipboardData, isNotNull);
       expect(clipboardData, contains('# Network Request Inspection'));
-      expect(find.text('Sharing unavailable. Report copied to clipboard instead.'),
+      expect(
+          find.text('Sharing unavailable. Report copied to clipboard instead.'),
           findsOneWidget);
     });
 
@@ -370,8 +374,8 @@ void main() {
           .setMockMethodCallHandler(SystemChannels.platform,
               (MethodCall methodCall) async {
         if (methodCall.method == 'Clipboard.setData') {
-          clipboardData = (methodCall.arguments as Map<dynamic, dynamic>)['text']
-              as String?;
+          clipboardData = (methodCall.arguments
+              as Map<dynamic, dynamic>)['text'] as String?;
           return null;
         }
         return null;
@@ -406,8 +410,10 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
 
       expect(clipboardData, isNotNull);
-      expect(clipboardData, contains('"url": "https://api.example.com/v1/users/42"'));
-      expect(find.text('Sharing unavailable. Report copied to clipboard instead.'),
+      expect(clipboardData,
+          contains('"url": "https://api.example.com/v1/users/42"'));
+      expect(
+          find.text('Sharing unavailable. Report copied to clipboard instead.'),
           findsOneWidget);
     });
   });

@@ -1,3 +1,4 @@
+// ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 
 /// Local theme controller for managing theme mode within the inspector UI (defaults to dark mode).
