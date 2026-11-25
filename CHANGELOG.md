@@ -5,6 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-11-23
+
+### Added
+- **Flutter & Dependency Compatibility Matrix**: Added two-tier SDK (`Flutter >=3.10.0`, `3.22.0` & `3.50.1` CI baselines, `Dart >=3.0.0 <4.0.0`) and ecosystem dependency compatibility tables to `README.md`.
+- **Dependency Conflict Troubleshooting Guide**: Added PubGrub diagnostics, a `dependency_overrides` warning callout, and collapsible conflict resolution recipes (`intl`, `share_plus`, `dio`, and Desktop SQLite FFI) to `README.md`.
+- **Multi-Platform Example Guide**: Authored `example/README.md` with setup, execution commands, storage behavior, and inspection trigger guidance across Mobile (Android & iOS), Desktop (macOS, Windows, Linux), and Flutter Web.
+- **Multi-Version Resolution Tooling**: Added `tool/verify_lowest_bounds.sh`, `tool/verify_consumer_resolution.sh`, and `tool/verify_pana.sh` for automated lower-bound, consumer resolution, and pub.dev packaging/pana verification.
+
+### Changed
+- **Widened Dependency Constraints**: Broadened version bounds across all 9 dependencies to prevent transitive PubGrub conflicts in host applications:
+  - `share_plus: ">=11.0.0 <14.0.0"`
+  - `sensors_plus: ">=6.0.0 <8.0.0"`
+  - `intl: ">=0.18.0 <0.21.0"`
+  - `sqflite: ">=2.2.0 <3.0.0"`
+  - `sqflite_common_ffi: ">=2.2.0 <3.0.0"`
+  - `uuid: ^4.0.0`
+  - `path: ">=1.8.0 <2.0.0"`
+  - `dio: ">=5.2.0 <6.0.0"`
+  - `http: ">=1.0.0 <2.0.0"`
+- **Quick Start & Discovery Metadata**: Restructured `README.md` Quick Start into a progressive 3-step setup targeting `^1.2.0` and refined `pubspec.yaml` `topics` to `network`, `http`, `dio`, `inspector`, `debugging`.
+
+### Migration Guide
+- **Zero Breaking Changes**: Milestone v1.2 is 100% backward-compatible with all v1.0.x and v1.1.x releases. All public APIs (`NetworkInspector`, `NetworkInspectorDioInterceptor`, `NetworkInspectorHttpClient`, `NetworkInspectorWrapper`, `NetworkInspectorConfig`) retain identical signatures.
+
+#### Upgrade Checklist
+1. Update `pubspec.yaml` to `fl_network_inspector: ^1.2.0`.
+2. Remove any obsolete `dependency_overrides` for `intl`, `share_plus`, or `sensors_plus`.
+3. Run `flutter pub get`.
+
 ## [1.0.1] - 2026-11-06
 
 ### Added

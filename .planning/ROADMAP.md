@@ -101,14 +101,14 @@ Plans:
   1. `README.md` features a comprehensive Flutter & dependency compatibility matrix documenting supported versions for all core dependencies.
   2. `README.md` includes a dedicated dependency troubleshooting and resolution guide detailing recommended dependency overrides or constraint alignments.
   3. `CHANGELOG.md` contains clear release notes for milestone v1.2 detailing the widened compatibility ranges and migration/upgrade guidance.
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans executed
 
 Plans:
 **Wave 1**
 - [x] 14-01-PLAN.md — Document Flutter & dependency compatibility matrix, progressive 3-step Quick Start, and dependency troubleshooting cookbook in README.md
 
 **Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 14-02-PLAN.md — Bump version to 1.2.0, refine discovery topics, document multi-platform example, author CHANGELOG.md release notes, and verify publication quality gate
+- [x] 14-02-PLAN.md — Bump version to 1.2.0, refine discovery topics, document multi-platform example, author CHANGELOG.md release notes, and verify publication quality gate
 
 ## Progress
 
@@ -130,4 +130,4 @@ Phases execute in numeric order: 11 → 12 → 13 → 14
 | 11. Dependency Bounds Widening | v1.2 | 2/2 | Complete | 2026-11-21 |
 | 12. API & Backward Compatibility Layer | v1.2 | 2/2 | Complete    | 2026-11-21 |
 | 13. Multi-Version Resolution & CI Test Matrix | v1.2 | 2/2 | Complete    | 2026-11-23 |
-| 14. Documentation & Publication Readiness | v1.2 | 1/2 | In Progress | - |
+| 14. Documentation & Publication Readiness | v1.2 | 2/2 | In Progress | - |

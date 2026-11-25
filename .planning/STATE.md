@@ -4,16 +4,16 @@ milestone: v1.2
 milestone_name: Backward Compatibility & Multi-Version Flutter Support
 current_phase: 14
 current_phase_name: Documentation & Publication Readiness
-status: executing
-stopped_at: Completed 14-01-PLAN.md
-last_updated: "2026-11-25T14:50:49.610Z"
+status: verifying
+stopped_at: Completed 14-02-PLAN.md
+last_updated: "2026-11-25T14:54:00.227Z"
 last_activity: 2026-11-25
 last_activity_desc: Phase 14 execution started
 progress:
   total_phases: 4
   completed_phases: 3
   total_plans: 8
-  completed_plans: 7
+  completed_plans: 8
   percent: 75
 ---
 
@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-11-20)
 
 Phase: 14 (Documentation & Publication Readiness) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-11-25 — Phase 14 execution started
 
 Progress: [████████░░] 75%
@@ -73,6 +73,7 @@ Progress: [████████░░] 75%
 | Plan | Duration | Tasks | Files |
 |------|----------|-------|-------|
 | Phase 14 P01 | 2 min | 2 tasks | 1 files |
+| Phase 14 P02 | 2 min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -86,6 +87,8 @@ Recent decisions affecting current work:
 - [Milestone v1.1]: Package renamed to `fl_network_inspector` v1.0.0 with canonical `lib/fl_network_inspector.dart` entry point.
 - [Milestone v1.1]: Publication boundary verified with `flutter pub publish --dry-run` passing with 0 warnings and 140/140 pana readiness.
 - [Milestone v1.0]: Baseline test suite passing 210/210 tests with zero static analyzer warnings.
+- [Phase 14]: Bumped version to 1.2.0 and refined pubspec.yaml topics to network, http, dio, inspector, debugging
+- [Phase 14]: Added CHANGELOG.md [1.2.0] - 2026-11-23 with Zero Breaking Changes declaration and 3-step Upgrade Checklist
 
 ### Pending Todos
 
@@ -105,6 +108,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-25T14:50:49.579Z
-Stopped at: Completed 14-01-PLAN.md
+Last session: 2026-11-25T14:53:36.554Z
+Stopped at: Completed 14-02-PLAN.md
 Resume file: None
