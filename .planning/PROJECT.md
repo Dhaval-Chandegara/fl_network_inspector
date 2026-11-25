@@ -8,15 +8,16 @@ A reusable, modular, lightweight, and production-safe Flutter/Dart package that 
 
 Reliably capture, persist, and inspect HTTP requests and responses directly inside a Flutter application without breaking or modifying existing network streams, degrading app performance, or leaking sensitive data.
 
-## Current Milestone: v1.2 Backward Compatibility & Multi-Version Flutter Support
+## Current State
 
-**Goal:** Expand Flutter SDK and dependency compatibility to seamlessly support a wide matrix of Flutter versions (from Flutter 3.35/3.40 up through latest 3.50+) without pubspec dependency conflicts.
+**Shipped:** v1.2 Backward Compatibility & Multi-Version Flutter Support (`fl_network_inspector` `1.2.0`, 2026-11-25)
+- **Codebase:** 16,645 lines of Dart (`lib/` + `test/`)
+- **Compatibility:** Flutter 3.22.0+ / 3.35–3.50+, Dart `>=3.0.0 <4.0.0`, widened constraints for `share_plus`, `sensors_plus`, `intl`, `sqflite`, `sqflite_common_ffi`, `uuid`, `path`, `dio`, and `http`
+- **CI & Tooling:** Multi-version GitHub Actions matrix (`.github/workflows/ci.yml`), consumer resolution simulator (`tool/verify_consumer_resolution.sh`), lowest-bounds test pipeline (`tool/verify_lowest_bounds.sh`), and `pana` quality gate (`tool/verify_pana.sh`)
 
-**Target features:**
-- Audit and widen dependency version constraints (`share_plus`, `sensors_plus`, `intl`, `sqflite`, `dio`, `http`, `uuid`) to eliminate pubgrub solver conflicts
-- Verify API backwards compatibility across all widened dependency versions and older Flutter SDKs
-- Configure multi-version CI test matrix validating pub resolution and regression test suites across target Flutter versions
-- Update example app and documentation with compatibility guidelines and troubleshooting
+## Next Milestone Goals
+
+Run `/gsd-new-milestone` to define v1.3+ scope (candidate backlog: in-memory ring buffer mode, GraphQL operation extraction, HAR/Charles export).
 
 ## Requirements
 
@@ -62,13 +63,14 @@ Reliably capture, persist, and inspect HTTP requests and responses directly insi
 - ✓ **TEST-02**: Interception integration tests verifying non-destructive streaming, HttpOverrides chaining, and client adapters. — v1.0
 - ✓ **TEST-03**: UI widget tests for listing screen, search/filter interactions, detail tabs, and JSON formatting. — v1.0
 - ✓ **DOC-01**: Complete documentation, architecture guide, API reference, and a fully functional example Flutter application. — v1.0
+- ✓ **COMPAT-01**: Widen core dependency constraints in pubspec.yaml with verified backward-compatible ranges (`share_plus`, `sensors_plus`, `intl`, `sqflite`, `uuid`, etc.) — v1.2
+- ✓ **COMPAT-02**: Verify API backwards compatibility across all widened dependency versions and older Flutter SDKs — v1.2
+- ✓ **COMPAT-03**: Verify pub dependency resolution across target Flutter versions (3.35 to 3.50+) without version solving failures — v1.2
+- ✓ **COMPAT-04**: Establish automated multi-version Flutter CI workflow and compatibility documentation — v1.2
 
 ### Active
 
-- [ ] **COMPAT-01**: Widen core dependency constraints in pubspec.yaml with verified backward-compatible ranges (`share_plus`, `sensors_plus`, `intl`, `sqflite`, `uuid`, etc.)
-- [ ] **COMPAT-02**: Verify API backwards compatibility across all widened dependency versions and older Flutter SDKs
-- [ ] **COMPAT-03**: Verify pub dependency resolution across target Flutter versions (3.35 to 3.50+) without version solving failures
-- [ ] **COMPAT-04**: Establish automated multi-version Flutter CI workflow and compatibility documentation
+(None — start next milestone with `/gsd-new-milestone`)
 
 ### Out of Scope
 
@@ -111,6 +113,10 @@ Reliably capture, persist, and inspect HTTP requests and responses directly insi
 | SQLite with indexing and auto-cleanup | Ensures high-performance querying and bounded storage over long debugging sessions | ✓ Good |
 | Singleton `NetworkInspector.navigatorKey` | Eliminates ancestor context traps during shake detection in MaterialApp | ✓ Good |
 | Dynamic insets padding | Solves Android 16 edge-to-edge system navigation overlaps | ✓ Good |
+| Widened semver constraints for 9 core dependencies | Eliminates PubGrub solver conflicts across Flutter 3.35–3.50+ | ✓ Good |
+| Defensive ShareExporter popover origin & clipboard fallback | Prevents iPadOS/macOS share anchor crashes and handles unsupported platforms gracefully | ✓ Good |
+| NaN filtering & error observer in ShakeDetector | Prevents crashes across `sensors_plus` versions and missing hardware sensors | ✓ Good |
+| Automated consumer resolution & lowest-bounds CI scripts | Verifies pub resolution across 4 consumer archetypes and lowest dependency bounds in CI | ✓ Good |
 
 ## Evolution
 
@@ -130,4 +136,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-11-20 after starting milestone v1.2*
+*Last updated: 2026-11-25 after v1.2 milestone*

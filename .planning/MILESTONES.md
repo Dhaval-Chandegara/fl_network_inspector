@@ -1,5 +1,20 @@
 # Milestones
 
+## v1.2 Backward Compatibility & Multi-Version Flutter Support (Shipped: 2026-11-25)
+
+**Phases completed:** 4 phases, 8 plans, 12 tasks (51 commits, 74 files changed, 16,645 Dart LOC)
+**Closeout type:** Override closeout — Phase 11 and Phase 12 verification reports marked stale after subsequent edits in Phases 12/14; user approved proceeding without re-running verification.
+
+**Key accomplishments:**
+- Widened semver constraints across 9 core dependencies (`share_plus`, `sensors_plus`, `intl`, `sqflite`, `sqflite_common_ffi`, `uuid`, `path`, `dio`, `http`) and reinforced iPadOS popover share anchor geometry.
+- Defensive popover origin sanitization and clipboard fallback for `ShareExporter` alongside NaN vector guards and sensor error observers for `ShakeDetector`.
+- Standardized `MediaQuery` queries in `FilterBottomSheet`, aligned dependency floors in `pubspec.yaml`, hardened SQLite FFI imports, and added an automated lowest-bounds verification pipeline in `tool/verify_lowest_bounds.sh`.
+- Delivered standalone automated verification scripts for consumer pub resolution simulation across 4 archetypes (`tool/verify_consumer_resolution.sh`) and pub.dev publication packaging QA (`tool/verify_pana.sh`) enforcing 0 dry-run warnings and >= 140/140 pana score.
+- Configured the multi-version GitHub Actions CI automation matrix in `.github/workflows/ci.yml` featuring pull request concurrency controls, a fail-fast quality gate, parallel consumer resolution and lowest-bounds downgrade verification, a multi-version Flutter matrix (`stable`, `beta`, `3.22.0`), desktop multi-OS smoke tests (`macos-latest`, `windows-latest`), and an aggregate branch protection gate job (`all-checks-passed`).
+- Added two-tier Flutter/Dart & ecosystem compatibility tables, restructured Quick Start into a 3-step v1.2.0 setup, authored the collapsible PubGrub troubleshooting cookbook in `README.md`, bumped `pubspec.yaml` to `1.2.0`, authored `example/README.md`, and added `CHANGELOG.md` release notes and migration guide.
+
+---
+
 ## v1.1 Pub.dev Release Preparation (Shipped: 2026-11-05)
 
 **Phases completed:** 4 phases, 5 plans, 6 tasks
